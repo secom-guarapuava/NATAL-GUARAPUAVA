@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Natal em Guarapuava 2026</title>
+<meta name="description" content="Programação do Natal em Guarapuava 2026: luzes, música, feiras, desfile e encontros em praças e parques da cidade. Uma realização da Prefeitura de Guarapuava.">
+<meta name="theme-color" content="#141A4A">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Natal em Guarapuava 2026">
+<meta property="og:description" content="Quando a tarde cai, Guarapuava acende. Veja a programação completa do Natal na cidade.">
+<meta property="og:image" content="assets/img/og.jpg">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Kalam:wght@400;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/img/arvore-apagada.webp">
+<link rel="preload" as="image" href="assets/img/logo-natal.webp">
+<link rel="stylesheet" href="assets/css/estilo.css">
+</head>
+<body>
+
+<a class="pular" href="#programacao">Pular para a programação</a>
+
+<!-- Camadas de efeito (não interferem no clique) -->
+<canvas id="varinha" class="camada-fx" aria-hidden="true"></canvas>
+<canvas id="neve" class="camada-fx" aria-hidden="true"></canvas>
+
+<!-- Símbolos e filtros usados na página -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="tinta" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="ruido"/>
+      <feColorMatrix in="ruido" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.05 1.3" result="falhas"/>
+      <feComposite in="SourceGraphic" in2="falhas" operator="in"/>
+    </filter>
+    <symbol id="araucaria" viewBox="0 0 120 140">
+      <path d="M57.6 140 L59.3 44 L60.7 44 L62.4 140 Z"/>
+      <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+        <path d="M60 82 Q36 66 12 42"/><path d="M60 82 Q84 66 108 42"/>
+        <path d="M60 70 Q42 56 26 33"/><path d="M60 70 Q78 56 94 33"/>
+        <path d="M60 59 Q49 46 41 26"/><path d="M60 59 Q71 46 79 26"/>
+        <path d="M60 52 L60 22"/>
+      </g>
+      <ellipse cx="12" cy="40" rx="13" ry="5.5"/><ellipse cx="108" cy="40" rx="13" ry="5.5"/>
+      <ellipse cx="26" cy="31" rx="12" ry="5.5"/><ellipse cx="94" cy="31" rx="12" ry="5.5"/>
+      <ellipse cx="41" cy="24" rx="11" ry="5"/><ellipse cx="79" cy="24" rx="11" ry="5"/>
+      <ellipse cx="60" cy="20" rx="10" ry="5"/>
+      <ellipse cx="23" cy="51" rx="7" ry="3.5"/><ellipse cx="97" cy="51" rx="7" ry="3.5"/>
+      <ellipse cx="36" cy="44" rx="7" ry="3.5"/><ellipse cx="84" cy="44" rx="7" ry="3.5"/>
+    </symbol>
+    <symbol id="i-relogio" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-pino" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.5" fill="currentColor"/></symbol>
+    <symbol id="i-agenda" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 10h17M8 3v4M16 3v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-enviar" viewBox="0 0 24 24"><path d="M21 3 10 14M21 3l-7 18-4-7-7-4 18-7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-virar" viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 13.7-5.6L20 8.7M20 4v4.7h-4.7M20 12a8 8 0 0 1-13.7 5.6L4 15.3M4 20v-4.7h4.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-floco" viewBox="0 0 24 24"><path d="M12 2v20M3.3 7l17.4 10M3.3 17 20.7 7M9 3.8l3 2.4 3-2.4M9 20.2l3-2.4 3 2.4M4 10.6l3.6-.6-.9-3.6M20 13.4l-3.6.6.9 3.6M4 13.4l3.6.6-.9 3.6M20 10.6l-3.6-.6.9-3.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-estrela" viewBox="0 0 24 24"><path d="M12 1.5c.6 5.6 4.9 9.9 10.5 10.5-5.6.6-9.9 4.9-10.5 10.5C11.4 16.9 7.1 12.6 1.5 12 7.1 11.4 11.4 7.1 12 1.5z"/></symbol>
+  </defs>
+</svg>
+
+<header class="topo" id="topo">
+  <div class="env topo-in">
+    <a class="marca" href="#inicio" aria-label="Natal em Guarapuava, voltar ao início">
+      <img src="assets/img/selo-mini.webp" alt="" width="44" height="42">
+      <span><b>Natal em Guarapuava</b><small>Prefeitura de Guarapuava</small></span>
+    </a>
+    <nav class="menu" aria-label="Seções">
+      <a href="#programacao">Programação</a>
+      <a href="#lugares">Lugares</a>
+      <a href="#sobre">Sobre</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="inicio">
+    <canvas class="ceu" id="ceu" aria-hidden="true"></canvas>
+
+    <div class="env hero-in">
+      <div class="hero-texto">
+        <h1 class="logo">
+          <span class="logo-caixa">
+            <img src="assets/img/logo-natal.webp" alt="Natal em Guarapuava" width="1400" height="487">
+            <span class="logo-brilho" aria-hidden="true"></span>
+          </span>
+        </h1>
+        <p class="lema">Quando a tarde cai, Guarapuava <span class="acende" id="acende">acende</span>.</p>
+        <p class="hero-desc">Luzes, música, feiras e encontros em praças e parques da cidade, <span id="periodo">durante todo o mês de dezembro</span>. A programação inteira está aqui.</p>
+        <div class="acoes">
+          <a class="bt bt-ouro" href="#programacao">Ver a programação</a>
+          <a class="bt bt-linha" href="#lugares">Onde a magia acontece</a>
+        </div>
+        <p class="contagem" id="contagem" aria-live="polite"></p>
+      </div>
+
+      <figure class="arvore" id="arvore">
+        <button class="arvore-card" id="arvoreCard" type="button" aria-label="Postal da árvore de Natal. Toque para fazer a estrela brilhar.">
+          <img class="a-base" src="assets/img/arvore-apagada.webp" alt="" width="1200" height="854" fetchpriority="high">
+          <img class="a-brilho" src="assets/img/arvore-brilho.webp" alt="" width="600" height="427">
+          <img class="a-luzes" src="assets/img/arvore-luzes.webp" alt="" width="1200" height="854">
+          <span class="a-estrela" aria-hidden="true"></span>
+          <span class="a-pisca" id="pisca" aria-hidden="true"></span>
+        </button>
+        <figcaption class="sr">Ilustração em aquarela de uma árvore de Natal gigante acendendo ao entardecer</figcaption>
+      </figure>
+    </div>
+
+    <svg class="horizonte" viewBox="0 0 1440 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <g class="longe">
+        <use href="#araucaria" x="-30" y="72" width="110" height="128"/>
+        <use href="#araucaria" x="150" y="86" width="90" height="114"/>
+        <use href="#araucaria" x="300" y="64" width="120" height="136"/>
+        <use href="#araucaria" x="520" y="90" width="84" height="110"/>
+        <use href="#araucaria" x="700" y="70" width="112" height="130"/>
+        <use href="#araucaria" x="910" y="84" width="96" height="116"/>
+        <use href="#araucaria" x="1080" y="62" width="124" height="138"/>
+        <use href="#araucaria" x="1290" y="80" width="100" height="120"/>
+      </g>
+      <path class="morro" d="M0 176 C180 160 320 168 460 172 C640 178 760 158 940 164 C1120 170 1260 156 1440 166 L1440 200 L0 200 Z"/>
+      <g class="perto">
+        <use href="#araucaria" x="40" y="30" width="150" height="176"/>
+        <use href="#araucaria" x="230" y="70" width="104" height="128"/>
+        <use href="#araucaria" x="420" y="48" width="132" height="152"/>
+        <use href="#araucaria" x="1180" y="40" width="140" height="164"/>
+        <use href="#araucaria" x="1340" y="70" width="104" height="128"/>
+      </g>
+    </svg>
+
+    <svg class="borda borda-baixo" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40 L0 10.5 L8 15.1 L14 13.5 L24 6.8 L35 6.5 L45 7.0 L52 11.9 L66 7.7 L75 14.8 L90 14.1 L100 19.7 L107 18.0 L116 8.0 L123 10.3 L137 8.5 L149 14.9 L158 13.7 L165 6.8 L173 15.5 L183 10.4 L195 12.3 L204 17.1 L217 9.4 L229 13.4 L244 16.2 L253 19.7 L260 11.9 L273 8.1 L284 6.5 L297 16.7 L309 18.3 L318 15.7 L330 14.1 L340 17.8 L356 12.6 L368 6.8 L381 15.1 L397 17.5 L406 11.4 L419 6.3 L429 8.4 L437 6.8 L450 7.8 L459 11.5 L473 7.1 L484 13.7 L499 17.5 L513 9.9 L524 11.0 L538 19.4 L546 8.5 L554 9.3 L565 14.2 L574 6.1 L584 11.2 L596 19.3 L609 13.2 L621 15.5 L627 18.6 L641 18.2 L655 11.5 L665 7.4 L677 6.9 L684 8.9 L692 10.8 L698 6.0 L706 7.4 L715 6.4 L730 14.6 L738 9.5 L747 11.1 L754 17.9 L770 12.5 L781 7.2 L788 10.8 L797 17.6 L804 6.3 L820 13.4 L827 13.6 L834 13.4 L849 18.1 L862 9.7 L872 8.3 L886 13.5 L899 10.6 L908 17.4 L924 17.9 L938 17.5 L951 9.2 L962 11.0 L968 6.4 L977 9.6 L990 19.4 L1001 19.1 L1017 19.4 L1026 9.1 L1034 8.8 L1043 14.7 L1058 17.8 L1068 15.1 L1082 7.2 L1095 18.7 L1109 16.5 L1120 8.5 L1133 10.7 L1147 19.6 L1157 11.6 L1173 16.1 L1181 7.8 L1188 18.7 L1202 8.0 L1216 19.7 L1229 10.9 L1240 7.8 L1247 19.6 L1259 13.4 L1274 12.1 L1289 17.6 L1297 9.5 L1306 9.4 L1318 9.6 L1328 7.8 L1343 11.0 L1354 14.2 L1369 11.9 L1384 13.0 L1395 13.3 L1402 12.2 L1409 6.1 L1423 8.4 L1434 16.2 L1440 10.6 L1440 40 Z"/></svg>
+  </section>
+
+  <!-- ================= PROGRAMAÇÃO ================= -->
+  <section class="programacao papel" id="programacao" aria-labelledby="t-prog">
+    <div class="cordao" id="cordao" aria-hidden="true">
+      <svg viewBox="0 0 1440 110" preserveAspectRatio="none"><path id="fio" d="M-20 4 Q 170 92 360 8 Q 540 96 720 10 Q 900 96 1080 8 Q 1270 92 1460 4"/></svg>
+    </div>
+
+    <div class="env">
+      <header class="cabec">
+        <h2 id="t-prog">Programação</h2>
+        <p>Escolha uma noite para ver o que acontece nela. Toda atração tem endereço, horário e um atalho para salvar na sua agenda.</p>
+      </header>
+
+      <p class="aviso" id="aviso" hidden>Programação em fechamento. As atrações abaixo são um exemplo e serão trocadas pela agenda oficial.</p>
+
+      <div class="filtros">
+        <div class="noites-moldura">
+          <div class="noites" id="noites" role="group" aria-label="Escolha a noite"></div>
+        </div>
+        <div class="filtros-linha">
+          <div class="tipos" id="tipos" role="group" aria-label="Tipo de atração"></div>
+          <label class="passadas"><input type="checkbox" id="passadas"> <span>Mostrar o que já passou</span></label>
+        </div>
+        <div class="filtro-local" id="filtroLocal" hidden>
+          <span>Só o que acontece em <b id="filtroLocalNome"></b></span>
+          <button type="button" id="limparLocal">Ver todos os lugares</button>
+        </div>
+      </div>
+
+      <div class="agenda" id="agenda" aria-live="polite"></div>
+    </div>
+
+    <svg class="borda borda-baixo borda-noite" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true"><use href="#borda-forma"/></svg>
+  </section>
+
+  <!-- ================= LUGARES ================= -->
+  <section class="lugares" id="lugares" aria-labelledby="t-lug">
+    <canvas class="vagalumes" id="vagalumes" aria-hidden="true"></canvas>
+    <div class="env">
+      <header class="cabec claro">
+        <h2 id="t-lug">Onde a magia acontece</h2>
+        <p>Cada lugar da programação virou um postal. Toque para virar e ler o endereço, o recado e o que acontece lá.</p>
+      </header>
+      <div class="postais" id="postais"></div>
+    </div>
+    <svg class="borda borda-baixo" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true"><use href="#borda-forma"/></svg>
+  </section>
+
+  <!-- ================= SOBRE ================= -->
+  <section class="sobre papel" id="sobre" aria-labelledby="t-sobre">
+    <div class="env sobre-in">
+      <article class="carta" id="carta">
+        <h2 id="t-sobre">O Natal da cidade</h2>
+        <p class="saudacao">Para quem mora aqui e para quem vem visitar,</p>
+        <p>Em dezembro, Guarapuava muda de ritmo. A tarde demora a ir embora, o céu fica cor de pêssego atrás das araucárias e, quando finalmente escurece, as praças se acendem.</p>
+        <p>O Natal em Guarapuava é a programação que a Prefeitura prepara para esse mês: luzes nos parques, música ao ar livre, feiras, desfile e encontros para a família inteira. Tudo gratuito, tudo perto, tudo reunido nesta página.</p>
+        <p>Escolha uma noite. A cidade cuida do resto.</p>
+        <p class="assinatura">Com carinho,<br><span>Prefeitura de Guarapuava</span></p>
+        <img class="carimbo-selo" src="assets/img/selo.webp" alt="Selo Natal em Guarapuava, com uma araucária enfeitada com bolas de Natal" width="640" height="614" loading="lazy">
+      </article>
+
+      <aside class="antes" aria-labelledby="t-antes">
+        <h3 id="t-antes">Antes de sair de casa</h3>
+        <div id="perguntas"></div>
+      </aside>
+    </div>
+    <svg class="borda borda-baixo borda-rodape" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true"><use href="#borda-forma"/></svg>
+  </section>
+
+</main>
+
+<footer class="rodape">
+  <div class="env rodape-in">
+    <img class="rodape-selo" src="assets/img/selo.webp" alt="" width="640" height="614" loading="lazy">
+    <div class="rodape-texto">
+      <p class="rodape-titulo">Natal em Guarapuava 2026</p>
+      <p>Uma realização da <span id="realizacao">Prefeitura de Guarapuava</span>. A programação pode mudar por causa do tempo; esta página é sempre a versão mais atualizada.</p>
+      <p class="rodape-links" id="rodapeLinks"></p>
+    </div>
+    <div class="apoio" id="apoio" hidden>
+      <p>Apoio</p>
+      <div class="apoio-logos" id="apoioLogos"></div>
+    </div>
+  </div>
+</footer>
+
+<button class="bt-neve" id="btNeve" type="button" aria-pressed="false">
+  <svg aria-hidden="true"><use href="#i-floco"/></svg>
+  <span>Fazer nevar</span>
+</button>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><path id="borda-forma" d="M0 40 L0 10.5 L8 15.1 L14 13.5 L24 6.8 L35 6.5 L45 7.0 L52 11.9 L66 7.7 L75 14.8 L90 14.1 L100 19.7 L107 18.0 L116 8.0 L123 10.3 L137 8.5 L149 14.9 L158 13.7 L165 6.8 L173 15.5 L183 10.4 L195 12.3 L204 17.1 L217 9.4 L229 13.4 L244 16.2 L253 19.7 L260 11.9 L273 8.1 L284 6.5 L297 16.7 L309 18.3 L318 15.7 L330 14.1 L340 17.8 L356 12.6 L368 6.8 L381 15.1 L397 17.5 L406 11.4 L419 6.3 L429 8.4 L437 6.8 L450 7.8 L459 11.5 L473 7.1 L484 13.7 L499 17.5 L513 9.9 L524 11.0 L538 19.4 L546 8.5 L554 9.3 L565 14.2 L574 6.1 L584 11.2 L596 19.3 L609 13.2 L621 15.5 L627 18.6 L641 18.2 L655 11.5 L665 7.4 L677 6.9 L684 8.9 L692 10.8 L698 6.0 L706 7.4 L715 6.4 L730 14.6 L738 9.5 L747 11.1 L754 17.9 L770 12.5 L781 7.2 L788 10.8 L797 17.6 L804 6.3 L820 13.4 L827 13.6 L834 13.4 L849 18.1 L862 9.7 L872 8.3 L886 13.5 L899 10.6 L908 17.4 L924 17.9 L938 17.5 L951 9.2 L962 11.0 L968 6.4 L977 9.6 L990 19.4 L1001 19.1 L1017 19.4 L1026 9.1 L1034 8.8 L1043 14.7 L1058 17.8 L1068 15.1 L1082 7.2 L1095 18.7 L1109 16.5 L1120 8.5 L1133 10.7 L1147 19.6 L1157 11.6 L1173 16.1 L1181 7.8 L1188 18.7 L1202 8.0 L1216 19.7 L1229 10.9 L1240 7.8 L1247 19.6 L1259 13.4 L1274 12.1 L1289 17.6 L1297 9.5 L1306 9.4 L1318 9.6 L1328 7.8 L1343 11.0 L1354 14.2 L1369 11.9 L1384 13.0 L1395 13.3 L1402 12.2 L1409 6.1 L1423 8.4 L1434 16.2 L1440 10.6 L1440 40 Z"/></defs></svg>
+
+<script src="programacao.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/magia.js"></script>
+</body>
+</html>
