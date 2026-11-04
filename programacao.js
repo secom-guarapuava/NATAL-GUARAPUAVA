@@ -49,13 +49,13 @@ window.NATAL = {
 
   /* Tipos de atração — usados nos filtros e na cor de cada carimbo */
   categorias: [
-    { id: "luzes",    nome: "Luzes",            cor: "#C9862B" },
-    { id: "musica",   nome: "Música",           cor: "#8E3B6B" },
-    { id: "criancas", nome: "Para as crianças", cor: "#B8141B" },
+    { id: "luzes",    nome: "Luzes",            cor: "#B07A1E" },
+    { id: "musica",   nome: "Música",           cor: "#A3262A" },
+    { id: "criancas", nome: "Para as crianças", cor: "#C2412F" },
     { id: "feira",    nome: "Feiras e sabores", cor: "#1C5E2A" },
-    { id: "desfile",  nome: "Desfile",          cor: "#2D3A8C" },
+    { id: "desfile",  nome: "Desfile",          cor: "#2F5D45" },
     { id: "tradicao", nome: "Tradição",         cor: "#A9572A" },
-    { id: "solene",   nome: "Sessão solene",    cor: "#5E4A1C" }
+    { id: "solene",   nome: "Sessão solene",    cor: "#6B4A36" }
   ],
 
   /* Lugares — cada um vira um postal na seção "Onde a magia acontece".

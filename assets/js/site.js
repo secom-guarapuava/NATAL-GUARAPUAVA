@@ -389,6 +389,57 @@
     }
   })();
 
+  /* ---------- faixas de selos postais ---------- */
+  (function () {
+    var desenhos = ["s-araucaria", "s-anjo", "s-vela", "s-carta", "s-sino", "s-presente", "s-bola", "s-estrela"];
+    var molduras = ["verde", "creme", "ouro"];
+    var giros = [-4, 3, -2, 4, -3, 2];
+    var um = "";
+    for (var i = 0; i < 24; i++) {
+      var carimbado = i % 5 === 2;
+      um += '<span class="selo-faixa" style="--g:' + giros[i % giros.length] + 'deg"><span class="selinho m-' + molduras[i % 3] + '"><svg aria-hidden="true"><use href="#' + desenhos[i % desenhos.length] + '"/></svg><small>NATAL 2026</small></span>' +
+        (carimbado ? '<svg class="risco" viewBox="0 0 120 60" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3" filter="url(#tinta)"><path d="M0 14 q10 -7 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 M0 30 q10 -7 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 M0 46 q10 -7 20 0 t20 0 t20 0 t20 0 t20 0 t20 0"/></g></svg>' : "") +
+        "</span>";
+    }
+    Array.prototype.forEach.call(document.querySelectorAll("[data-faixa]"), function (el, k) {
+      el.innerHTML = um + um;
+      if (k % 2) el.style.animationDirection = "reverse";
+    });
+  })();
+
+  /* ---------- cordão de luzes do topo com bolinhas listradas (como no selo da ID) ---------- */
+  (function () {
+    var svg = $("#enfeites"); if (!svg) return;
+    var NS = "http://www.w3.org/2000/svg";
+    var fio = "M-20 6 Q 160 74 340 8 Q 520 78 720 10 Q 900 78 1080 8 Q 1260 74 1460 6";
+    var h = '<defs><radialGradient id="enfeiteLuz"><stop offset="0" stop-color="#FFE6A6" stop-opacity=".95"/><stop offset=".45" stop-color="#FFD07A" stop-opacity=".4"/><stop offset="1" stop-color="#FFC060" stop-opacity="0"/></radialGradient></defs>' +
+      '<path id="fioTopo" d="' + fio + '" fill="none" stroke="#5A3D2B" stroke-width="2" opacity=".8"/>';
+    svg.innerHTML = h;
+    var path = svg.querySelector("#fioTopo"), L = path.getTotalLength(), cores = ["#E8B04E", "#C8323A", "#3E8A5C", "#FFF1C9", "#F29A3A"];
+    var luzes = "";
+    for (var i = 0; i < 44; i++) {
+      var p = path.getPointAtLength((i + 0.5) / 44 * L);
+      if (p.x < 0 || p.x > 1440) continue;
+      var c = cores[i % cores.length];
+      luzes += '<g class="lamp-topo" style="--c:' + c + ';--dl:' + (i * 0.06).toFixed(2) + 's"><circle class="luz" cx="' + p.x.toFixed(1) + '" cy="' + (p.y + 9).toFixed(1) + '" r="14" fill="url(#enfeiteLuz)"/>' +
+        '<rect x="' + (p.x - 2.5).toFixed(1) + '" y="' + (p.y - 1).toFixed(1) + '" width="5" height="5" rx="1.2" fill="#4A3A2C"/>' +
+        '<ellipse class="bulbo" cx="' + p.x.toFixed(1) + '" cy="' + (p.y + 9).toFixed(1) + '" rx="5" ry="7" fill="' + c + '"/></g>';
+    }
+    // bolinhas listradas penduradas nos pontos baixos do fio (só à direita, acima do postal)
+    [[900, 74, 46, 17, "#C8323A"], [1260, 70, 34, 15, "#2F6B4A"], [1080, 8, 30, 13, "#D9A23A"]].forEach(function (b, i) {
+      var x = b[0], y0 = b[1], L2 = b[2], r = b[3], cor = b[4], cy = y0 + L2 + 6 + r, listra = cor === "#D9A23A" ? "#A3262A" : "#F6EFD9";
+      luzes += '<g class="enfeite" style="transform-origin:' + x + 'px ' + y0 + 'px;--d:' + (5 + i) + 's;--dl:' + (-i * 1.3) + 's">' +
+        '<line x1="' + x + '" y1="' + y0 + '" x2="' + x + '" y2="' + (y0 + L2) + '" stroke="#8A6A45" stroke-width="1.4"/>' +
+        '<circle class="luz" cx="' + x + '" cy="' + cy + '" r="' + (r * 2.1) + '" fill="url(#enfeiteLuz)"/>' +
+        '<rect x="' + (x - 4.5) + '" y="' + (y0 + L2) + '" width="9" height="7" rx="1.5" fill="#C9A04E"/>' +
+        '<circle cx="' + x + '" cy="' + cy + '" r="' + r + '" fill="' + cor + '"/>' +
+        '<path d="M' + (x - r * 0.92) + ' ' + (cy - r * 0.38) + ' H' + (x + r * 0.92) + ' M' + (x - r) + ' ' + cy + ' H' + (x + r) + ' M' + (x - r * 0.92) + ' ' + (cy + r * 0.38) + ' H' + (x + r * 0.92) + '" stroke="' + listra + '" stroke-width="1.8"/>' +
+        '<path d="M' + (x - r * 0.8) + ' ' + (cy - r * 0.18) + ' l' + (r * 0.2) + ' ' + (-r * 0.16) + ' ' + (r * 0.2) + ' ' + (r * 0.16) + ' ' + (r * 0.2) + ' ' + (-r * 0.16) + ' ' + (r * 0.2) + ' ' + (r * 0.16) + ' ' + (r * 0.2) + ' ' + (-r * 0.16) + ' ' + (r * 0.2) + ' ' + (r * 0.16) + ' ' + (r * 0.2) + ' ' + (-r * 0.16) + ' ' + (r * 0.2) + ' ' + (r * 0.16) + '" fill="none" stroke="#E2B24A" stroke-width="1.3"/>' +
+        '<path d="M' + (x - r * 0.5) + ' ' + (cy - r * 0.62) + ' q' + (r * 0.25) + ' ' + (-r * 0.25) + ' ' + (r * 0.6) + ' ' + (-r * 0.3) + '" stroke="#FFFFFF" stroke-opacity=".55" stroke-width="2" fill="none" stroke-linecap="round"/></g>';
+    });
+    svg.insertAdjacentHTML("beforeend", luzes);
+  })();
+
   /* ---------- menu: seção atual ---------- */
   (function () {
     var topo = $("#topo");

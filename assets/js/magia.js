@@ -47,10 +47,24 @@
     branco: brilho("rgba(235,240,255,.85)"),
     estrela: estrela4("rgba(255,214,130,.65)"),
     estrelaBranca: estrela4("rgba(220,230,255,.55)"),
+    estrelaOuro: sprite(64, function (g, t) {
+      var m = t / 2, gr = g.createRadialGradient(m, m, 0, m, m, m);
+      gr.addColorStop(0, "rgba(232,180,80,.55)"); gr.addColorStop(1, "rgba(232,180,80,0)");
+      g.fillStyle = gr; g.fillRect(0, 0, t, t);
+      g.fillStyle = "#D9A23A";
+      g.beginPath(); g.moveTo(m, 4); g.quadraticCurveTo(m + 3, m - 3, t - 4, m); g.quadraticCurveTo(m + 3, m + 3, m, t - 4);
+      g.quadraticCurveTo(m - 3, m + 3, 4, m); g.quadraticCurveTo(m - 3, m - 3, m, 4); g.fill();
+      g.fillStyle = "#FFF4D0"; g.beginPath(); g.arc(m, m, 3, 0, 6.29); g.fill();
+    }),
+    pontoOuro: sprite(32, function (g, t) {
+      var m = t / 2, gr = g.createRadialGradient(m, m, 0, m, m, m);
+      gr.addColorStop(0, "rgba(214,160,58,1)"); gr.addColorStop(.35, "rgba(226,178,74,.7)"); gr.addColorStop(1, "rgba(226,178,74,0)");
+      g.fillStyle = gr; g.fillRect(0, 0, t, t);
+    }),
     floco: sprite(64, function (g, t) {
       var m = t / 2, gr = g.createRadialGradient(m, m, 0, m, m, m);
-      gr.addColorStop(0, "rgba(255,255,255,1)"); gr.addColorStop(0.32, "rgba(255,255,255,.95)");
-      gr.addColorStop(0.5, "rgba(160,175,220,.4)"); gr.addColorStop(1, "rgba(160,175,220,0)");
+      gr.addColorStop(0, "rgba(255,255,255,1)"); gr.addColorStop(0.34, "rgba(255,255,255,.95)");
+      gr.addColorStop(0.42, "rgba(150,160,190,.55)"); gr.addColorStop(0.6, "rgba(150,160,190,.18)"); gr.addColorStop(1, "rgba(150,160,190,0)");
       g.fillStyle = gr; g.fillRect(0, 0, t, t);
     })
   };
@@ -69,13 +83,13 @@
     parts.push({
       x: x, y: y, vx: Math.cos(a) * v + (o.vx || 0), vy: Math.sin(a) * v + (o.vy || 0),
       g: o.g != null ? o.g : 0.012, vida: 0, max: o.max || r(40, 80), t: o.t || r(5, 12),
-      spr: o.spr || (Math.random() < 0.35 ? SPR.estrela : SPR.ouro), rot: r(0, 6.28), vr: r(-0.08, 0.08)
+      spr: o.spr || (Math.random() < 0.4 ? SPR.estrelaOuro : SPR.pontoOuro), rot: r(0, 6.28), vr: r(-0.08, 0.08)
     });
     if (!rodandoV) { rodandoV = true; requestAnimationFrame(passoV); }
   }
   function passoV() {
     gV.clearRect(0, 0, wV, hV);
-    gV.globalCompositeOperation = "lighter";
+    gV.globalCompositeOperation = "source-over";
     for (var i = parts.length - 1; i >= 0; i--) {
       var p = parts[i];
       p.vida++; p.x += p.vx; p.y += p.vy; p.vy += p.g; p.vx *= 0.985; p.vy *= 0.985; p.rot += p.vr;
@@ -84,7 +98,7 @@
       var al = k < 0.15 ? k / 0.15 : 1 - (k - 0.15) / 0.85;
       var tam = p.t * (1 - k * 0.5) * (0.85 + 0.3 * Math.sin(p.vida * 0.5));
       gV.globalAlpha = Math.max(0, al);
-      if (p.spr === SPR.estrela || p.spr === SPR.estrelaBranca) {
+      if (p.spr === SPR.estrela || p.spr === SPR.estrelaBranca || p.spr === SPR.estrelaOuro) {
         gV.save(); gV.translate(p.x, p.y); gV.rotate(p.rot); gV.drawImage(p.spr, -tam, -tam, tam * 2, tam * 2); gV.restore();
       } else gV.drawImage(p.spr, p.x - tam, p.y - tam, tam * 2, tam * 2);
     }
@@ -96,7 +110,7 @@
     for (var i = 0; i < n; i++) {
       solta(x, y, {
         ang: r(0, Math.PI * 2), vel: r(o.vmin || 1, o.vmax || 4.2), g: o.g != null ? o.g : 0.05, max: r(45, 95),
-        t: r(o.tmin || 5, o.tmax || 14), spr: o.spr || (Math.random() < 0.45 ? SPR.estrela : (Math.random() < 0.5 ? SPR.ouro : SPR.ouroClaro))
+        t: r(o.tmin || 5, o.tmax || 14), spr: o.spr || (Math.random() < 0.5 ? SPR.estrelaOuro : SPR.pontoOuro)
       });
     }
   }
@@ -141,7 +155,7 @@
     if (!cvC) return;
     wC = hero.clientWidth; hC = hero.clientHeight;
     cvC.width = wC * DPR; cvC.height = hC * DPR; gC.setTransform(DPR, 0, 0, DPR, 0, 0);
-    var n = Math.round(wC * hC / 6500);
+    var n = Math.round(wC * hC / 22000);
     estrelas = [];
     for (var i = 0; i < n; i++) {
       var y = Math.pow(Math.random(), 1.5) * hC * 0.78;
@@ -156,14 +170,14 @@
   function desenhaCeu(tempo) {
     gC.clearRect(0, 0, wC, hC);
     var s = tempo / 1000;
-    gC.globalCompositeOperation = "lighter";
+    gC.globalCompositeOperation = "source-over";
     for (var i = 0; i < estrelas.length; i++) {
       var e = estrelas[i];
       var a = reduz ? 0.7 : 0.45 + 0.55 * Math.sin(s * e.f + e.fase);
       if (a <= 0.02) continue;
       gC.globalAlpha = a;
-      var t = e.t * (e.b ? 5 : 3.2);
-      gC.drawImage(e.b ? SPR.estrelaBranca : SPR.branco, e.x - t, e.y - t, t * 2, t * 2);
+      var t = e.t * (e.b ? 7 : 4.5);
+      gC.drawImage(e.b ? SPR.estrelaOuro : SPR.pontoOuro, e.x - t, e.y - t, t * 2, t * 2);
     }
     if (!reduz) {
       for (var j = 0; j < po.length; j++) {
@@ -171,8 +185,8 @@
         p.y -= p.vy; p.x += Math.sin(s * p.sw + p.fase) * 0.3;
         if (p.y < hC * 0.12) po[j] = p = novoPo(false);
         var k = Math.min(1, (hC - p.y) / 120) * Math.min(1, (p.y - hC * 0.12) / 160);
-        gC.globalAlpha = Math.max(0, p.a * k * (0.6 + 0.4 * Math.sin(s * 3 + p.fase)));
-        gC.drawImage(SPR.ouro, p.x - p.t * 2.4, p.y - p.t * 2.4, p.t * 4.8, p.t * 4.8);
+        gC.globalAlpha = Math.max(0, 0.75 * p.a * k * (0.6 + 0.4 * Math.sin(s * 3 + p.fase)));
+        gC.drawImage(SPR.pontoOuro, p.x - p.t * 1.6, p.y - p.t * 1.6, p.t * 3.2, p.t * 3.2);
       }
       if (!cadente && s > proxCadente) {
         cadente = { x: r(wC * 0.05, wC * 0.6), y: r(10, hC * 0.3), vx: r(7, 11), vy: r(2.5, 4.5), vida: 0, max: r(38, 55) };
@@ -182,10 +196,10 @@
         var c = cadente; c.vida++; c.x += c.vx; c.y += c.vy;
         var kk = c.vida / c.max, al = kk < 0.2 ? kk / 0.2 : 1 - (kk - 0.2) / 0.8;
         var gr = gC.createLinearGradient(c.x, c.y, c.x - c.vx * 12, c.y - c.vy * 12);
-        gr.addColorStop(0, "rgba(255,246,220," + (0.95 * al) + ")"); gr.addColorStop(1, "rgba(255,246,220,0)");
+        gr.addColorStop(0, "rgba(201,150,60," + (0.9 * al) + ")"); gr.addColorStop(1, "rgba(201,150,60,0)");
         gC.globalAlpha = 1; gC.strokeStyle = gr; gC.lineWidth = 2; gC.lineCap = "round";
         gC.beginPath(); gC.moveTo(c.x, c.y); gC.lineTo(c.x - c.vx * 12, c.y - c.vy * 12); gC.stroke();
-        gC.globalAlpha = al; gC.drawImage(SPR.estrelaBranca, c.x - 9, c.y - 9, 18, 18);
+        gC.globalAlpha = al; gC.drawImage(SPR.estrelaOuro, c.x - 11, c.y - 11, 22, 22);
         if (kk >= 1) cadente = null;
       }
     }
@@ -244,12 +258,15 @@
     if (!arv) return;
     if (reduz) {
       arv.classList.add("acesa", "estrela", "viva"); letras.forEach(function (l) { l.classList.add("on"); });
+      if (hero) hero.classList.add("enfeites-acesos");
+      arv.classList.add("carimbado");
       return;
     }
     arv.classList.add("acesa");
     // as letras de "acende" se acendem junto com a subida das luzes
     letras.forEach(function (l, i) { setTimeout(function () { l.classList.add("on"); }, 1300 + i * 260); });
-    setTimeout(function () { arv.classList.add("estrela", "viva"); estrelaBurst(80); }, 3700);
+    setTimeout(function () { arv.classList.add("estrela", "viva"); estrelaBurst(80); if (hero) hero.classList.add("enfeites-acesos"); }, 3700);
+    setTimeout(function () { arv.classList.add("carimbado"); }, 4500);
   }
   if (arv) {
     var imgs = Array.prototype.slice.call(arv.querySelectorAll("img"));
