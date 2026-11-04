@@ -717,3 +717,94 @@ html.magia .carimbo-hero{opacity:0}
 .tipo.tudo[aria-pressed="true"]{background:var(--verde-escuro);border-color:var(--verde-escuro)}
 .evento::before{background:repeating-linear-gradient(-45deg,var(--c) 0 12px,transparent 12px 20px,#2F5D45 20px 32px,transparent 32px 40px)}
 .evento.destaque{box-shadow:0 0 0 2px #C9A04E,0 0 30px -6px rgba(201,160,78,.7),0 16px 30px -20px rgba(31,35,80,.5)}
+
+/* ---------- topo: pilha de postais da ID (no lugar dos campos) ---------- */
+.hero-in{padding-bottom:clamp(64px,7vw,100px)}
+.hero{min-height:auto}
+.arvore{position:relative;max-width:700px;padding:15% 4% 9% 10%}
+.arvore-card{z-index:3}
+.postal-tras{position:absolute;height:auto;pointer-events:none;user-select:none;filter:drop-shadow(0 18px 24px rgba(90,40,20,.32));transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.pt-1{width:66%;left:-6%;top:3%;transform:rotate(-9deg);z-index:1}
+.pt-2{width:56%;right:-7%;top:46%;transform:rotate(9deg);z-index:2}
+.carimbo-hero{z-index:4;right:auto;left:-4%;bottom:2%;top:auto;width:38%}
+html.magia .postal-tras{opacity:0}
+.arvore.leque .postal-tras{animation:abreLeque 1.1s cubic-bezier(.2,.75,.2,1) forwards}
+.arvore.leque .pt-2{animation-delay:.12s}
+@keyframes abreLeque{
+  from{opacity:0;transform:translate(var(--lx),var(--ly)) rotate(0deg) scale(.9)}
+  to{opacity:1;transform:translate(0,0) rotate(var(--rot)) scale(1)}}
+.pt-1{--lx:30%;--ly:40%;--rot:-9deg}
+.pt-2{--lx:-40%;--ly:-30%;--rot:9deg}
+@media (hover:hover){
+  .arvore:hover .pt-1{transform:rotate(-12deg) translate(-3%,-3%)}
+  .arvore:hover .pt-2{transform:rotate(12deg) translate(3%,3%)}
+}
+@media (max-width:900px){
+  .arvore{max-width:560px;padding:14% 6% 10% 10%;margin-inline:auto}
+}
+@media (prefers-reduced-motion:reduce){html.magia .postal-tras{opacity:1}}
+.pt-2{width:54%;right:-11%;top:44%}
+@media (max-width:900px){
+  .arvore{padding:13% 9% 8% 7%}
+  .pt-1{left:0;width:62%}
+  .pt-2{right:-2%;width:50%}
+  .carimbo-hero{left:0;bottom:0}
+}
+
+/* ---------- GALERIA 2025: álbum de fotografias ---------- */
+.galeria{padding:clamp(90px,10vw,130px) 0 clamp(50px,6vw,80px)}
+.cabec-galeria{position:relative}
+.galeria-ano{position:absolute;right:-2%;top:-.42em;margin:0;font-family:var(--serifa);font-size:clamp(5rem,16vw,12rem);line-height:1;
+  color:transparent;-webkit-text-stroke:1.5px rgba(163,38,42,.22);pointer-events:none;user-select:none;z-index:-1}
+.cabec-galeria{max-width:none}
+.cabec-galeria p#galeriaTexto{max-width:56ch}
+.album{columns:4 250px;column-gap:clamp(18px,2.4vw,30px);margin-top:10px}
+.foto{break-inside:avoid;margin:0 0 clamp(22px,2.6vw,32px);position:relative;transform:rotate(var(--r,0deg));transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.foto-bt{display:block;width:100%;padding:10px 10px 12px;border:0;margin:0;cursor:zoom-in;position:relative;
+  background:#FFFDF8;box-shadow:0 1px 0 rgba(90,60,40,.08),0 14px 26px -14px rgba(70,40,20,.55);border-radius:2px}
+.foto-bt img{width:100%;height:auto;background:#1A1714;transition:filter 1.6s ease,opacity 1.6s ease}
+.foto:hover{transform:rotate(0deg) translateY(-4px) scale(1.02);z-index:2}
+.foto:hover .foto-bt{box-shadow:0 1px 0 rgba(90,60,40,.08),0 22px 34px -14px rgba(70,40,20,.6)}
+/* cantoneiras de álbum */
+.foto::before,.foto::after,.foto-bt::before,.foto-bt::after{content:"";position:absolute;width:26px;height:26px;background:#7A2E26;z-index:2;pointer-events:none;
+  box-shadow:0 1px 1px rgba(0,0,0,.2)}
+.foto::before{left:-5px;top:-5px;clip-path:polygon(0 0,100% 0,0 100%)}
+.foto::after{right:-5px;top:-5px;clip-path:polygon(0 0,100% 0,100% 100%)}
+.foto-bt::before{left:-5px;bottom:-5px;clip-path:polygon(0 0,100% 100%,0 100%)}
+.foto-bt::after{right:-5px;bottom:-5px;clip-path:polygon(100% 0,100% 100%,0 100%)}
+.foto:nth-child(3n+2)::before,.foto:nth-child(3n+2)::after,.foto:nth-child(3n+2) .foto-bt::before,.foto:nth-child(3n+2) .foto-bt::after{background:#2F5D45}
+/* revelação */
+html.magia .foto img{filter:brightness(2.4) sepia(.5) contrast(.45) blur(3px);opacity:.75}
+html.magia .foto.revelada img{filter:none;opacity:1}
+.album-mais{display:flex;justify-content:center;margin-top:10px}
+@media (max-width:640px){.album{columns:2 140px;column-gap:14px}.foto-bt{padding:6px 6px 8px}.foto::before,.foto::after,.foto-bt::before,.foto-bt::after{width:18px;height:18px}}
+
+/* visor */
+.visor{border:0;padding:0;margin:0;width:100vw;height:100dvh;max-width:none;max-height:none;background:transparent;color:var(--creme);overflow:hidden}
+.visor::backdrop{background:rgba(40,8,10,.92)}
+.visor[open]{display:flex;align-items:center;justify-content:center}
+.visor-foto{margin:0;display:flex;flex-direction:column;align-items:center;gap:14px;max-width:min(92vw,1200px);padding:56px 64px}
+.visor-foto img{max-width:100%;max-height:calc(100dvh - 170px);width:auto;height:auto;border:10px solid #FFFDF8;box-shadow:0 30px 60px -20px rgba(0,0,0,.7);
+  background:#1A1714;opacity:0;transform:scale(.98);transition:opacity .35s,transform .35s}
+.visor-foto img.ok{opacity:1;transform:none}
+.visor-foto figcaption{font-size:16px;line-height:1.4;text-align:center;color:rgba(246,239,217,.9);max-width:60ch}
+.visor-num{display:block;margin-top:4px;font-size:13.5px;color:rgba(246,239,217,.6)}
+.visor-bt{position:absolute;width:52px;height:52px;border-radius:50%;border:1px solid rgba(246,239,217,.35);background:rgba(246,239,217,.1);color:var(--creme);
+  display:grid;place-items:center;cursor:pointer;transition:background .2s}
+.visor-bt:hover{background:rgba(246,239,217,.22)}
+.visor-bt svg{width:24px;height:24px}
+.visor-fechar{top:16px;right:16px}
+.visor-ant{left:16px;top:50%;margin-top:-26px}
+.visor-prox{right:16px;top:50%;margin-top:-26px}
+@media (max-width:640px){
+  .visor-foto{padding:64px 12px 90px}
+  .visor-foto img{border-width:6px;max-height:calc(100dvh - 220px)}
+  .visor-ant,.visor-prox{top:auto;bottom:20px;margin:0}
+  .visor-ant{left:calc(50% - 64px)}.visor-prox{right:calc(50% - 64px)}
+}
+html.visor-aberto{overflow:hidden}
+/* separação entre a galeria e a carta */
+.galeria + .visor + .sobre{padding-top:clamp(40px,5vw,70px)}
+.foto{display:inline-block;width:100%;vertical-align:top}
+.carimbo-galeria{position:absolute;right:0;top:-10px;width:clamp(170px,22vw,260px);height:auto;color:#2F5D45;opacity:.75;transform:rotate(8deg);pointer-events:none}
+@media (max-width:760px){.carimbo-galeria{width:130px;top:-70px;right:-6px}}

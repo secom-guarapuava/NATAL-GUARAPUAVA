@@ -269,13 +269,16 @@
     setTimeout(function () { arv.classList.add("carimbado"); }, 4500);
   }
   if (arv) {
-    var imgs = Array.prototype.slice.call(arv.querySelectorAll("img"));
+    var imgs = Array.prototype.slice.call(arv.querySelectorAll(".arvore-card img"));
     var prontas = imgs.map(function (im) {
       if (im.decode) return im.decode().catch(function () {});
       return new Promise(function (ok) { if (im.complete) ok(); else { im.onload = im.onerror = ok; } });
     });
     var limite = new Promise(function (ok) { setTimeout(ok, 3500); });
-    Promise.race([Promise.all(prontas), limite]).then(function () { setTimeout(acendeArvore, reduz ? 0 : 450); });
+    Promise.race([Promise.all(prontas), limite]).then(function () {
+      setTimeout(acendeArvore, reduz ? 0 : 450);
+      setTimeout(function () { arv.classList.add("leque"); }, reduz ? 0 : 1100);
+    });
 
     if (card) {
       card.addEventListener("click", function (e) {

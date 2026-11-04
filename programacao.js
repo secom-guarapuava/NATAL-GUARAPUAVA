@@ -150,6 +150,45 @@ window.NATAL = {
     }
   ],
 
+  /* Galeria — fotos das luzes do Natal 2025.
+     As imagens ficam em assets/img/galeria/: "arquivo.webp" (grande) e "arquivo-p.webp" (miniatura).
+     A ordem da lista é a ordem na página. "visiveis" é quantas aparecem antes do botão "Ver mais fotos". */
+  galeria: {
+    titulo: "Natal 2025 em fotos",
+    texto: "Foi assim que Guarapuava acendeu no ano passado. As luzes deste Natal seguem o mesmo caminho.",
+    visiveis: 12,
+    fotos: [
+      { arquivo: "natal-2025-01", largura: 480, altura: 640, descricao: "Árvore de Natal gigante de luzes brancas com estrela dourada no topo" },
+      { arquivo: "natal-2025-02", largura: 480, altura: 640, descricao: "Ponte pênsil iluminada refletida no lago" },
+      { arquivo: "natal-2025-03", largura: 640, altura: 480, descricao: "Árvore vermelha e verde e presentes de luz na água da lagoa" },
+      { arquivo: "natal-2025-04", largura: 480, altura: 640, descricao: "Arco de luz com a frase Feliz Natal entre duas bengalas iluminadas" },
+      { arquivo: "natal-2025-05", largura: 640, altura: 480, descricao: "Árvores espirais de luz em um caminho de praça" },
+      { arquivo: "natal-2025-06", largura: 480, altura: 640, descricao: "Casa com o contorno do telhado e das janelas iluminado" },
+      { arquivo: "natal-2025-07", largura: 512, altura: 640, descricao: "Ponte pênsil de madeira iluminada vista da cabeceira" },
+      { arquivo: "natal-2025-08", largura: 480, altura: 640, descricao: "Bola de Natal gigante vermelha iluminada no gramado" },
+      { arquivo: "natal-2025-09", largura: 640, altura: 480, descricao: "Árvore de luz vermelha e branca em uma praça, com pessoas passeando" },
+      { arquivo: "natal-2025-10", largura: 640, altura: 480, descricao: "Árvores espirais de luz azul e branca em um jardim" },
+      { arquivo: "natal-2025-11", largura: 480, altura: 640, descricao: "Árvore vermelha e verde iluminada no parque" },
+      { arquivo: "natal-2025-12", largura: 480, altura: 640, descricao: "Arco de luz e estrela iluminada no gramado à beira do lago" },
+      { arquivo: "natal-2025-13", largura: 640, altura: 480, descricao: "Topo da árvore de luzes brancas com estrelas douradas" },
+      { arquivo: "natal-2025-14", largura: 640, altura: 480, descricao: "Ponte pênsil iluminada vista da margem do lago" },
+      { arquivo: "natal-2025-15", largura: 480, altura: 640, descricao: "Árvore vermelha e verde ao lado da lagoa, com postes acesos" },
+      { arquivo: "natal-2025-16", largura: 480, altura: 640, descricao: "Bolas de Natal gigantes iluminadas e túnel de luz azul" },
+      { arquivo: "natal-2025-17", largura: 640, altura: 480, descricao: "Casa iluminada vista do gramado" },
+      { arquivo: "natal-2025-18", largura: 480, altura: 640, descricao: "Árvore de luz branca e dourada à beira do lago" },
+      { arquivo: "natal-2025-19", largura: 480, altura: 640, descricao: "Árvore espiral de luz em vermelho e branco" },
+      { arquivo: "natal-2025-20", largura: 640, altura: 480, descricao: "Bolas de Natal gigantes vermelhas entre as árvores" },
+      { arquivo: "natal-2025-21", largura: 480, altura: 640, descricao: "Bengala de luz e enfeites nos postes da avenida" },
+      { arquivo: "natal-2025-22", largura: 480, altura: 640, descricao: "Árvores de luz em forma de cone refletidas na água do lago" },
+      { arquivo: "natal-2025-23", largura: 640, altura: 480, descricao: "Ponte pênsil com os cabos iluminados" },
+      { arquivo: "natal-2025-24", largura: 640, altura: 480, descricao: "Presentes de luz verdes refletidos na lagoa" },
+      { arquivo: "natal-2025-25", largura: 480, altura: 640, descricao: "Árvore de luzes brancas vista de baixo, com a estrela no alto" },
+      { arquivo: "natal-2025-26", largura: 512, altura: 640, descricao: "Ponte iluminada vista do alto, com reflexo no lago" },
+      { arquivo: "natal-2025-27", largura: 640, altura: 360, descricao: "Ponte iluminada vista do caminho do parque" },
+      { arquivo: "natal-2025-28", largura: 480, altura: 640, descricao: "Ponte iluminada entre as árvores, com reflexo no lago" }
+    ]
+  },
+
   /* Perguntas rápidas — aparecem em "Antes de sair de casa" */
   perguntas: [
     {

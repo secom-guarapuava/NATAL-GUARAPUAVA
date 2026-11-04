@@ -19,6 +19,8 @@ Tudo o que muda no site está em **um arquivo só: `programacao.js`**.
   troque `programacaoProvisoria: true` por `false`.
 - **Apoiadores**: preencha `apoiadores` para mostrar logos no rodapé (só no site; nas redes institucionais, não).
 - **Redes oficiais**: preencha `redes` para aparecerem como links no rodapé.
+- **Galeria**: as fotos ficam em `assets/img/galeria/` (uma versão grande `.webp` e uma miniatura `-p.webp`).
+  A lista `galeria.fotos` define a ordem e a descrição de cada foto; `visiveis` diz quantas aparecem antes do botão "Ver mais fotos".
 
 As datas, o período no topo, os filtros, a contagem regressiva e os botões
 "Salvar na agenda" e "Enviar no WhatsApp" são gerados sozinhos a partir desse arquivo.

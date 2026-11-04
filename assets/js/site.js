@@ -365,6 +365,102 @@
     });
   })();
 
+  /* ---------- galeria 2025 ---------- */
+  (function () {
+    var G = D.galeria, sec = $("#galeria"), album = $("#album");
+    if (!sec || !album) return;
+    if (!G || !(G.fotos || []).length) { sec.hidden = true; var mg = document.querySelector('.menu a[href="#galeria"]'); if (mg) mg.hidden = true; return; }
+    sec.hidden = false;
+    if (G.titulo) $("#t-galeria").textContent = G.titulo;
+    $("#galeriaTexto").textContent = G.texto || "";
+    var base = "assets/img/galeria/", fotos = G.fotos, visiveis = G.visiveis || fotos.length;
+    var giros = [-1.6, 1.2, -0.6, 1.8, -1.2, 0.8, -2, 1.4];
+    album.innerHTML = fotos.map(function (f, i) {
+      return '<figure class="foto' + (i >= visiveis ? " guardada" : "") + '" style="--r:' + giros[i % giros.length] + 'deg"' + (i >= visiveis ? " hidden" : "") + ">" +
+        '<button class="foto-bt" type="button" data-i="' + i + '" aria-label="Ampliar foto: ' + esc(f.descricao) + '">' +
+        '<img src="' + base + esc(f.arquivo) + '-p.webp" width="' + f.largura + '" height="' + f.altura + '" alt="' + esc(f.descricao) + '" loading="lazy" decoding="async">' +
+        "</button></figure>";
+    }).join("");
+
+    // a foto "revela" quando aparece na tela, como papel fotográfico
+    var reduz = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var io = (!reduz && "IntersectionObserver" in window) ? new IntersectionObserver(function (ents) {
+      ents.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var fig = en.target, img = fig.querySelector("img");
+        var revela = function () { setTimeout(function () { fig.classList.add("revelada"); }, 80 + Math.random() * 260); };
+        if (img.complete) revela(); else { img.addEventListener("load", revela, { once: true }); img.addEventListener("error", revela, { once: true }); }
+        io.unobserve(fig);
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.15 }) : null;
+    var observa = function () {
+      Array.prototype.forEach.call(album.querySelectorAll(".foto:not([hidden]):not(.revelada)"), function (f) {
+        if (io) io.observe(f); else f.classList.add("revelada");
+      });
+    };
+    observa();
+
+    var mais = $("#albumMais"), resto = fotos.length - visiveis;
+    if (resto > 0) {
+      mais.hidden = false;
+      mais.textContent = "Ver mais " + resto + (resto === 1 ? " foto" : " fotos");
+      mais.addEventListener("click", function () {
+        Array.prototype.forEach.call(album.querySelectorAll(".foto.guardada"), function (f) { f.hidden = false; });
+        mais.hidden = true;
+        observa();
+        var prim = album.querySelector(".foto.guardada .foto-bt"); if (prim) prim.focus({ preventScroll: true });
+      });
+    }
+
+    // visor (foto ampliada)
+    var visor = $("#visor"), vImg = $("#visorImg"), vLeg = $("#visorLegenda"), atual = 0, origem = null;
+    if (!visor || typeof visor.showModal !== "function") {
+      album.addEventListener("click", function (e) {
+        var b = e.target.closest(".foto-bt"); if (!b) return;
+        window.open(base + fotos[+b.getAttribute("data-i")].arquivo + ".webp", "_blank", "noopener");
+      });
+      return;
+    }
+    var precarrega = function (i) { var im = new Image(); im.src = base + fotos[(i + fotos.length) % fotos.length].arquivo + ".webp"; };
+    var mostra = function (i) {
+      atual = (i + fotos.length) % fotos.length;
+      var f = fotos[atual];
+      vImg.classList.remove("ok");
+      vImg.onload = function () { vImg.classList.add("ok"); };
+      vImg.src = base + f.arquivo + ".webp";
+      vImg.alt = f.descricao;
+      vImg.width = f.largura; vImg.height = f.altura;
+      vLeg.innerHTML = esc(f.descricao) + '<span class="visor-num">' + (atual + 1) + " de " + fotos.length + "</span>";
+      precarrega(atual + 1); precarrega(atual - 1);
+    };
+    album.addEventListener("click", function (e) {
+      var b = e.target.closest(".foto-bt"); if (!b) return;
+      origem = b;
+      mostra(+b.getAttribute("data-i"));
+      visor.showModal();
+      document.documentElement.classList.add("visor-aberto");
+    });
+    $("#visorFechar").addEventListener("click", function () { visor.close(); });
+    $("#visorAnt").addEventListener("click", function () { mostra(atual - 1); });
+    $("#visorProx").addEventListener("click", function () { mostra(atual + 1); });
+    visor.addEventListener("close", function () {
+      document.documentElement.classList.remove("visor-aberto");
+      if (origem) origem.focus({ preventScroll: true });
+    });
+    visor.addEventListener("click", function (e) { if (e.target === visor) visor.close(); });
+    visor.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { e.preventDefault(); mostra(atual + 1); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); mostra(atual - 1); }
+    });
+    var x0 = null;
+    visor.addEventListener("pointerdown", function (e) { x0 = e.clientX; });
+    visor.addEventListener("pointerup", function (e) {
+      if (x0 === null) return;
+      var dx = e.clientX - x0; x0 = null;
+      if (Math.abs(dx) > 50) mostra(atual + (dx < 0 ? 1 : -1));
+    });
+  })();
+
   /* ---------- perguntas ---------- */
   (function () {
     var box = $("#perguntas"); if (!box) return;
@@ -453,6 +549,6 @@
         links.forEach(function (a) { a.classList.toggle("on", a.getAttribute("href") === "#" + en.target.id); });
       });
     }, { rootMargin: "-45% 0px -50% 0px" });
-    ["coral", "programacao", "lugares", "sobre"].forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
+    ["coral", "programacao", "lugares", "galeria", "sobre"].forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
   })();
 })();
