@@ -458,3 +458,11 @@ html.magia .logo-brilho{animation:glint 7.5s ease-in-out 3.4s infinite}
   .bt-neve{padding:12px;right:14px;bottom:14px}
   .bt-neve span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 }
+
+/* frente de postal sem ilustração: cartão com o selo */
+.frente-selo{aspect-ratio:1000/700;margin:1.6%;border-radius:4px;background:#FBF3E6 url(../img/papel.webp) center/cover;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3cqw;
+  outline:1.5px dashed rgba(169,87,42,.5);outline-offset:-3.2cqw;box-shadow:0 26px 34px -10px rgba(3,4,26,.6)}
+.frente-selo img{width:34cqw;height:auto;mix-blend-mode:multiply}
+.frente-selo span{font-family:var(--mao);font-size:clamp(16px,5cqw,28px);color:#8A3A1F;line-height:1}
+.frente-selo img{filter:none}

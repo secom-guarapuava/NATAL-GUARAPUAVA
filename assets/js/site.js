@@ -277,7 +277,7 @@
       var qtd = ocorrencias.filter(function (o) { return o.ev.local === l.id; }).length;
       var frente = l.postal
         ? '<img src="' + esc(l.postal) + '" alt="Postal ilustrado: ' + esc(l.nome) + ' ao entardecer" loading="lazy">'
-        : '<img src="assets/img/selo.webp" alt="" loading="lazy" style="background:#FBF3E6;padding:12%;border-radius:4px">';
+        : '<div class="frente-selo"><img src="assets/img/selo.webp" alt="" loading="lazy"><span>Lembrança de Guarapuava</span></div>';
       h += '<div class="postal" style="--i:' + i + ";--dx:" + (i % 2 ? 60 : -60) + '">' +
         '<div class="postal-in">' +
         '<div class="face frente">' + frente +

@@ -42,7 +42,7 @@ window.NATAL = {
   ],
 
   /* Lugares — cada um vira um postal na seção "Onde a magia acontece".
-     "postal": imagem da frente (deixe "" para usar o selo no lugar).
+     "postal": imagem da frente (deixe "" para usar o cartão com o selo).
      "recado": frase escrita à mão no verso do postal.               */
   locais: [
     {
@@ -51,15 +51,15 @@ window.NATAL = {
       endereco: "Guarapuava – PR",
       mapa: "https://www.google.com/maps/search/?api=1&query=Parque+do+Lago+Guarapuava+PR",
       postal: "assets/img/postal-parque-lago.webp",
-      recado: "Os presentes boiando no lago só aparecem direito quando o céu fica cor-de-rosa. Chegue um pouco antes de escurecer."
+      recado: "Atravesse a ponte devagar. O reflexo das luzes na água é a parte que todo mundo fotografa."
     },
     {
       id: "lagoa-das-lagrimas",
       nome: "Lagoa das Lágrimas",
       endereco: "Guarapuava – PR",
       mapa: "https://www.google.com/maps/search/?api=1&query=Lagoa+das+L%C3%A1grimas+Guarapuava+PR",
-      postal: "assets/img/postal-ponte-madeira.webp",
-      recado: "Atravesse a ponte devagar. O reflexo das luzes na água é a parte que todo mundo fotografa."
+      postal: "assets/img/postal-lagoa.webp",
+      recado: "Os presentes boiando na lagoa só aparecem direito quando o céu fica cor-de-rosa. Chegue um pouco antes de escurecer."
     },
     {
       id: "praca-nove-de-dezembro",
@@ -74,7 +74,7 @@ window.NATAL = {
       nome: "Ruas do Centro",
       endereco: "Trajeto da Parada de Natal",
       mapa: "https://www.google.com/maps/search/?api=1&query=Centro+Guarapuava+PR",
-      postal: "assets/img/postal-ponte-cidade.webp",
+      postal: "",
       recado: "Na noite da Parada, as calçadas viram arquibancada. Leve as crianças nos ombros."
     }
   ],
@@ -118,7 +118,7 @@ window.NATAL = {
       titulo: "Luzes da Lagoa",
       data: "2026-12-08", inicio: "20:00", fim: "21:30",
       local: "lagoa-das-lagrimas", categoria: "luzes", gratuito: true,
-      descricao: "A ponte e o contorno da lagoa acendem de uma vez. Depois disso, a água nunca mais fica escura até janeiro."
+      descricao: "A árvore, os presentes e o contorno da lagoa acendem de uma vez. Depois disso, a água nunca mais fica escura até janeiro."
     },
     {
       titulo: "Oficina de cartinhas e enfeites",
