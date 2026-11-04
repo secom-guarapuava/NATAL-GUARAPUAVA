@@ -4,15 +4,18 @@
    Este é o ÚNICO arquivo que precisa ser editado para atualizar o site.
    Datas no formato AAAA-MM-DD. Horários no formato HH:MM (24h).
 
-   ATENÇÃO: a programação abaixo é DE EXEMPLO. Troque pelos eventos oficiais
-   e mude "programacaoProvisoria" para false quando a agenda estiver fechada.
+   Sem horário definido? Deixe "inicio" de fora: o site mostra "Horário a confirmar".
+   Mude "programacaoProvisoria" para false quando a agenda estiver fechada.
    ========================================================================== */
 
 window.NATAL = {
 
   config: {
-    // Mostra o aviso "programação em fechamento" acima da agenda
+    // Mostra o aviso "programação em atualização" acima da agenda
     programacaoProvisoria: true,
+
+    // Texto do período no topo. Deixe "" para calcular pela primeira e última data.
+    periodoTexto: "a partir de 24 de novembro",
 
     // Noite de Natal (usada na contagem regressiva "faltam X noites")
     noiteDeNatal: "2026-12-24",
@@ -38,12 +41,15 @@ window.NATAL = {
     { id: "criancas", nome: "Para as crianças", cor: "#B8141B" },
     { id: "feira",    nome: "Feiras e sabores", cor: "#1C5E2A" },
     { id: "desfile",  nome: "Desfile",          cor: "#2D3A8C" },
-    { id: "tradicao", nome: "Tradição",         cor: "#A9572A" }
+    { id: "tradicao", nome: "Tradição",         cor: "#A9572A" },
+    { id: "solene",   nome: "Sessão solene",    cor: "#5E4A1C" }
   ],
 
   /* Lugares — cada um vira um postal na seção "Onde a magia acontece".
      "postal": imagem da frente (deixe "" para usar o cartão com o selo).
-     "recado": frase escrita à mão no verso do postal.               */
+     "recado": frase escrita à mão no verso do postal.
+     Lugar sem "postal" não aparece na seção dos postais, só na agenda.
+     "rotuloMapa" troca o texto do botão do mapa (padrão: "Como chegar"). */
   locais: [
     {
       id: "parque-do-lago",
@@ -70,97 +76,63 @@ window.NATAL = {
       recado: "Olhe a árvore de baixo para cima, bem perto do tronco. A estrela parece mais longe do que é."
     },
     {
-      id: "centro",
-      nome: "Ruas do Centro",
-      endereco: "Trajeto da Parada de Natal",
-      mapa: "https://www.google.com/maps/search/?api=1&query=Centro+Guarapuava+PR",
-      postal: "",
-      recado: "Na noite da Parada, as calçadas viram arquibancada. Leve as crianças nos ombros."
+      id: "camara-municipal",
+      nome: "Câmara Municipal de Guarapuava",
+      endereco: "Guarapuava – PR",
+      mapa: "https://www.google.com/maps/search/?api=1&query=C%C3%A2mara+Municipal+de+Guarapuava",
+      postal: ""
+    },
+    {
+      id: "trajeto-desfile",
+      nome: "Trajeto do desfile",
+      endereco: "Rota no mapa",
+      mapa: "https://www.google.com/maps/d/u/0/viewer?mid=12NOD_B-BhGqBQOb0NeBag1YGkXdenOE&ll=-25.397890700000012%2C-51.49676490000001&z=14",
+      rotuloMapa: "Ver o trajeto",
+      postal: ""
     }
   ],
 
   /* Programação.
      Um dia só:        data: "2026-12-05"
      Vários dias:      datas: ["2026-12-18", "2026-12-19", "2026-12-20"]
-     "fim" é opcional (sem ele, a agenda considera 2 horas de duração).  */
+     "fim" é opcional (sem ele, a agenda considera 2 horas de duração).
+     "roteiro" é opcional: lista de horários dentro do mesmo evento.     */
   eventos: [
     {
-      titulo: "Acendimento das luzes de Natal",
-      data: "2026-11-28", inicio: "19:30", fim: "21:00",
-      local: "parque-do-lago", categoria: "luzes", gratuito: true,
-      descricao: "A contagem regressiva começa ao entardecer. Quando a última luz acender, o Natal em Guarapuava está aberto."
+      titulo: "Desfile do Caminhão da Coca-Cola e Acendimento das Luzes de Natal",
+      data: "2026-11-24",
+      local: "trajeto-desfile", categoria: "desfile",
+      descricao: "Desfile do caminhão pelas ruas e acendimento das luzes de Natal. O trajeto completo está no mapa."
+    },
+
+    // Câmara Municipal — Ofício 093; 096/2026 (inclusão solicitada na programação)
+    {
+      titulo: "Sessão Solene de entrega dos títulos de Cidadão Honorário e Cidadão Benemérito",
+      data: "2026-12-02",
+      local: "camara-municipal", categoria: "solene"
     },
     {
-      titulo: "Chegada do Papai Noel",
-      data: "2026-11-28", inicio: "20:00", fim: "22:00",
-      local: "parque-do-lago", categoria: "criancas", gratuito: true,
-      descricao: "Ele chega logo depois das luzes, para a primeira foto da temporada e as primeiras cartinhas."
+      titulo: "Sessão Solene e entrega de prêmios do evento “Jovens Sementes do Amanhã”",
+      data: "2026-12-03",
+      local: "camara-municipal", categoria: "solene"
     },
     {
-      titulo: "Cantata de abertura",
-      data: "2026-11-29", inicio: "19:00", fim: "20:30",
-      local: "praca-nove-de-dezembro", categoria: "musica", gratuito: true,
-      descricao: "Corais da cidade cantam juntos aos pés da árvore. Vale levar uma cadeira de praia."
+      titulo: "Sessão Solene em homenagem póstuma ao Padre Chagas – ALAC",
+      data: "2026-12-04",
+      local: "camara-municipal", categoria: "solene"
     },
+
     {
-      titulo: "Feira de Natal",
-      datas: ["2026-12-04", "2026-12-05", "2026-12-06"], inicio: "17:00", fim: "22:00",
-      local: "praca-nove-de-dezembro", categoria: "feira", gratuito: true,
-      descricao: "Artesanato, presentes feitos à mão, doces de Natal e comida para comer andando entre as barracas."
-    },
-    {
-      titulo: "Parada de Natal",
-      data: "2026-12-05", inicio: "20:00", fim: "22:00",
-      local: "centro", categoria: "desfile", gratuito: true,
-      descricao: "Carros iluminados, personagens e música pelas ruas do Centro. O Papai Noel fecha o cortejo."
-    },
-    {
-      titulo: "Luzes da Lagoa",
-      data: "2026-12-08", inicio: "20:00", fim: "21:30",
-      local: "lagoa-das-lagrimas", categoria: "luzes", gratuito: true,
-      descricao: "A árvore, os presentes e o contorno da lagoa acendem de uma vez. Depois disso, a água nunca mais fica escura até janeiro."
-    },
-    {
-      titulo: "Oficina de cartinhas e enfeites",
-      data: "2026-12-12", inicio: "15:00", fim: "18:00",
-      local: "parque-do-lago", categoria: "criancas", gratuito: true,
-      descricao: "Papel, cola, glitter e uma caixa de correio só para cartas ao Papai Noel."
-    },
-    {
-      titulo: "Concerto de Natal ao ar livre",
-      data: "2026-12-12", inicio: "20:00", fim: "21:30",
-      local: "lagoa-das-lagrimas", categoria: "musica", gratuito: true,
-      descricao: "Clássicos de Natal com a lagoa acesa ao fundo."
-    },
-    {
-      titulo: "Cinema de Natal no parque",
-      data: "2026-12-13", inicio: "19:30", fim: "21:30",
-      local: "parque-do-lago", categoria: "criancas", gratuito: true,
-      descricao: "Telão no gramado e filme de Natal para a família. Traga a sua canga."
-    },
-    {
-      titulo: "Casa do Papai Noel",
-      datas: ["2026-12-18", "2026-12-19", "2026-12-20"], inicio: "18:00", fim: "21:00",
-      local: "parque-do-lago", categoria: "criancas", gratuito: true,
-      descricao: "Ele recebe as crianças, lê as cartinhas em voz alta e tira foto com quem pedir."
-    },
-    {
-      titulo: "Presépio vivo",
-      data: "2026-12-19", inicio: "20:00", fim: "21:00",
-      local: "praca-nove-de-dezembro", categoria: "tradicao", gratuito: true,
-      descricao: "A história do primeiro Natal contada na praça, com atores da cidade."
-    },
-    {
-      titulo: "Feira de Natal: última edição",
-      data: "2026-12-22", inicio: "17:00", fim: "22:00",
-      local: "praca-nove-de-dezembro", categoria: "feira", gratuito: true,
-      descricao: "A última chance para o presente de última hora."
-    },
-    {
-      titulo: "Noite de Natal na praça",
-      data: "2026-12-24", inicio: "19:00", fim: "21:00",
-      local: "praca-nove-de-dezembro", categoria: "tradicao", gratuito: true,
-      descricao: "Música baixa, árvore acesa e a cidade se cumprimentando antes da ceia."
+      titulo: "Coral dos Anjos",
+      data: "2026-12-09", inicio: "11:00", fim: "23:30",
+      local: "parque-do-lago", categoria: "musica",
+      descricao: "Programação o dia todo no Parque do Lago. O Coral dos Anjos se apresenta às 20h.",
+      roteiro: [
+        { hora: "11h às 12h30", texto: "Apresentação musical; comidas e brincadeiras; atividades de esporte e educação estilo carreta SESI (a confirmar)" },
+        { hora: "13h às 14h30, 15h às 16h30 e 17h às 18h30", texto: "Apresentações de bandas de rock locais" },
+        { hora: "20h", texto: "Coral dos Anjos" },
+        { hora: "22h às 23h30", texto: "Banda local / rock" }
+      ]
     }
   ],
 

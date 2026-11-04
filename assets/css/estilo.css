@@ -466,3 +466,13 @@ html.magia .logo-brilho{animation:glint 7.5s ease-in-out 3.4s infinite}
 .frente-selo img{width:34cqw;height:auto;mix-blend-mode:multiply}
 .frente-selo span{font-family:var(--mao);font-size:clamp(16px,5cqw,28px);color:#8A3A1F;line-height:1}
 .frente-selo img{filter:none}
+
+/* roteiro de horários dentro de um evento */
+.roteiro{list-style:none;margin:14px 0 0;padding:2px 0 2px 18px;display:grid;gap:10px;font-size:15.5px;line-height:1.45;color:var(--tinta-2);
+  border-left:2px dashed color-mix(in srgb,var(--c) 45%,transparent)}
+.roteiro li{position:relative}
+.roteiro li::before{content:"";position:absolute;left:-24px;top:.42em;width:10px;height:10px;border-radius:50%;background:var(--c);
+  box-shadow:0 0 0 3px var(--papel-claro)}
+.roteiro b{display:block;color:var(--tinta);font-size:14.5px}
+.pm{grid-row:span 6}
+@media (min-width:1100px){.ev-acoes{grid-row:1/span 6}}

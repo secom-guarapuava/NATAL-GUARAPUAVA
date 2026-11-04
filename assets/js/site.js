@@ -47,7 +47,7 @@
     var p = h.split(":"); return (+p[0]) + "h" + (p[1] && p[1] !== "00" ? p[1] : "");
   }
   function horario(ev) {
-    if (!ev.inicio) return "";
+    if (!ev.inicio) return "Horário a confirmar";
     return ev.fim ? hora(ev.inicio) + " às " + hora(ev.fim) : "a partir das " + hora(ev.inicio);
   }
 
@@ -70,7 +70,9 @@
 
   /* ---------- período no hero ---------- */
   (function () {
-    var el = $("#periodo"); if (!el || !ocorrencias.length) return;
+    var el = $("#periodo"); if (!el) return;
+    if (C.periodoTexto) { el.textContent = C.periodoTexto; return; }
+    if (!ocorrencias.length) return;
     var ini = partes(ocorrencias[0].data), fim = partes(ocorrencias[ocorrencias.length - 1].data);
     el.textContent = ini.m === fim.m
       ? "de " + ini.d + " a " + fim.d + " de " + MESES[fim.m]
@@ -120,6 +122,8 @@
   function linkAgenda(o) {
     var ev = o.ev, l = locais[ev.local] || {};
     var d = o.data.replace(/-/g, "");
+    var datas;
+    if (!ev.inicio) { datas = d + "/" + somaDias(o.data, 1).replace(/-/g, ""); }
     var ini = (ev.inicio || "19:00").replace(":", "") + "00";
     var fimH = ev.fim;
     if (!fimH) { var h = +(ev.inicio || "19:00").split(":")[0] + 2; fimH = pad(Math.min(h, 23)) + ":" + (ev.inicio || "19:00").split(":")[1]; }
@@ -127,7 +131,7 @@
     var q = [
       "action=TEMPLATE",
       "text=" + encodeURIComponent(ev.titulo + " | Natal em Guarapuava"),
-      "dates=" + d + "T" + ini + "/" + d + "T" + fim,
+      "dates=" + (datas || (d + "T" + ini + "/" + d + "T" + fim)),
       "ctz=" + encodeURIComponent(FUSO),
       "details=" + encodeURIComponent((ev.descricao || "") + "\n\nProgramação completa: " + urlSite()),
       "location=" + encodeURIComponent((l.nome || "") + (l.endereco ? ", " + l.endereco : ""))
@@ -224,11 +228,14 @@
           '<p class="ev-tipo">' + esc(c.nome) + (ev.gratuito ? ' <span class="gratis">Gratuito</span>' : "") + "</p>" +
           "<h4>" + esc(ev.titulo) + "</h4>" +
           '<p class="ev-quando">' +
-          (ev.inicio ? '<span><svg aria-hidden="true"><use href="#i-relogio"/></svg>' + esc(horario(ev)) + "</span>" : "") +
+          '<span><svg aria-hidden="true"><use href="#i-relogio"/></svg>' + esc(horario(ev)) + "</span>" +
           '<span><svg aria-hidden="true"><use href="#i-pino"/></svg>' + esc(l.nome) + "</span></p>" +
           (ev.descricao ? '<p class="ev-desc">' + esc(ev.descricao) + "</p>" : "") +
+          (ev.roteiro && ev.roteiro.length ? '<ul class="roteiro">' + ev.roteiro.map(function (r) {
+            return "<li><b>" + esc(r.hora) + "</b>" + esc(r.texto) + "</li>";
+          }).join("") + "</ul>" : "") +
           '<div class="ev-acoes">' +
-          (l.mapa ? '<a href="' + esc(l.mapa) + '" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pino"/></svg><span class="longo">Como chegar</span><span class="curto">Mapa</span></a>' : "") +
+          (l.mapa ? '<a href="' + esc(l.mapa) + '" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pino"/></svg><span class="longo">' + esc(l.rotuloMapa || "Como chegar") + '</span><span class="curto">Mapa</span></a>' : "") +
           (passou ? "" : '<a href="' + esc(linkAgenda(o)) + '" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-agenda"/></svg><span class="longo">Salvar na agenda</span><span class="curto">Agenda</span></a>') +
           '<a href="' + esc(linkWhats(o)) + '" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-enviar"/></svg><span class="longo">Enviar no WhatsApp</span><span class="curto">WhatsApp</span></a>' +
           "</div>" +
@@ -273,7 +280,7 @@
   (function () {
     var box = $("#postais"); if (!box) return;
     var h = "";
-    (D.locais || []).forEach(function (l, i) {
+    (D.locais || []).filter(function (l) { return !!l.postal; }).forEach(function (l, i) {
       var qtd = ocorrencias.filter(function (o) { return o.ev.local === l.id; }).length;
       var frente = l.postal
         ? '<img src="' + esc(l.postal) + '" alt="Postal ilustrado: ' + esc(l.nome) + ' ao entardecer" loading="lazy">'
@@ -293,7 +300,7 @@
         (l.endereco ? '<p class="end">' + esc(l.endereco) + "</p>" : "") +
         '<div class="verso-acoes">' +
         (qtd ? '<button type="button" data-local="' + esc(l.id) + '"><svg aria-hidden="true"><use href="#i-agenda"/></svg>Ver ' + (qtd === 1 ? "a atração" : "as " + qtd + " atrações") + "</button>" : "") +
-        (l.mapa ? '<a href="' + esc(l.mapa) + '" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pino"/></svg>Como chegar</a>' : "") +
+        (l.mapa ? '<a href="' + esc(l.mapa) + '" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pino"/></svg>' + esc(l.rotuloMapa || "Como chegar") + "</a>" : "") +
         "</div></div>" +
         '<button type="button" class="voltar" aria-label="Desvirar o postal"><svg aria-hidden="true"><use href="#i-virar"/></svg></button>' +
         "</div></div>" +
