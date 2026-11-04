@@ -34,6 +34,19 @@ window.NATAL = {
     apoiadores: []
   },
 
+  /* Atração em destaque — ganha uma seção própria logo abaixo do topo.
+     "evento" é o id do evento na lista "eventos". Deixe destaque: null para esconder. */
+  destaque: {
+    evento: "coral-dos-anjos",
+    chamada: "9 de dezembro, no Parque do Lago",
+    texto: "Um dos momentos mais esperados do Natal em Guarapuava: crianças vestidas de anjo, com asas de luz e velas nas mãos, cantando à beira do lago.",
+    // horário do momento principal (usado em "Salvar na agenda" desta seção)
+    inicio: "20:00", fim: "22:00",
+    rotuloHorario: "Coral às 20h",
+    imagem: "assets/img/coral-postal.webp",
+    luzes: "assets/img/coral-luzes.webp"
+  },
+
   /* Tipos de atração — usados nos filtros e na cor de cada carimbo */
   categorias: [
     { id: "luzes",    nome: "Luzes",            cor: "#C9862B" },
@@ -123,6 +136,7 @@ window.NATAL = {
     },
 
     {
+      id: "coral-dos-anjos", destaque: true,
       titulo: "Coral dos Anjos",
       data: "2026-12-09", inicio: "11:00", fim: "23:30",
       local: "parque-do-lago", categoria: "musica",

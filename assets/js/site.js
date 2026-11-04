@@ -223,9 +223,9 @@
         var ev = o.ev, c = cats[ev.categoria] || { nome: "", cor: "#1F2350" }, l = locais[ev.local] || { nome: ev.local || "" };
         var passou = o.data < HOJE;
         var r = ((i * 37) % 17) - 10;
-        h += '<article class="evento' + (passou ? " passou" : "") + '" style="--c:' + esc(c.cor) + ";--i:" + Math.min(i, 12) + ";--r:" + r + 'deg">' +
+        h += '<article class="evento' + (passou ? " passou" : "") + (ev.destaque ? " destaque" : "") + '" style="--c:' + esc(c.cor) + ";--i:" + Math.min(i, 12) + ";--r:" + r + 'deg">' +
           carimbo(o.data, "pm") +
-          '<p class="ev-tipo">' + esc(c.nome) + (ev.gratuito ? ' <span class="gratis">Gratuito</span>' : "") + "</p>" +
+          '<p class="ev-tipo">' + esc(c.nome) + (ev.destaque ? ' <span class="selo-destaque"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-estrela"/></svg>Destaque</span>' : "") + (ev.gratuito ? ' <span class="gratis">Gratuito</span>' : "") + "</p>" +
           "<h4>" + esc(ev.titulo) + "</h4>" +
           '<p class="ev-quando">' +
           '<span><svg aria-hidden="true"><use href="#i-relogio"/></svg>' + esc(horario(ev)) + "</span>" +
@@ -275,6 +275,38 @@
   };
 
   atualiza();
+
+  /* ---------- atração em destaque ---------- */
+  (function () {
+    var dq = D.destaque, sec = $("#coral");
+    if (!sec) return;
+    var ev = dq && (D.eventos || []).filter(function (e) { return e.id === dq.evento; })[0];
+    if (!dq || !ev) { sec.hidden = true; var mc = $("#menuCoral"); if (mc) mc.hidden = true; return; }
+    sec.hidden = false;
+    var l = locais[ev.local] || {};
+    var data = ev.data || (ev.datas || [])[0];
+    var p = partes(data), sem = DIAS[diaSemana(data)];
+    $("#t-coral").textContent = ev.titulo;
+    $("#coralChamada").textContent = dq.chamada || "";
+    $("#coralTexto").textContent = dq.texto || ev.descricao || "";
+    if (dq.imagem) $("#coralImg").src = dq.imagem;
+    if (dq.luzes) $("#coralLuzes").src = dq.luzes;
+    var o = { ev: { titulo: ev.titulo, inicio: dq.inicio || ev.inicio, fim: dq.fim || ev.fim, local: ev.local, descricao: dq.texto || ev.descricao }, data: data };
+    $("#coralInfo").innerHTML =
+      '<li><svg aria-hidden="true"><use href="#i-agenda"/></svg>' + esc(sem.charAt(0).toUpperCase() + sem.slice(1, sem.indexOf("-") > 0 ? sem.indexOf("-") : sem.length)) + ", " + p.d + " de " + MESES[p.m] + "</li>" +
+      '<li><svg aria-hidden="true"><use href="#i-relogio"/></svg>' + esc(dq.rotuloHorario || horario(ev)) + "</li>" +
+      '<li><svg aria-hidden="true"><use href="#i-pino"/></svg>' + esc(l.nome || "") + "</li>" +
+      (ev.inicio ? '<li class="sub">Programação no local ' + esc(horario(ev).replace(/^(\d)/, "das $1")) + "</li>" : "");
+    $("#coralAcoes").innerHTML =
+      '<a class="bt bt-ouro" href="' + esc(linkAgenda(o)) + '" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-agenda"/></svg>Salvar na agenda</a>' +
+      '<button class="bt bt-tinta" type="button" id="coralDia">Ver a programação do dia</button>';
+    $("#coralDia").addEventListener("click", function () {
+      estado.data = data; estado.cat = "todas"; estado.local = null;
+      if (data < HOJE) { estado.passadas = true; var cb2 = $("#passadas"); if (cb2) cb2.checked = true; }
+      atualiza();
+      var alvo = $("#programacao"); if (alvo) alvo.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  })();
 
   /* ---------- postais ---------- */
   (function () {
@@ -370,6 +402,6 @@
         links.forEach(function (a) { a.classList.toggle("on", a.getAttribute("href") === "#" + en.target.id); });
       });
     }, { rootMargin: "-45% 0px -50% 0px" });
-    ["programacao", "lugares", "sobre"].forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
+    ["coral", "programacao", "lugares", "sobre"].forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
   })();
 })();

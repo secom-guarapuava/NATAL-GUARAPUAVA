@@ -476,3 +476,51 @@ html.magia .logo-brilho{animation:glint 7.5s ease-in-out 3.4s infinite}
 .roteiro b{display:block;color:var(--tinta);font-size:14.5px}
 .pm{grid-row:span 6}
 @media (min-width:1100px){.ev-acoes{grid-row:1/span 6}}
+
+/* ---------- DESTAQUE: CORAL DOS ANJOS ---------- */
+.coral{padding:clamp(70px,8vw,110px) 0 clamp(20px,3vw,40px)}
+.coral-in{display:grid;grid-template-columns:1.12fr .88fr;gap:clamp(34px,5vw,76px);align-items:center}
+.coral-arte{margin:0}
+.coral-card{position:relative;display:block;width:100%;aspect-ratio:1300/914;border:0;padding:0;margin:0;background:none;cursor:pointer;
+  transform:rotate(-2deg);filter:drop-shadow(0 30px 38px rgba(31,35,80,.42));border-radius:10px}
+.coral-card img{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;user-select:none}
+.c-veu{position:absolute;left:2.4%;top:3.2%;width:95%;height:93.4%;border-radius:8px;background:#1A1450;mix-blend-mode:multiply;
+  opacity:.5;transition:opacity 2.6s ease .4s;pointer-events:none}
+.coral.acesa .c-veu{opacity:0}
+.c-luzes{mix-blend-mode:screen;opacity:.95;
+  -webkit-mask-image:linear-gradient(to right,#000 0,#000 33%,transparent 47%,transparent 100%);mask-image:linear-gradient(to right,#000 0,#000 33%,transparent 47%,transparent 100%);
+  -webkit-mask-size:300% 100%;mask-size:300% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:100% 0;mask-position:100% 0}
+.coral.acesa .c-luzes{-webkit-mask-position:0 0;mask-position:0 0;
+  transition:-webkit-mask-position 2.8s cubic-bezier(.5,.05,.35,1) .3s,mask-position 2.8s cubic-bezier(.5,.05,.35,1) .3s}
+.c-pisca{position:absolute;left:1.5723%;top:2.2371%;width:96.698%;height:95.302%;mix-blend-mode:screen;pointer-events:none;overflow:visible}
+.c-pisca .tw{opacity:0;transform-box:fill-box;transform-origin:center}
+.coral.viva .c-pisca .tw{animation:twc var(--d,2.6s) ease-in-out var(--dl,0s) infinite}
+@keyframes twc{0%,100%{opacity:0;transform:scale(.4) rotate(0)}50%{opacity:1;transform:scale(1.15) rotate(40deg)}}
+.c-pisca .fl{opacity:.6;transform-box:fill-box;transform-origin:50% 70%}
+.coral.viva .c-pisca .fl{animation:chamaViva var(--d,1.2s) ease-in-out var(--dl,0s) infinite alternate}
+@keyframes chamaViva{0%{opacity:.45;transform:scale(.88,.95)}60%{opacity:.95;transform:scale(1.08,1.12)}100%{opacity:.7;transform:scale(.96,1.04)}}
+.coral-chamada{font-family:var(--mao);font-size:clamp(1.3rem,2.4vw,1.6rem);color:#8A3A1F;line-height:1.3}
+.coral-texto h2{font-family:var(--serifa);font-size:clamp(2.7rem,6.4vw,4.6rem);line-height:1;letter-spacing:-.015em;margin:8px 0 16px;color:var(--tinta)}
+.coral-desc{font-size:clamp(1.05rem,1.6vw,1.16rem);color:var(--tinta-2);max-width:44ch;text-wrap:pretty}
+.coral-info{list-style:none;padding:0;margin:20px 0 0;display:flex;flex-wrap:wrap;gap:10px 22px;font-weight:700;color:var(--tinta)}
+.coral-info li{display:inline-flex;align-items:center;gap:8px}
+.coral-info svg{width:20px;height:20px;color:var(--vermelho)}
+.coral-info .sub{flex-basis:100%;font-weight:400;color:var(--tinta-2);font-size:.98rem}
+.coral .acoes{margin-top:26px}
+.bt-tinta{color:var(--tinta);border-color:rgba(31,35,80,.35);background:rgba(255,255,255,.4)}
+.bt-tinta:hover{background:rgba(255,255,255,.75)}
+.bt svg{width:18px;height:18px;flex-shrink:0}
+@media (max-width:900px){
+  .coral-in{grid-template-columns:1fr}
+  .coral-texto{text-align:left}
+}
+html.magia .coral-card{opacity:0}
+.coral.chegou .coral-card{animation:chegaCoral 1.2s cubic-bezier(.2,.75,.2,1) both}
+@keyframes chegaCoral{from{opacity:0;transform:translateY(60px) rotate(5deg) scale(.94)}to{opacity:1;transform:rotate(-2deg)}}
+
+/* card do evento em destaque */
+.evento.destaque{box-shadow:0 0 0 2px #E8B04E,0 0 30px -6px rgba(232,176,78,.7),0 16px 30px -20px rgba(31,35,80,.5)}
+.selo-destaque{display:inline-flex;align-items:center;gap:6px;margin-left:6px;font-size:12.5px;font-weight:700;color:#5A3A08;
+  background:linear-gradient(180deg,#FFE7AE,#E8B04E);padding:2px 9px 2px 7px;border-radius:999px;vertical-align:2px}
+.selo-destaque svg{width:12px;height:12px;fill:currentColor}
+@media (prefers-reduced-motion:reduce){html.magia .coral-card{opacity:1}}

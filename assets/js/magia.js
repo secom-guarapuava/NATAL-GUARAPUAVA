@@ -358,6 +358,45 @@
     });
   }, { threshold: 0.12 });
 
+  /* ---------- CORAL DOS ANJOS: o postal acende e as asas piscam ---------- */
+  var coral = $("#coral"), coralPisca = $("#coralPisca"), coralCard = $("#coralCard");
+  var CORAL_LEDS = [[208,790],[502,904],[1298,772],[342,644],[921,888],[73,916],[406,681],[1079,636],[754,683],[689,797],[950,906],[62,900],[676,852],[1320,856],[761,624],[1350,882],[180,659],[1392,635],[709,850],[206,905],[1202,638],[637,893],[1067,629],[548,681],[962,625],[852,891],[825,649],[846,683],[236,667],[219,642],[1363,667],[1040,653],[1043,668],[268,802],[456,771],[1282,635],[1319,837],[1255,659],[1294,642],[679,888],[280,856],[305,642],[520,906],[734,904]];
+  var CORAL_CHAMAS = [[155,871],[370,863],[585,859],[800,857],[1015,859],[1230,863],[1445,871]];
+  if (coralPisca) {
+    var ns = "http://www.w3.org/2000/svg", partesSvg = '<defs><radialGradient id="cgTw"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".35" stop-color="#FFE9B0"/><stop offset="1" stop-color="#FFC060" stop-opacity="0"/></radialGradient>' +
+      '<radialGradient id="cgFl"><stop offset="0" stop-color="#FFF6D8"/><stop offset=".4" stop-color="#FFC86A" stop-opacity=".8"/><stop offset="1" stop-color="#FF9A2E" stop-opacity="0"/></radialGradient></defs>';
+    CORAL_LEDS.forEach(function (pt) {
+      var d = r(2.2, 4.6).toFixed(2), dl = r(0, 5).toFixed(2), s = r(9, 15);
+      partesSvg += '<g class="tw" style="--d:' + d + 's;--dl:' + dl + 's"><circle cx="' + pt[0] + '" cy="' + pt[1] + '" r="' + (s * 1.3).toFixed(1) + '" fill="url(#cgTw)"/>' +
+        '<path d="M' + pt[0] + ' ' + (pt[1] - s) + 'Q' + (pt[0] + 1.5) + ' ' + (pt[1] - 1.5) + ' ' + (pt[0] + s) + ' ' + pt[1] + 'Q' + (pt[0] + 1.5) + ' ' + (pt[1] + 1.5) + ' ' + pt[0] + ' ' + (pt[1] + s) +
+        'Q' + (pt[0] - 1.5) + ' ' + (pt[1] + 1.5) + ' ' + (pt[0] - s) + ' ' + pt[1] + 'Q' + (pt[0] - 1.5) + ' ' + (pt[1] - 1.5) + ' ' + pt[0] + ' ' + (pt[1] - s) + 'Z" fill="#FFFDF2"/></g>';
+    });
+    CORAL_CHAMAS.forEach(function (pt) {
+      partesSvg += '<ellipse class="fl" style="--d:' + r(0.8, 1.5).toFixed(2) + 's;--dl:' + r(0, 1).toFixed(2) + 's" cx="' + pt[0] + '" cy="' + (pt[1] - 6) + '" rx="26" ry="38" fill="url(#cgFl)"/>';
+    });
+    coralPisca.innerHTML = partesSvg;
+  }
+  function brilhoCoral(n) {
+    if (!coralCard) return;
+    var b = coralCard.getBoundingClientRect();
+    for (var i = 0; i < 6; i++) {
+      var pt = CORAL_LEDS[Math.floor(Math.random() * CORAL_LEDS.length)];
+      burst(b.left + pt[0] / 1600 * b.width, b.top + pt[1] / 1108 * b.height, Math.round((n || 40) / 6), { vmin: 0.6, vmax: 3, g: 0.03, tmax: 10 });
+    }
+  }
+  if (coral) {
+    quandoVisivel(coral, function () {
+      if (reduz) { coral.classList.add("chegou", "acesa", "viva"); return; }
+      coral.classList.add("chegou");
+      setTimeout(function () { coral.classList.add("acesa"); }, 700);
+      setTimeout(function () { coral.classList.add("viva"); brilhoCoral(48); }, 3600);
+    }, { threshold: 0.3 });
+    if (coralCard && !reduz) coralCard.addEventListener("click", function (e) {
+      burst(e.clientX, e.clientY, 18, { vmax: 4 });
+      brilhoCoral(36);
+    });
+  }
+
   var carta = $("#carta");
   quandoVisivel(carta, function () {
     carta.classList.add("carimbou");
