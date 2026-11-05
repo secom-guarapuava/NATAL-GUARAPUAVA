@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 2721.3 2579.5"><path fill="#724729" d="M 1609.1 769.4 C 1692.8 860.2 1742 984.7 1732.4 1119 C 1731.8 1128.1 1730 1137.1 1727.4 1145.8 L 1410.8 2232.8 C 1372.5 2364.6 1185.7 2364.6 1147.3 2232.8 C 1041.9 1870.4 936.3 1508.2 830.8 1145.8 C 828.3 1137.1 826.4 1128.1 825.8 1119 C 816.3 984.7 865.5 860.2 949.1 769.4 C 909.7 704.7 870.2 639.9 830.8 575.2 C 828.3 571 826.4 566.7 825.8 562.4 C 806.8 433.9 1022.6 324.5 1279.1 324.5 C 1535.7 324.5 1751.5 433.9 1732.4 562.4 C 1731.8 566.7 1730 571 1727.4 575.2 Z M 1609.1 769.4 "/><style>
+.lz{animation:pisca 2.6s ease-in-out infinite}
+.lz:nth-of-type(3n){animation-delay:-.9s}.lz:nth-of-type(3n+1){animation-delay:-1.7s}
+.hl{animation:halo 2.6s ease-in-out infinite;opacity:.35}
+.hl:nth-of-type(3n){animation-delay:-.9s}.hl:nth-of-type(3n+1){animation-delay:-1.7s}
+@keyframes pisca{0%,100%{opacity:1}50%{opacity:.55}}
+@keyframes halo{0%,100%{opacity:.4}50%{opacity:.12}}
+@media (prefers-reduced-motion:reduce){.lz,.hl{animation:none}}
+</style><g id="natal"><path d="M880 560 Q1062 -165 1960 330 Q1502 -176 1680 540 Z" fill="#C8323A"/><path d="M1280 550 Q1502 -176 1960 330 Q1622 -179 1680 540 Z" fill="#A3262A"/><rect x="815.9" y="461.6" width="928.3" height="176.9" rx="88.4" transform="rotate(-1.4 1280 550)" fill="#FFFFFF"/><circle cx="1960" cy="330" r="136" fill="#FFFFFF"/></g></svg> 
