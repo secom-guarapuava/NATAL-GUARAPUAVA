@@ -487,13 +487,17 @@
 
   /* ---------- faixas de selos postais ---------- */
   (function () {
-    var desenhos = ["s-araucaria", "s-anjo", "s-vela", "s-carta", "s-sino", "s-presente", "s-bola", "s-estrela"];
+    // desenhos da cidade (assets/img/selos) + o anjo do Coral
+    var desenhos = ["catedral", "anjo", "gralha-azul", "cachoeira", "casa", "pinhao", "postes", "beija-flor", "araucaria", "portal", "raposa", "floco", "estrutura"];
+    var desenho = function (d) {
+      return d === "anjo" ? '<svg aria-hidden="true"><use href="#s-anjo"/></svg>' : '<img src="assets/img/selos-natal/' + d + '.svg" alt="" loading="lazy" decoding="async">';
+    };
     var molduras = ["verde", "creme", "ouro"];
     var giros = [-4, 3, -2, 4, -3, 2];
     var um = "";
-    for (var i = 0; i < 24; i++) {
+    for (var i = 0; i < 26; i++) {
       var carimbado = i % 5 === 2;
-      um += '<span class="selo-faixa" style="--g:' + giros[i % giros.length] + 'deg"><span class="selinho m-' + molduras[i % 3] + '"><svg aria-hidden="true"><use href="#' + desenhos[i % desenhos.length] + '"/></svg><small>NATAL 2026</small></span>' +
+      um += '<span class="selo-faixa" style="--g:' + giros[i % giros.length] + 'deg"><span class="selinho m-' + molduras[i % 3] + '">' + desenho(desenhos[i % desenhos.length]) + '<small>NATAL 2026</small></span>' +
         (carimbado ? '<svg class="risco" viewBox="0 0 120 60" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3" filter="url(#tinta)"><path d="M0 14 q10 -7 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 M0 30 q10 -7 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 M0 46 q10 -7 20 0 t20 0 t20 0 t20 0 t20 0 t20 0"/></g></svg>' : "") +
         "</span>";
     }

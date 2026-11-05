@@ -808,3 +808,14 @@ html.visor-aberto{overflow:hidden}
 .foto{display:inline-block;width:100%;vertical-align:top}
 .carimbo-galeria{position:absolute;right:0;top:-10px;width:clamp(170px,22vw,260px);height:auto;color:#2F5D45;opacity:.75;transform:rotate(8deg);pointer-events:none}
 @media (max-width:760px){.carimbo-galeria{width:130px;top:-70px;right:-6px}}
+.selinho img{position:absolute;left:9px;top:9px;width:calc(100% - 18px);height:calc(100% - 30px);object-fit:contain;object-position:center}
+.selinho.m-creme img,.selinho.m-ouro img,.selinho.m-verde img{background:#FBF5E6}
+.logo-caixa{width:min(500px,100%)}
+@media (max-width:900px){.logo-caixa{width:min(400px,88%)}}
+/* ---------- logo oficial no rodapé: etiqueta de remetente ---------- */
+.rodape-in{grid-template-columns:auto 1fr auto}
+.remetente{position:relative;background:#F6EFD9 url(../img/papel.webp) center/cover;padding:14px 20px 16px;border-radius:3px;transform:rotate(-1.5deg);
+  box-shadow:0 12px 24px -12px rgba(0,0,0,.55);outline:1.5px dashed rgba(163,38,42,.45);outline-offset:-7px;max-width:380px}
+.remetente-rot{margin:0 0 8px;font-family:var(--mao);font-size:17px;line-height:1;color:#8A3A1F}
+.remetente img{width:100%;height:auto;display:block}
+@media (max-width:760px){.rodape-in{grid-template-columns:1fr}.remetente{max-width:320px}}
