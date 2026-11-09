@@ -15,7 +15,7 @@ window.NATAL = {
     programacaoProvisoria: true,
 
     // Texto do período no topo. Deixe "" para calcular pela primeira e última data.
-    periodoTexto: "a partir de 24 de novembro",
+    periodoTexto: "a partir de 15 de novembro",
 
     // Noite de Natal (usada na contagem regressiva "faltam X noites")
     noiteDeNatal: "2026-12-24",
@@ -39,23 +39,25 @@ window.NATAL = {
   destaque: {
     evento: "coral-dos-anjos",
     chamada: "9 de dezembro, no Parque do Lago",
-    texto: "Um dos momentos mais esperados do Natal em Guarapuava: crianças vestidas de anjo, com asas de luz e velas nas mãos, cantando à beira do lago.",
+    texto: "Um dos momentos mais esperados do Natal em Guarapuava: crianças vestidas de anjo, com asas de luz e velas nas mãos, cantando à beira do lago no aniversário da cidade.",
     // horário do momento principal (usado em "Salvar na agenda" desta seção)
     inicio: "20:00", fim: "22:00",
-    rotuloHorario: "Coral às 20h",
+    rotuloHorario: "Às 20h",
     imagem: "assets/img/coral-postal.webp",
     luzes: "assets/img/coral-luzes.webp"
   },
 
   /* Tipos de atração — usados nos filtros e na cor de cada carimbo */
   categorias: [
-    { id: "luzes",    nome: "Luzes",            cor: "#B07A1E" },
-    { id: "musica",   nome: "Música",           cor: "#A3262A" },
-    { id: "criancas", nome: "Para as crianças", cor: "#C2412F" },
-    { id: "feira",    nome: "Feiras e sabores", cor: "#1C5E2A" },
-    { id: "desfile",  nome: "Desfile",          cor: "#2F5D45" },
-    { id: "tradicao", nome: "Tradição",         cor: "#A9572A" },
-    { id: "solene",   nome: "Sessão solene",    cor: "#6B4A36" }
+    { id: "luzes",     nome: "Luzes",                  cor: "#B07A1E" },
+    { id: "criancas",  nome: "Papai Noel e crianças",  cor: "#C2412F" },
+    { id: "musica",    nome: "Música e apresentações", cor: "#A3262A" },
+    { id: "desfile",   nome: "Desfile",                cor: "#2F5D45" },
+    { id: "esporte",   nome: "Esporte",                cor: "#2C6A86" },
+    { id: "solene",    nome: "Cerimônias e homenagens", cor: "#6B4A36" },
+    { id: "reveillon", nome: "Réveillon",              cor: "#8A6A1C" },
+    { id: "feira",     nome: "Feiras e sabores",       cor: "#1C5E2A" },
+    { id: "tradicao",  nome: "Tradição",               cor: "#A9572A" }
   ],
 
   /* Lugares — cada um vira um postal na seção "Onde a magia acontece".
@@ -89,10 +91,29 @@ window.NATAL = {
       recado: "Olhe a árvore de baixo para cima, bem perto do tronco. A estrela parece mais longe do que é."
     },
     {
-      id: "camara-municipal",
-      nome: "Câmara Municipal de Guarapuava",
+      id: "casa-papai-noel",
+      nome: "Casa do Papai Noel",
+      endereco: "Centro de Artes, atrás do Carneiro Martins",
+      mapa: "https://www.google.com/maps/search/?api=1&query=Centro+de+Artes+Guarapuava+PR",
+      postal: ""
+    },
+    {
+      id: "praca-ucrania",
+      nome: "Praça Ucrânia",
       endereco: "Guarapuava – PR",
-      mapa: "https://www.google.com/maps/search/?api=1&query=C%C3%A2mara+Municipal+de+Guarapuava",
+      mapa: "https://www.google.com/maps/search/?api=1&query=Pra%C3%A7a+Ucr%C3%A2nia+Guarapuava+PR",
+      postal: ""
+    },
+    {
+      id: "local-a-confirmar",
+      nome: "Local a confirmar",
+      endereco: "",
+      postal: ""
+    },
+    {
+      id: "parques-e-pracas",
+      nome: "Pela cidade",
+      endereco: "Guarapuava – PR",
       postal: ""
     },
     {
@@ -108,45 +129,133 @@ window.NATAL = {
   /* Programação.
      Um dia só:        data: "2026-12-05"
      Vários dias:      datas: ["2026-12-18", "2026-12-19", "2026-12-20"]
+     Todos os dias de um período: de: "2026-12-01", ate: "2026-12-22"
+       (em "Todas as noites" o período aparece num cartão só, no primeiro dia que ainda não passou)
      "fim" é opcional (sem ele, a agenda considera 2 horas de duração).
-     "roteiro" é opcional: lista de horários dentro do mesmo evento.     */
+     "roteiro" é opcional: lista de horários dentro do mesmo evento.
+     "rotuloHorario" troca o texto do horário (ex.: "Ao anoitecer").     */
   eventos: [
     {
-      titulo: "Desfile do Caminhão da Coca-Cola e Acendimento das Luzes de Natal",
-      data: "2026-11-24",
+      titulo: "Luzes de Natal acesas",
+      data: "2026-11-15",
+      local: "parques-e-pracas", categoria: "luzes",
+      rotuloHorario: "Todas as noites",
+      descricao: "A partir de 15 de novembro, a decoração de Natal da cidade fica acesa todas as noites."
+    },
+    {
+      titulo: "Desfile do Caminhão da Coca-Cola",
+      data: "2026-11-24", inicio: "19:00",
       local: "trajeto-desfile", categoria: "desfile",
-      descricao: "Desfile do caminhão pelas ruas e acendimento das luzes de Natal. O trajeto completo está no mapa."
+      descricao: "Desfile do caminhão pelas ruas da cidade. O trajeto completo está no mapa."
     },
 
-    // Câmara Municipal — Ofício 093; 096/2026 (inclusão solicitada na programação)
+    // Casa do Papai Noel
     {
-      titulo: "Sessão Solene de entrega dos títulos de Cidadão Honorário e Cidadão Benemérito",
-      data: "2026-12-02",
-      local: "camara-municipal", categoria: "solene"
+      titulo: "Brinquedos na Praça 9 de Dezembro",
+      de: "2026-12-01", ate: "2026-12-23", inicio: "14:00", fim: "22:00",
+      local: "praca-nove-de-dezembro", categoria: "criancas",
+      descricao: "Brinquedos para a criançada na praça. A previsão é ter chapéu mexicano e aviões."
     },
     {
-      titulo: "Sessão Solene e entrega de prêmios do evento “Jovens Sementes do Amanhã”",
+      titulo: "Abertura da Casa do Papai Noel",
+      data: "2026-12-01", inicio: "19:00", fim: "23:00",
+      local: "casa-papai-noel", categoria: "criancas",
+      descricao: "Abertura da Casa, com a chegada prevista do Papai Noel. A rua em frente à Casa fica fechada durante o evento."
+    },
+    {
+      titulo: "Atendimento do Papai Noel",
+      de: "2026-12-01", ate: "2026-12-22", inicio: "19:00", fim: "23:00",
+      local: "casa-papai-noel", categoria: "criancas",
+      descricao: "O Papai Noel recebe as visitas na Casa do Papai Noel, no Centro de Artes, todas as noites."
+    },
+
+    // Câmara Municipal (sessões solenes)
+    {
+      titulo: "Sessão solene de entrega dos títulos de Cidadão Honorário e Cidadão Benemérito",
+      data: "2026-12-02", inicio: "19:00",
+      local: "local-a-confirmar", categoria: "solene",
+      descricao: "Sessão solene da Câmara Municipal de Guarapuava."
+    },
+    {
+      titulo: "Sessão solene de premiação do evento “Jovens Sementes do Amanhã”",
       data: "2026-12-03",
-      local: "camara-municipal", categoria: "solene"
+      local: "local-a-confirmar", categoria: "solene",
+      descricao: "Sessão solene da Câmara Municipal de Guarapuava."
     },
     {
-      titulo: "Sessão Solene em homenagem póstuma ao Padre Chagas – ALAC",
+      titulo: "Sessão solene em homenagem póstuma ao Padre Chagas (ALAC)",
       data: "2026-12-04",
-      local: "camara-municipal", categoria: "solene"
+      local: "local-a-confirmar", categoria: "solene",
+      descricao: "Sessão solene da Câmara Municipal de Guarapuava."
     },
 
+    {
+      titulo: "Corrida Circuito ACIG Jovem",
+      data: "2026-12-05", inicio: "18:00",
+      local: "casa-papai-noel", categoria: "esporte",
+      descricao: "Largada na Casa do Papai Noel, no Centro de Artes."
+    },
     {
       id: "coral-dos-anjos", destaque: true,
       titulo: "Coral dos Anjos",
-      data: "2026-12-09", inicio: "11:00", fim: "23:30",
+      data: "2026-12-09", inicio: "20:00",
       local: "parque-do-lago", categoria: "musica",
-      descricao: "Programação o dia todo no Parque do Lago. O Coral dos Anjos se apresenta às 20h.",
-      roteiro: [
-        { hora: "11h às 12h30", texto: "Apresentação musical; comidas e brincadeiras; atividades de esporte e educação estilo carreta SESI (a confirmar)" },
-        { hora: "13h às 14h30, 15h às 16h30 e 17h às 18h30", texto: "Apresentações de bandas de rock locais" },
-        { hora: "20h", texto: "Coral dos Anjos" },
-        { hora: "22h às 23h30", texto: "Banda local / rock" }
-      ]
+      descricao: "Apresentação do Coral dos Anjos em comemoração ao aniversário de Guarapuava."
+    },
+    {
+      titulo: "Prêmio Lobo Guará",
+      data: "2026-12-12",
+      local: "local-a-confirmar", categoria: "solene",
+      descricao: "Premiação da Secretaria de Inovação."
+    },
+    {
+      titulo: "Caminhão-palco do SESI e food trucks",
+      de: "2026-12-17", ate: "2026-12-22", inicio: "18:00", fim: "23:00",
+      local: "lagoa-das-lagrimas", categoria: "musica",
+      descricao: "Apresentações culturais no caminhão-palco e food trucks à beira da lagoa. A programação das apresentações será divulgada em breve."
+    },
+    {
+      titulo: "Futevôlei",
+      data: "2026-12-19",
+      local: "praca-ucrania", categoria: "esporte",
+      descricao: "Futevôlei na Praça Ucrânia. Horário e programação a confirmar."
+    },
+    {
+      titulo: "Réveillon no Parque do Lago",
+      data: "2026-12-31",
+      local: "parque-do-lago", categoria: "reveillon",
+      descricao: "A virada do ano no Parque do Lago. A programação será divulgada em breve."
+    }
+  ],
+
+  /* Atividades ainda sem data — aparecem em "Também vem aí", abaixo da agenda.
+     Quando a data for confirmada, mova o item para a lista "eventos". */
+  semData: [
+    { titulo: "Traslado das cinzas do Padre Chagas", texto: "Da Praça 9 de Dezembro até a Catedral, com missa. Data e horário a confirmar." },
+    { titulo: "Programação de Natal do Teatro Municipal", texto: "Atrações e datas das apresentações a confirmar." }
+  ],
+
+  /* Novidades — aparecem em "Novidades", a mais recente primeiro.
+     Para dar uma notícia nova, acrescente um item no topo da lista.
+     "link" e "rotuloLink" são opcionais (ex.: "#programacao", "#coral"). */
+  novidades: [
+    {
+      data: "2026-11-09",
+      titulo: "Luzes de Natal acesas a partir do dia 15",
+      texto: "A partir de domingo, 15 de novembro, a decoração de Natal da cidade fica acesa todas as noites.",
+      link: "#programacao", rotuloLink: "Ver na programação"
+    },
+    {
+      data: "2026-11-09",
+      titulo: "A Casa do Papai Noel abre no dia 1º de dezembro",
+      texto: "Na abertura, às 19h, chega o Papai Noel. Depois, ele atende todas as noites até 22 de dezembro, das 19h às 23h, no Centro de Artes.",
+      link: "#programacao", rotuloLink: "Ver na programação"
+    },
+    {
+      data: "2026-11-09",
+      titulo: "Coral dos Anjos no aniversário da cidade",
+      texto: "Dia 9 de dezembro, às 20h, no Parque do Lago.",
+      link: "#coral", rotuloLink: "Ver o destaque"
     }
   ],
 

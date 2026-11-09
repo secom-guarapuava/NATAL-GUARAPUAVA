@@ -149,6 +149,7 @@
       <span><b>Natal em Guarapuava</b><small>Prefeitura de Guarapuava</small></span>
     </a>
     <nav class="menu" aria-label="Seções">
+      <a href="#novidades" id="menuNovidades">Novidades</a>
       <a href="#coral" id="menuCoral">Coral</a>
       <a href="#programacao">Programação</a>
       <a href="#lugares">Lugares</a>
@@ -216,6 +217,17 @@
   </div>
   <div class="faixa-natal" aria-hidden="true"><div class="faixa-trilho" data-faixa></div></div>
 
+  <!-- ================= NOVIDADES ================= -->
+  <section class="novidades papel" id="novidades" aria-labelledby="t-nov" hidden>
+    <div class="env">
+      <header class="cabec cabec-nov">
+        <p class="nov-sobre">Caixa de correio</p>
+        <h2 id="t-nov">Novidades</h2>
+        <p>Atração nova, mudança de horário ou de lugar: aparece aqui primeiro.</p>
+      </header>
+      <div class="nov-lista" id="novidadesLista"></div>
+    </div>
+  </section>
 
   <!-- ================= DESTAQUE: CORAL DOS ANJOS ================= -->
   <section class="coral papel" id="coral" aria-labelledby="t-coral" hidden>
@@ -270,6 +282,7 @@
       </div>
 
       <div class="agenda" id="agenda" aria-live="polite"></div>
+      <aside class="sem-data" id="semData" hidden></aside>
     </div>
 
     <svg class="borda borda-baixo borda-noite" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true"><use href="#borda-forma"/></svg>
@@ -331,8 +344,8 @@
         <span class="selo-deco fig-d" aria-hidden="true"><span class="selinho m-creme"><img src="assets/img/selos-natal/catedral.svg" alt=""><small>NATAL 2026</small></span></span>
         <h2 id="t-sobre">O Natal da cidade</h2>
         <p class="saudacao">Para quem mora aqui e para quem vem visitar,</p>
-        <p>Em dezembro, Guarapuava muda de ritmo. A tarde demora a ir embora, o céu fica cor de pêssego atrás das araucárias e, quando finalmente escurece, as praças se acendem.</p>
-        <p>O Natal em Guarapuava é a programação que a Prefeitura prepara para esse mês: luzes nos parques, música ao ar livre, feiras, desfile e encontros para a família inteira. Tudo gratuito, tudo perto, tudo reunido nesta página.</p>
+        <p>Quando o Natal chega, Guarapuava muda de ritmo. A tarde demora a ir embora, o céu fica cor de pêssego atrás das araucárias e, quando finalmente escurece, as praças se acendem.</p>
+        <p>O Natal em Guarapuava é a programação que a Prefeitura prepara para esta época: luzes nos parques, música ao ar livre, feiras, desfile e encontros para a família inteira. Tudo gratuito, tudo perto, tudo reunido nesta página.</p>
         <p>Escolha uma noite. A cidade cuida do resto.</p>
         <p class="assinatura">Com carinho,<br><span>Prefeitura de Guarapuava</span></p>
         <img class="carimbo-selo" src="assets/img/selo.webp" alt="Selo Natal em Guarapuava, com uma araucária enfeitada com bolas de Natal" width="640" height="614" loading="lazy">
