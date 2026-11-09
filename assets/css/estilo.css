@@ -819,3 +819,49 @@ html.visor-aberto{overflow:hidden}
 .remetente-rot{margin:0 0 8px;font-family:var(--mao);font-size:17px;line-height:1;color:#8A3A1F}
 .remetente img{width:100%;height:auto;display:block}
 @media (max-width:760px){.rodape-in{grid-template-columns:1fr}.remetente{max-width:320px}}
+
+/* ---------- NOVIDADES (caixa de correio) ---------- */
+.novidades{padding:clamp(64px,8vw,104px) 0 clamp(56px,7vw,92px)}
+.cabec-nov{margin-bottom:26px}
+.nov-sobre{font-family:var(--mao);font-size:1.3rem;color:var(--vermelho-natal);margin:0 0 4px!important}
+.nov-lista{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:22px}
+.nov-item{position:relative;background:#FBF5E6;border-radius:3px;padding:22px 22px 20px 22px;padding-right:112px;
+  box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 14px 26px -18px rgba(70,35,20,.45),0 2px 6px -2px rgba(70,35,20,.18);
+  border-top:5px solid transparent;border-image:repeating-linear-gradient(90deg,var(--vermelho-natal) 0 18px,transparent 18px 26px,var(--verde-natal) 26px 44px,transparent 44px 52px) 5}
+.nov-carimbo{position:absolute;top:14px;right:14px;width:84px;height:84px;color:var(--verde-natal);transform:rotate(-9deg);filter:url(#tinta);opacity:.85}
+.nov-nova .nov-carimbo{color:var(--vermelho-natal)}
+.nov-carimbo text{font-family:var(--texto);font-weight:700;fill:currentColor}
+.nov-carimbo .pm-dia{font-family:var(--serifa);font-weight:400}
+.nov-data{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:.9rem;font-weight:700;color:var(--tinta-2);letter-spacing:.02em}
+.nov-selo{display:inline-block;background:var(--vermelho-natal);color:var(--creme);font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;
+  padding:4px 9px 3px;border-radius:999px}
+.nov-item h3{font-family:var(--serifa);font-weight:400;font-size:clamp(1.3rem,2.2vw,1.5rem);line-height:1.15;color:var(--tinta);margin:8px 0 8px;text-wrap:balance}
+.nov-item p:not(.nov-data){color:var(--tinta-2);line-height:1.55;text-wrap:pretty}
+.nov-link{display:inline-flex;gap:6px;margin-top:12px;font-weight:700;color:var(--verde-natal);text-decoration:none;border-bottom:2px solid rgba(47,93,69,.25)}
+.nov-link:hover{border-color:currentColor}
+html.magia .nov-item{animation:novChega .7s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i)*.12s)}
+@keyframes novChega{from{opacity:0;transform:translateY(14px) rotate(-1deg)}to{opacity:1;transform:none}}
+@media (max-width:560px){.nov-item{padding:18px 18px 18px;padding-right:18px}.nov-carimbo{width:64px;height:64px;top:10px;right:10px}
+  .nov-item h3{padding-right:62px}.nov-data{padding-right:62px}}
+@media (prefers-reduced-motion:reduce){html.magia .nov-item{animation:none}}
+
+/* menu no celular: rola para o lado em vez de cortar */
+@media (max-width:640px){
+  .menu{overflow-x:auto;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent);min-width:0}
+  .menu::-webkit-scrollbar{display:none}
+  .menu a{flex-shrink:0}
+}
+
+/* período (vários dias) no cartão da agenda */
+.ev-periodo{display:flex;align-items:center;gap:6px;margin-top:6px;font-size:14.5px;font-weight:700;color:var(--c)}
+.ev-periodo svg{width:14px;height:14px;flex-shrink:0;fill:currentColor}
+
+/* também vem aí (sem data) */
+.sem-data{margin-top:40px;padding:22px 22px 18px;border:1.5px dashed rgba(163,38,42,.45);border-radius:6px;background:rgba(251,245,230,.7);max-width:760px}
+.sem-data h3{font-family:var(--serifa);font-weight:400;font-size:1.5rem;line-height:1.1;color:var(--tinta)}
+.sem-data .sd-sub{margin-top:6px;font-size:.98rem;color:var(--tinta-2)}
+.sem-data ul{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:12px}
+.sem-data li{display:grid;gap:2px;padding-left:18px;position:relative}
+.sem-data li::before{content:"";position:absolute;left:0;top:.5em;width:9px;height:9px;border-radius:50%;background:var(--vermelho-natal)}
+.sem-data b{color:var(--tinta)}
+.sem-data span{color:var(--tinta-2);font-size:.98rem;line-height:1.5}

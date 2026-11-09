@@ -46,7 +46,12 @@
     if (!h) return "";
     var p = h.split(":"); return (+p[0]) + "h" + (p[1] && p[1] !== "00" ? p[1] : "");
   }
+  function periodoTexto(ev) {
+    var a = partes(ev.de), b = partes(ev.ate);
+    return "Todos os dias, de " + (a.d === 1 ? "1º" : a.d) + (a.m !== b.m ? " de " + MESES[a.m] : "") + " a " + b.d + " de " + MESES[b.m];
+  }
   function horario(ev) {
+    if (ev.rotuloHorario) return ev.rotuloHorario;
     if (!ev.inicio) return "Horário a confirmar";
     return ev.fim ? hora(ev.inicio) + " às " + hora(ev.fim) : "a partir das " + hora(ev.inicio);
   }
@@ -62,6 +67,7 @@
   var ocorrencias = [];
   (D.eventos || []).forEach(function (ev, i) {
     var datas = ev.datas || (ev.data ? [ev.data] : []);
+    if (ev.de && ev.ate) { datas = []; for (var dd = ev.de; dd <= ev.ate; dd = somaDias(dd, 1)) datas.push(dd); }
     datas.forEach(function (dt) { ocorrencias.push({ ev: ev, data: dt, id: i + "-" + dt }); });
   });
   ocorrencias.sort(function (a, b) {
@@ -197,6 +203,13 @@
   function montaAgenda() {
     var box = $("#agenda"); if (!box) return;
     var lista = visiveis(false);
+    if (estado.data === "todas") {
+      var vistos = {};
+      lista = lista.filter(function (o) {
+        if (!(o.ev.de && o.ev.ate)) return true;
+        var k = D.eventos.indexOf(o.ev); if (vistos[k]) return false; vistos[k] = 1; return true;
+      });
+    }
     var fl = $("#filtroLocal");
     if (fl) {
       fl.hidden = !estado.local;
@@ -230,6 +243,7 @@
           '<p class="ev-quando">' +
           '<span><svg aria-hidden="true"><use href="#i-relogio"/></svg>' + esc(horario(ev)) + "</span>" +
           '<span><svg aria-hidden="true"><use href="#i-pino"/></svg>' + esc(l.nome) + "</span></p>" +
+          (ev.de && ev.ate ? '<p class="ev-periodo"><svg aria-hidden="true"><use href="#i-estrela"/></svg>' + esc(periodoTexto(ev)) + "</p>" : "") +
           (ev.descricao ? '<p class="ev-desc">' + esc(ev.descricao) + "</p>" : "") +
           (ev.roteiro && ev.roteiro.length ? '<ul class="roteiro">' + ev.roteiro.map(function (r) {
             return "<li><b>" + esc(r.hora) + "</b>" + esc(r.texto) + "</li>";
@@ -296,7 +310,7 @@
       '<li><svg aria-hidden="true"><use href="#i-agenda"/></svg>' + esc(sem.charAt(0).toUpperCase() + sem.slice(1, sem.indexOf("-") > 0 ? sem.indexOf("-") : sem.length)) + ", " + p.d + " de " + MESES[p.m] + "</li>" +
       '<li><svg aria-hidden="true"><use href="#i-relogio"/></svg>' + esc(dq.rotuloHorario || horario(ev)) + "</li>" +
       '<li><svg aria-hidden="true"><use href="#i-pino"/></svg>' + esc(l.nome || "") + "</li>" +
-      (ev.inicio ? '<li class="sub">Programação no local ' + esc(horario(ev).replace(/^(\d)/, "das $1")) + "</li>" : "");
+      (ev.inicio && ev.fim && ev.inicio !== dq.inicio ? '<li class="sub">Programação no local ' + esc(horario(ev).replace(/^(\d)/, "das $1")) + "</li>" : "");
     $("#coralAcoes").innerHTML =
       '<a class="bt bt-ouro" href="' + esc(linkAgenda(o)) + '" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-agenda"/></svg>Salvar na agenda</a>' +
       '<button class="bt bt-tinta" type="button" id="coralDia">Ver a programação do dia</button>';
@@ -313,7 +327,7 @@
     var box = $("#postais"); if (!box) return;
     var h = "";
     (D.locais || []).filter(function (l) { return !!l.postal; }).forEach(function (l, i) {
-      var qtd = ocorrencias.filter(function (o) { return o.ev.local === l.id; }).length;
+      var qtd = (D.eventos || []).filter(function (ev) { return ev.local === l.id; }).length;
       var frente = l.postal
         ? '<img src="' + esc(l.postal) + '" alt="Postal ilustrado: ' + esc(l.nome) + ' ao entardecer" loading="lazy">'
         : '<div class="frente-selo"><img src="assets/img/selo.webp" alt="" loading="lazy"><span>Lembrança de Guarapuava</span></div>';
@@ -459,6 +473,34 @@
       var dx = e.clientX - x0; x0 = null;
       if (Math.abs(dx) > 50) mostra(atual + (dx < 0 ? 1 : -1));
     });
+  })();
+
+  /* ---------- ainda sem data ---------- */
+  (function () {
+    var box = $("#semData"); if (!box) return;
+    var lista = D.semData || [];
+    if (!lista.length) { box.hidden = true; return; }
+    box.hidden = false;
+    box.innerHTML = '<h3>Também vem aí</h3><p class="sd-sub">Atividades confirmadas que ainda estão sem data ou horário. Assim que tudo estiver definido, elas entram na agenda.</p><ul>' +
+      lista.map(function (x) { return "<li><b>" + esc(x.titulo) + "</b>" + (x.texto ? "<span>" + esc(x.texto) + "</span>" : "") + "</li>"; }).join("") + "</ul>";
+  })();
+
+  /* ---------- novidades ---------- */
+  (function () {
+    var box = $("#novidadesLista"), sec = $("#novidades"); if (!box || !sec) return;
+    var lista = (D.novidades || []).slice().sort(function (a, b) { return a.data < b.data ? 1 : a.data > b.data ? -1 : 0; });
+    if (!lista.length) { sec.hidden = true; var m = $("#menuNovidades"); if (m) m.hidden = true; return; }
+    sec.hidden = false;
+    box.innerHTML = lista.map(function (n, i) {
+      var p = partes(n.data);
+      return '<article class="nov-item' + (i === 0 ? " nov-nova" : "") + '" style="--i:' + i + '">' +
+        carimbo(n.data, "nov-carimbo") +
+        '<p class="nov-data">' + (i === 0 ? '<span class="nov-selo">Mais recente</span>' : "") + p.d + " de " + MESES[p.m] + "</p>" +
+        "<h3>" + esc(n.titulo) + "</h3>" +
+        (n.texto ? "<p>" + esc(n.texto) + "</p>" : "") +
+        (n.link ? '<a class="nov-link" href="' + esc(n.link) + '">' + esc(n.rotuloLink || "Saiba mais") + ' <span aria-hidden="true">→</span></a>' : "") +
+        "</article>";
+    }).join("");
   })();
 
   /* ---------- perguntas ---------- */
