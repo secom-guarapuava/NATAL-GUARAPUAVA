@@ -301,7 +301,7 @@ window.NATAL = {
     texto: "Escolha um lugar da cidade, um selo e escreva um recado para quem você gosta. Se quiser, coloque uma foto sua. O postal sai pronto para mandar no WhatsApp, postar no story ou imprimir.",
     instagram: "@guarapuava_pref",
     assinatura: "Que o seu Natal acenda junto com a cidade.",
-    assinaturaLinha2: "Feliz Natal! Prefeitura de Guarapuava",
+    assinaturaLinha2: "A Prefeitura de Guarapuava te deseja um Feliz Natal!",
     frentes: [
       { imagem: "assets/img/postal-arvore.webp",       nome: "Praça Nove de Dezembro" },
       { imagem: "assets/img/postal-parque-lago.webp",  nome: "Parque do Lago" },

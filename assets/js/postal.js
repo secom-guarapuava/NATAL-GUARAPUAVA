@@ -664,7 +664,12 @@
       if (!textoOk()) { falha("texto"); return; }
       desenha();
       try {
-        tela.toBlob(function (b) { b ? ok(b) : falha("imagem"); }, "image/jpeg", 0.93);
+        if (tela.toBlob) tela.toBlob(function (b) { b ? ok(b) : falha("imagem"); }, "image/jpeg", 0.93);
+        else {
+          var bin = atob(tela.toDataURL("image/jpeg", 0.93).split(",")[1]), arr = new Uint8Array(bin.length);
+          for (var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+          ok(new Blob([arr], { type: "image/jpeg" }));
+        }
       } catch (e) { falha("imagem"); }
     });
   }
@@ -674,13 +679,49 @@
   }
   function brilho(el) { if (!reduz && window.magia && window.magia.burstEm) window.magia.burstEm(el, 26); }
 
+  // navegadores que não baixam arquivo: iPhone/iPad e navegadores internos de apps (Instagram, Facebook etc.)
+  var ua = navigator.userAgent || "";
+  var ehIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  var dentroDeApp = /Instagram|FBAN|FBAV|FB_IAB|Line\/|Twitter|TikTok|Snapchat|; wv\)/i.test(ua);
+  var semDownload = ehIOS || dentroDeApp || !("download" in document.createElement("a"));
+
+  // janela com a imagem pronta, para salvar tocando e segurando
+  var janela = null, janelaUrl = null;
+  function mostraParaSalvar(blob) {
+    if (!janela) {
+      janela = document.createElement("dialog");
+      janela.className = "visor ger-salvar";
+      janela.setAttribute("aria-label", "Seu postal pronto");
+      janela.innerHTML = '<figure class="visor-foto"><img alt="Seu postal de Natal pronto"><figcaption>' +
+        '<b>Seu postal está pronto!</b> Toque e segure a imagem e escolha <b>Salvar imagem</b> (ou <b>Adicionar às Fotos</b>).' +
+        '<a class="bt bt-ouro ger-salvar-link" target="_blank" rel="noopener">Abrir a imagem</a></figcaption></figure>' +
+        '<button class="visor-bt visor-fechar" type="button" aria-label="Fechar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg></button>';
+      document.body.appendChild(janela);
+      janela.querySelector(".visor-fechar").addEventListener("click", function () { janela.close(); });
+      janela.addEventListener("click", function (e) { if (e.target === janela) janela.close(); });
+      janela.addEventListener("close", function () { document.documentElement.classList.remove("visor-aberto"); });
+    }
+    if (janelaUrl) URL.revokeObjectURL(janelaUrl);
+    janelaUrl = URL.createObjectURL(blob);
+    var im = janela.querySelector("img"); im.className = "ok"; im.src = janelaUrl;
+    var ln = janela.querySelector(".ger-salvar-link"); ln.href = janelaUrl; ln.setAttribute("download", nomeArquivo());
+    if (typeof janela.showModal === "function") { janela.showModal(); document.documentElement.classList.add("visor-aberto"); }
+    else window.open(janelaUrl, "_blank");
+  }
+
   $("gerBaixar").addEventListener("click", function () {
     var bt = this;
+    escondeErro();
+    if (location.protocol === "file:") {
+      mostraErro("O navegador não deixa salvar a imagem com o site aberto direto do computador. No site publicado, o botão funciona normalmente.");
+      return;
+    }
     gera().then(function (blob) {
+      if (semDownload) { mostraParaSalvar(blob); brilho(bt); return; }
       var url = URL.createObjectURL(blob), a = document.createElement("a");
-      a.href = url; a.download = nomeArquivo();
+      a.href = url; a.download = nomeArquivo(); a.rel = "noopener";
       document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
       brilho(bt);
     }, trataFalha);
   });
