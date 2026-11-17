@@ -379,6 +379,133 @@
     });
   })();
 
+  /* ---------- visor (foto ampliada), usado pela galeria e pelas luzes ---------- */
+  var abreVisor = (function () {
+    var visor = $("#visor"), vImg = $("#visorImg"), vLeg = $("#visorLegenda");
+    var lista = [], atual = 0, origem = null;
+    if (!visor || typeof visor.showModal !== "function") {
+      return function (l, i) { window.open(l[i].src, "_blank", "noopener"); };
+    }
+    var precarrega = function (i) { if (lista.length > 1) { var im = new Image(); im.src = lista[(i + lista.length) % lista.length].src; } };
+    var mostra = function (i) {
+      atual = (i + lista.length) % lista.length;
+      var f = lista[atual];
+      vImg.classList.remove("ok");
+      vImg.onload = function () { vImg.classList.add("ok"); };
+      vImg.src = f.src;
+      vImg.alt = f.alt;
+      vImg.width = f.largura; vImg.height = f.altura;
+      vLeg.innerHTML = esc(f.alt) + (lista.length > 1 ? '<span class="visor-num">' + (atual + 1) + " de " + lista.length + "</span>" : "");
+      precarrega(atual + 1); precarrega(atual - 1);
+    };
+    var anda = function (n) { if (lista.length > 1) mostra(atual + n); };
+    $("#visorFechar").addEventListener("click", function () { visor.close(); });
+    $("#visorAnt").addEventListener("click", function () { anda(-1); });
+    $("#visorProx").addEventListener("click", function () { anda(1); });
+    visor.addEventListener("close", function () {
+      document.documentElement.classList.remove("visor-aberto");
+      if (origem) origem.focus({ preventScroll: true });
+    });
+    visor.addEventListener("click", function (e) { if (e.target === visor) visor.close(); });
+    visor.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { e.preventDefault(); anda(1); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); anda(-1); }
+    });
+    var x0 = null;
+    visor.addEventListener("pointerdown", function (e) { x0 = e.clientX; });
+    visor.addEventListener("pointerup", function (e) {
+      if (x0 === null) return;
+      var dx = e.clientX - x0; x0 = null;
+      if (Math.abs(dx) > 50) anda(dx < 0 ? 1 : -1);
+    });
+    return function (l, i, el) {
+      lista = l; origem = el || null;
+      $("#visorAnt").hidden = $("#visorProx").hidden = lista.length < 2;
+      mostra(i);
+      visor.showModal();
+      document.documentElement.classList.add("visor-aberto");
+    };
+  })();
+
+  /* ---------- enfeites e luzes de 2026 ---------- */
+  (function () {
+    var Dc = D.decoracao, sec = $("#luzes"), box = $("#decoLista");
+    if (!sec || !box) return;
+    var lugares = (Dc && Dc.lugares || []).filter(function (x) { return (x.fotos || []).length; });
+    if (!lugares.length) { sec.hidden = true; var ml = $("#menuLuzes"); if (ml) ml.hidden = true; return; }
+    sec.hidden = false;
+    var lug = $("#lugares"); if (lug) lug.classList.add("antes-luzes");
+    if (Dc.sobre) $("#decoSobre").textContent = Dc.sobre;
+    if (Dc.titulo) $("#t-deco").textContent = Dc.titulo;
+    $("#decoTexto").textContent = Dc.texto || "";
+    var base = "assets/img/decoracao/";
+    var icones = { relogio: "i-relogio", agenda: "i-agenda", pino: "i-pino", estrela: "i-estrela" };
+    var listas = [];
+
+    box.innerHTML = lugares.map(function (x, g) {
+      var l = locais[x.local] || {};
+      var qtd = (D.eventos || []).filter(function (ev) { return ev.local === x.local; }).length;
+      var fotos = x.fotos.slice(0, 2);
+      listas[g] = x.fotos.map(function (f) { return { src: base + f.arquivo + ".webp", alt: f.descricao, largura: f.largura, altura: f.altura }; });
+      var info = (x.info || []).slice();
+      if (l.endereco) info.push({ icone: "pino", texto: l.endereco });
+      var ck = x.carimbo || {};
+      return '<article class="deco-item' + (g % 2 ? " deco-inverte" : "") + (fotos.length > 1 ? " deco-duas" : "") + '">' +
+        '<div class="deco-fotos">' +
+        fotos.map(function (f, i) {
+          return '<figure class="deco-foto df-' + (i + 1) + '">' +
+            '<button class="deco-bt" type="button" data-g="' + g + '" data-i="' + i + '" aria-label="Ampliar foto: ' + esc(f.descricao) + '">' +
+            '<img src="' + base + esc(f.arquivo) + '-p.webp" width="' + f.largura + '" height="' + f.altura + '" alt="' + esc(f.descricao) + '" loading="lazy" decoding="async">' +
+            "</button></figure>";
+        }).join("") +
+        carimbo(null, "deco-carimbo", "GUARAPUAVA", ck.centro || "ACESA", ck.baixo || "") +
+        '<span class="deco-faisca f1" aria-hidden="true"></span><span class="deco-faisca f2" aria-hidden="true"></span><span class="deco-faisca f3" aria-hidden="true"></span>' +
+        "</div>" +
+        '<div class="deco-texto">' +
+        (x.chamada ? '<p class="deco-chamada">' + esc(x.chamada) + "</p>" : "") +
+        "<h3>" + esc(x.nome || l.nome || "") + "</h3>" +
+        (x.texto ? '<p class="deco-desc">' + esc(x.texto) + "</p>" : "") +
+        ((x.enfeites || []).length ? '<ul class="deco-etiquetas" aria-label="Enfeites">' + x.enfeites.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul>" : "") +
+        (info.length ? '<ul class="deco-info">' + info.map(function (n) {
+          return '<li><svg aria-hidden="true"><use href="#' + (icones[n.icone] || "i-estrela") + '"/></svg>' + esc(n.texto) + "</li>";
+        }).join("") + "</ul>" : "") +
+        '<div class="acoes">' +
+        (l.mapa ? '<a class="bt bt-ouro" href="' + esc(l.mapa) + '" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pino"/></svg>' + esc(l.rotuloMapa || "Como chegar") + "</a>" : "") +
+        (qtd ? '<button class="bt bt-linha" type="button" data-local="' + esc(x.local) + '"><svg aria-hidden="true"><use href="#i-agenda"/></svg>Ver na programação</button>' : "") +
+        "</div></div></article>";
+    }).join("");
+
+    box.addEventListener("click", function (e) {
+      var loc = e.target.closest("[data-local]");
+      if (loc) { window.filtrarLocal(loc.getAttribute("data-local")); return; }
+      var b = e.target.closest(".deco-bt"); if (!b) return;
+      abreVisor(listas[+b.getAttribute("data-g")], +b.getAttribute("data-i"), b);
+    });
+
+    // as fotos acendem quando aparecem na tela
+    var reduz = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var itens = box.querySelectorAll(".deco-item");
+    if (reduz || !("IntersectionObserver" in window)) {
+      Array.prototype.forEach.call(itens, function (it) { it.classList.add("acesa"); });
+      return;
+    }
+    var io = new IntersectionObserver(function (ents) {
+      ents.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var it = en.target; io.unobserve(it);
+        var img = it.querySelector(".df-1 img");
+        var acende = function () {
+          setTimeout(function () {
+            it.classList.add("acesa");
+            if (window.magia && window.magia.burstEm) window.magia.burstEm(it.querySelector(".df-1"), 26);
+          }, 250);
+        };
+        if (img.complete) acende(); else { img.addEventListener("load", acende, { once: true }); img.addEventListener("error", acende, { once: true }); }
+      });
+    }, { rootMargin: "0px 0px -18% 0px", threshold: 0.25 });
+    Array.prototype.forEach.call(itens, function (it) { io.observe(it); });
+  })();
+
   /* ---------- galeria 2025 ---------- */
   (function () {
     var G = D.galeria, sec = $("#galeria"), album = $("#album");
@@ -427,51 +554,10 @@
     }
 
     // visor (foto ampliada)
-    var visor = $("#visor"), vImg = $("#visorImg"), vLeg = $("#visorLegenda"), atual = 0, origem = null;
-    if (!visor || typeof visor.showModal !== "function") {
-      album.addEventListener("click", function (e) {
-        var b = e.target.closest(".foto-bt"); if (!b) return;
-        window.open(base + fotos[+b.getAttribute("data-i")].arquivo + ".webp", "_blank", "noopener");
-      });
-      return;
-    }
-    var precarrega = function (i) { var im = new Image(); im.src = base + fotos[(i + fotos.length) % fotos.length].arquivo + ".webp"; };
-    var mostra = function (i) {
-      atual = (i + fotos.length) % fotos.length;
-      var f = fotos[atual];
-      vImg.classList.remove("ok");
-      vImg.onload = function () { vImg.classList.add("ok"); };
-      vImg.src = base + f.arquivo + ".webp";
-      vImg.alt = f.descricao;
-      vImg.width = f.largura; vImg.height = f.altura;
-      vLeg.innerHTML = esc(f.descricao) + '<span class="visor-num">' + (atual + 1) + " de " + fotos.length + "</span>";
-      precarrega(atual + 1); precarrega(atual - 1);
-    };
+    var lista = fotos.map(function (f) { return { src: base + f.arquivo + ".webp", alt: f.descricao, largura: f.largura, altura: f.altura }; });
     album.addEventListener("click", function (e) {
       var b = e.target.closest(".foto-bt"); if (!b) return;
-      origem = b;
-      mostra(+b.getAttribute("data-i"));
-      visor.showModal();
-      document.documentElement.classList.add("visor-aberto");
-    });
-    $("#visorFechar").addEventListener("click", function () { visor.close(); });
-    $("#visorAnt").addEventListener("click", function () { mostra(atual - 1); });
-    $("#visorProx").addEventListener("click", function () { mostra(atual + 1); });
-    visor.addEventListener("close", function () {
-      document.documentElement.classList.remove("visor-aberto");
-      if (origem) origem.focus({ preventScroll: true });
-    });
-    visor.addEventListener("click", function (e) { if (e.target === visor) visor.close(); });
-    visor.addEventListener("keydown", function (e) {
-      if (e.key === "ArrowRight") { e.preventDefault(); mostra(atual + 1); }
-      else if (e.key === "ArrowLeft") { e.preventDefault(); mostra(atual - 1); }
-    });
-    var x0 = null;
-    visor.addEventListener("pointerdown", function (e) { x0 = e.clientX; });
-    visor.addEventListener("pointerup", function (e) {
-      if (x0 === null) return;
-      var dx = e.clientX - x0; x0 = null;
-      if (Math.abs(dx) > 50) mostra(atual + (dx < 0 ? 1 : -1));
+      abreVisor(lista, +b.getAttribute("data-i"), b);
     });
   })();
 
@@ -595,6 +681,6 @@
         links.forEach(function (a) { a.classList.toggle("on", a.getAttribute("href") === "#" + en.target.id); });
       });
     }, { rootMargin: "-45% 0px -50% 0px" });
-    ["coral", "programacao", "lugares", "galeria", "sobre"].forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
+    ["novidades", "coral", "programacao", "lugares", "luzes", "galeria", "sobre"].forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
   })();
 })();

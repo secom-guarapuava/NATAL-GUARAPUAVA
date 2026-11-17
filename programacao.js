@@ -259,6 +259,38 @@ window.NATAL = {
     }
   ],
 
+  /* Enfeites e luzes de 2026 — seção "A cidade já acendeu" (menu "Luzes").
+     Cada item de "lugares" vira um bloco com fotos, etiquetas e informações.
+     Para acrescentar um lugar novo, copie o item da Casa do Papai Noel e troque os dados.
+     "local" é o id do lugar na lista "locais" (usa o endereço, o mapa e as atrações da programação).
+     As fotos ficam em assets/img/decoracao/: "arquivo.webp" (grande) e "arquivo-p.webp" (miniatura).
+     A primeira foto é a principal (de preferência horizontal); a segunda entra menor, por cima.
+     "icone" das informações: "relogio", "agenda", "pino" ou "estrela".
+     Deixe "lugares" vazio para esconder a seção. */
+  decoracao: {
+    sobre: "Enfeites e luzes de 2026",
+    titulo: "A cidade já acendeu",
+    texto: "Desde 15 de novembro, a decoração de Natal fica acesa todas as noites. Aqui estão os enfeites e as luzes deste ano, lugar por lugar.",
+    lugares: [
+      {
+        local: "casa-papai-noel",
+        nome: "Casa do Papai Noel",
+        chamada: "No Centro de Artes, atrás do Carneiro Martins",
+        texto: "Um arco de Feliz Natal entre duas bengalas gigantes recebe quem chega. No gramado, estrelas, árvores e bonecos de luz; no telhado, cascatas de luzinhas. A casa fica acesa todas as noites e, a partir de 1º de dezembro, o Papai Noel recebe as visitas aqui.",
+        enfeites: ["Arco Feliz Natal", "Bengalas gigantes", "Bonecos de luz", "Estrelas", "Cascatas no telhado"],
+        info: [
+          { icone: "estrela", texto: "Acesa todas as noites" },
+          { icone: "agenda",  texto: "Papai Noel de 1º a 22 de dezembro, das 19h às 23h" }
+        ],
+        carimbo: { centro: "ACESA", baixo: "15 NOV" },
+        fotos: [
+          { arquivo: "casa-papai-noel-01", largura: 1200, altura: 675, descricao: "Casa do Papai Noel iluminada à noite, com o arco de Feliz Natal entre duas bengalas gigantes de luz" },
+          { arquivo: "casa-papai-noel-02", largura: 720,  altura: 900, descricao: "Bengala gigante de luz, estrelas e bonecos iluminados no gramado em frente à Casa do Papai Noel" }
+        ]
+      }
+    ]
+  },
+
   /* Galeria — fotos das luzes do Natal 2025.
      As imagens ficam em assets/img/galeria/: "arquivo.webp" (grande) e "arquivo-p.webp" (miniatura).
      A ordem da lista é a ordem na página. "visiveis" é quantas aparecem antes do botão "Ver mais fotos". */
