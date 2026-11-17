@@ -86,6 +86,7 @@
       carrega("assets/img/papel.webp").then(function (i) { IMG.papel = i; }),
       carrega("assets/img/logo-natal.webp").then(function (i) { IMG.logoNatal = i; }),
       carrega("assets/img/logo-prefeitura.webp").then(function (i) { IMG.logoPref = i; }),
+      carrega("assets/img/logo-prefeitura-branca.webp").then(function (i) { IMG.logoPrefBranca = i; }),
       carregaFrente(E.frente), carregaSelo(E.selo)
     ]).then(function () { prontoAssets = true; });
   }
@@ -322,34 +323,50 @@
     c.fill(); c.restore();
   }
 
-  function etiquetaPref(c, cx, y, w) {
-    var lh = w * (295 / 1400) * 0.82, h = lh + w * 0.2;
-    c.save(); c.translate(cx, y + h / 2); c.rotate(-0.015);
-    sombra(c, 16, 6, "rgba(0,0,0,.4)");
-    papel(c, -w / 2, -h / 2, w, h);
-    semSombra(c);
-    c.setLineDash([10, 7]); c.strokeStyle = "rgba(163,38,42,.55)"; c.lineWidth = 2.5;
-    c.strokeRect(-w / 2 + 10, -h / 2 + 10, w - 20, h - 20); c.setLineDash([]);
-    contem(c, IMG.logoPref, -w * 0.41, -h / 2 + w * 0.05, w * 0.82, lh);
-    c.fillStyle = C.vermelho; c.font = "700 " + Math.round(w * 0.06) + "px " + F.texto;
-    c.textAlign = "center"; c.textBaseline = "middle";
-    c.fillText(P.instagram || "", 0, h / 2 - w * 0.075);
+  // logo oficial em versão negativa (branca), direto no fundo escuro, com o @ embaixo
+  function logoPrefNegativa(c, cx, y, w) {
+    var im = IMG.logoPrefBranca, lh = im ? w * im.height / im.width : w * 0.2;
+    if (im) c.drawImage(im, cx - w / 2, y, w, lh);
+    c.fillStyle = C.creme; c.font = "700 " + Math.round(w * 0.075) + "px " + F.texto;
+    c.textAlign = "center"; c.textBaseline = "alphabetic";
+    c.fillText(P.instagram || "", cx, y + lh + w * 0.13);
+  }
+
+  // logo da campanha como adesivo: contorno creme recortado no formato das letras + brilho quente
+  var adesivoCache = null;
+  function logoAdesivo(c, cx, cy, w) {
+    var im = IMG.logoNatal; if (!im) return;
+    var h = w * im.height / im.width, borda = Math.round(w * 0.028), pad = borda * 3;
+    if (!adesivoCache || adesivoCache.w !== w) {
+      var o = document.createElement("canvas"); o.width = Math.ceil(w + pad * 2); o.height = Math.ceil(h + pad * 2);
+      var a = o.getContext("2d");
+      // silhueta engordada
+      for (var k = 0; k < 32; k++) {
+        var ang = k / 32 * Math.PI * 2;
+        a.drawImage(im, pad + Math.cos(ang) * borda, pad + Math.sin(ang) * borda, w, h);
+      }
+      a.drawImage(im, pad, pad, w, h);
+      a.globalCompositeOperation = "source-in";
+      a.fillStyle = C.creme; a.fillRect(0, 0, o.width, o.height);
+      a.globalCompositeOperation = "source-over";
+      a.drawImage(im, pad, pad, w, h);
+      adesivoCache = { w: w, canvas: o };
+    }
+    // brilho quente atrás
+    var g = c.createRadialGradient(cx, cy, 0, cx, cy, w * 0.75);
+    g.addColorStop(0, "rgba(255,214,140,.38)"); g.addColorStop(0.5, "rgba(255,190,110,.14)"); g.addColorStop(1, "rgba(255,190,110,0)");
+    c.fillStyle = g; c.fillRect(cx - w, cy - w * 0.8, w * 2, w * 1.6);
+    c.save();
+    sombra(c, 22, 8, "rgba(20,4,4,.5)");
+    c.drawImage(adesivoCache.canvas, cx - adesivoCache.canvas.width / 2, cy - adesivoCache.canvas.height / 2);
     c.restore();
-    return h;
   }
 
   /* ---------- formatos ---------- */
   function story(c) {
     var W = 1080, H = 1920;
     fundoNoite(c, W, H);
-    // logo da campanha num selo creme
-    var lw = 470, lh = lw * 701 / 1400 + 34, ly = 120;
-    c.save(); c.translate(W / 2, ly + lh / 2); c.rotate(-0.012);
-    sombra(c, 24, 10, "rgba(0,0,0,.45)");
-    papel(c, -lw / 2 - 26, -lh / 2, lw + 52, lh);
-    semSombra(c);
-    contem(c, IMG.logoNatal, -lw / 2, -lh / 2 + 17, lw, lh - 34);
-    c.restore();
+    logoAdesivo(c, W / 2, 238, 500);
     peca(c, W / 2, 690, 950, 560, -0.035, verso);
     peca(c, W / 2, 1238, 950, 600, 0.028, function (cc, w, h) { frente(cc, w, h, true); });
     fotinho(c, 846, 1290, 250, 0.09);
@@ -359,7 +376,7 @@
     c.fillText(P.assinatura || "", W / 2, 1626);
     c.fillStyle = C.creme; c.font = "700 30px " + F.texto;
     c.fillText(P.assinaturaLinha2 || "", W / 2, 1672);
-    etiquetaPref(c, W / 2, 1700, 400);
+    logoPrefNegativa(c, W / 2, 1712, 400);
   }
 
   function postal(c) {
