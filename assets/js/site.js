@@ -681,6 +681,6 @@
         links.forEach(function (a) { a.classList.toggle("on", a.getAttribute("href") === "#" + en.target.id); });
       });
     }, { rootMargin: "-45% 0px -50% 0px" });
-    ["novidades", "coral", "programacao", "lugares", "luzes", "galeria", "sobre"].forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
+    ["novidades", "coral", "programacao", "lugares", "luzes", "postal", "galeria", "sobre"].forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
   })();
 })();

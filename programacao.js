@@ -291,6 +291,34 @@ window.NATAL = {
     ]
   },
 
+  /* Gerador de postal — seção "Mande um postal de Natal" (menu "Postal").
+     Tudo é montado no aparelho de quem usa: nada é enviado nem guardado.
+     "frentes": imagens que a pessoa pode escolher para a frente do postal.
+     "frases": recados prontos (até 140 caracteres).
+     "assinatura": mensagem da Prefeitura que sai no rodapé do postal.
+     Deixe postal: null para esconder a seção. */
+  postal: {
+    texto: "Escolha um lugar da cidade, um selo e escreva um recado para quem você gosta. Se quiser, coloque uma foto sua. O postal sai pronto para mandar no WhatsApp, postar no story ou imprimir.",
+    instagram: "@guarapuava_pref",
+    assinatura: "Que o seu Natal acenda junto com a cidade.",
+    assinaturaLinha2: "Feliz Natal! Prefeitura de Guarapuava",
+    frentes: [
+      { imagem: "assets/img/postal-arvore.webp",       nome: "Praça Nove de Dezembro" },
+      { imagem: "assets/img/postal-parque-lago.webp",  nome: "Parque do Lago" },
+      { imagem: "assets/img/postal-lagoa.webp",        nome: "Lagoa das Lágrimas" },
+      { imagem: "assets/img/postal-ponte-cidade.webp", nome: "Parque do Lago" },
+      { imagem: "assets/img/coral-postal.webp",        nome: "Coral dos Anjos" },
+      { imagem: "assets/img/decoracao/casa-papai-noel-01.webp", nome: "Casa do Papai Noel" }
+    ],
+    selos: ["catedral", "gralha-azul", "araucaria", "pinhao", "casa", "raposa", "beija-flor", "cachoeira", "portal", "postes", "estrutura", "floco"],
+    frases: [
+      "Guarapuava acendeu e eu lembrei de você. Vem ver as luzes comigo?",
+      "Que a sua casa fique cheia de luz, de abraço e de gente querida neste Natal.",
+      "Quando a tarde cai, a cidade acende. E o meu Natal fica mais bonito com você por perto.",
+      "Um abraço quentinho daqui de Guarapuava. Feliz Natal!"
+    ]
+  },
+
   /* Galeria — fotos das luzes do Natal 2025.
      As imagens ficam em assets/img/galeria/: "arquivo.webp" (grande) e "arquivo-p.webp" (miniatura).
      A ordem da lista é a ordem na página. "visiveis" é quantas aparecem antes do botão "Ver mais fotos". */
