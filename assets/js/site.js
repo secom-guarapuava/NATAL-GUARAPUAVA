@@ -102,8 +102,15 @@
     el.innerHTML = html;
   })();
 
+  /* ---------- programação em stand-by (trenó em manutenção) ---------- */
+  var EM_BREVE = !!C.programacaoEmBreve;
+  function qtdLocal(id) {
+    if (EM_BREVE) return 0;
+    return (D.eventos || []).filter(function (ev) { return ev.local === id; }).length;
+  }
+
   /* ---------- aviso de programação provisória ---------- */
-  if (C.programacaoProvisoria) { var av = $("#aviso"); if (av) av.hidden = false; }
+  if (C.programacaoProvisoria && !EM_BREVE) { var av = $("#aviso"); if (av) av.hidden = false; }
 
   /* ---------- carimbo postal (SVG) ---------- */
   var nCarimbo = 0;
@@ -288,7 +295,34 @@
     var alvo = $("#programacao"); if (alvo) alvo.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  atualiza();
+  if (EM_BREVE) {
+    var secP = $("#programacao");
+    if (secP) {
+      secP.classList.add("em-breve");
+      var intro = secP.querySelector(".cabec-prog p"); if (intro) intro.hidden = true;
+      var fil = secP.querySelector(".filtros"); if (fil) fil.hidden = true;
+    }
+    var boxA = $("#agenda");
+    if (boxA) boxA.innerHTML =
+      '<div class="manutencao">' +
+      carimbo(null, "pm pm-breve", "GUARAPUAVA", "EM", "BREVE") +
+      '<svg class="treno" viewBox="0 0 240 130" aria-hidden="true">' +
+      '<g class="treno-corpo">' +
+      '<path d="M48 40 Q52 26 68 26 L76 26 L82 58 L168 58 Q176 36 196 30 L204 30 Q196 44 194 62 Q190 86 160 88 L74 88 Q50 88 48 66 Z" fill="#A3262A" stroke="#1F2350" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M86 66 L162 66" stroke="#C9A04E" stroke-width="4" stroke-linecap="round"/>' +
+      '<path d="M90 76 L156 76" stroke="#C9A04E" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 7"/>' +
+      '<path d="M80 88 L76 104 M164 88 L168 104" stroke="#1F2350" stroke-width="4" stroke-linecap="round"/>' +
+      '<path d="M30 104 L196 104 Q222 104 222 86" fill="none" stroke="#1F2350" stroke-width="5" stroke-linecap="round"/>' +
+      '</g>' +
+      '<g class="treno-chave"><path d="M120 118 L150 100" stroke="#6B4A36" stroke-width="7" stroke-linecap="round"/>' +
+      '<circle cx="155" cy="97" r="9" fill="none" stroke="#6B4A36" stroke-width="5"/><path d="M152 92 L160 100" stroke="#F6EFD9" stroke-width="4"/></g>' +
+      '<g class="treno-faisca" fill="#C9A04E"><path d="M210 18 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z"/><path d="M28 30 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z"/></g>' +
+      '</svg>' +
+      '<p class="manut-tag">Trenó em manutenção</p>' +
+      '<h3>Programação em breve</h3>' +
+      '<p class="manut-texto">O Papai Noel está acertando os últimos detalhes da agenda. Assim que tudo estiver confirmado, as datas, os horários e os lugares aparecem aqui.</p>' +
+      '</div>';
+  } else atualiza();
 
   /* ---------- atração em destaque ---------- */
   (function () {
@@ -313,8 +347,8 @@
       (ev.inicio && ev.fim && ev.inicio !== dq.inicio ? '<li class="sub">Programação no local ' + esc(horario(ev).replace(/^(\d)/, "das $1")) + "</li>" : "");
     $("#coralAcoes").innerHTML =
       '<a class="bt bt-ouro" href="' + esc(linkAgenda(o)) + '" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-agenda"/></svg>Salvar na agenda</a>' +
-      '<button class="bt bt-tinta" type="button" id="coralDia">Ver a programação do dia</button>';
-    $("#coralDia").addEventListener("click", function () {
+      (EM_BREVE ? "" : '<button class="bt bt-tinta" type="button" id="coralDia">Ver a programação do dia</button>');
+    if (!EM_BREVE) $("#coralDia").addEventListener("click", function () {
       estado.data = data; estado.cat = "todas"; estado.local = null;
       if (data < HOJE) { estado.passadas = true; var cb2 = $("#passadas"); if (cb2) cb2.checked = true; }
       atualiza();
@@ -327,7 +361,7 @@
     var box = $("#postais"); if (!box) return;
     var h = "";
     (D.locais || []).filter(function (l) { return !!l.postal; }).forEach(function (l, i) {
-      var qtd = (D.eventos || []).filter(function (ev) { return ev.local === l.id; }).length;
+      var qtd = qtdLocal(l.id);
       var frente = l.postal
         ? '<img src="' + esc(l.postal) + '" alt="Postal ilustrado: ' + esc(l.nome) + ' ao entardecer" loading="lazy">'
         : '<div class="frente-selo"><img src="assets/img/selo.webp" alt="" loading="lazy"><span>Lembrança de Guarapuava</span></div>';
@@ -444,7 +478,7 @@
 
     box.innerHTML = lugares.map(function (x, g) {
       var l = locais[x.local] || {};
-      var qtd = (D.eventos || []).filter(function (ev) { return ev.local === x.local; }).length;
+      var qtd = qtdLocal(x.local);
       var fotos = x.fotos.slice(0, 2);
       listas[g] = x.fotos.map(function (f) { return { src: base + f.arquivo + ".webp", alt: f.descricao, largura: f.largura, altura: f.altura }; });
       var info = (x.info || []).slice();
@@ -564,7 +598,7 @@
   /* ---------- ainda sem data ---------- */
   (function () {
     var box = $("#semData"); if (!box) return;
-    var lista = D.semData || [];
+    var lista = EM_BREVE ? [] : (D.semData || []);
     if (!lista.length) { box.hidden = true; return; }
     box.hidden = false;
     box.innerHTML = '<h3>Também vem aí</h3><p class="sd-sub">Atividades confirmadas que ainda estão sem data ou horário. Assim que tudo estiver definido, elas entram na agenda.</p><ul>' +
@@ -584,7 +618,7 @@
         '<p class="nov-data">' + (i === 0 ? '<span class="nov-selo">Mais recente</span>' : "") + p.d + " de " + MESES[p.m] + "</p>" +
         "<h3>" + esc(n.titulo) + "</h3>" +
         (n.texto ? "<p>" + esc(n.texto) + "</p>" : "") +
-        (n.link ? '<a class="nov-link" href="' + esc(n.link) + '">' + esc(n.rotuloLink || "Saiba mais") + ' <span aria-hidden="true">→</span></a>' : "") +
+        (n.link && !(EM_BREVE && n.link === "#programacao") ? '<a class="nov-link" href="' + esc(n.link) + '">' + esc(n.rotuloLink || "Saiba mais") + ' <span aria-hidden="true">→</span></a>' : "") +
         "</article>";
     }).join("");
   })();

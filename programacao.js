@@ -14,6 +14,10 @@ window.NATAL = {
     // Mostra o aviso "programação em atualização" acima da agenda
     programacaoProvisoria: true,
 
+    // Programação em stand-by: esconde a agenda e mostra o aviso "trenó em manutenção".
+    // Mude para false para voltar a exibir os eventos.
+    programacaoEmBreve: true,
+
     // Texto do período no topo. Deixe "" para calcular pela primeira e última data.
     periodoTexto: "a partir de 15 de novembro",
 

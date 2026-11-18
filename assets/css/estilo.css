@@ -1066,3 +1066,22 @@ html.magia .deco-item .deco-faisca{opacity:0}
 .ger-salvar .visor-foto figcaption{display:grid;gap:12px;justify-items:center;max-width:42ch}
 .ger-salvar .visor-foto img{max-height:calc(100dvh - 230px)}
 .ger-salvar-link{margin-top:2px}
+
+/* ---------- programação em stand-by: trenó em manutenção ---------- */
+.manutencao{position:relative;box-sizing:border-box;width:100%;max-width:620px;margin:10px auto 0;padding:38px 28px 34px;text-align:center;
+  background:var(--papel-claro);border:1.5px dashed rgba(163,38,42,.45);border-radius:18px;
+  box-shadow:0 1px 0 rgba(31,35,80,.06),0 14px 30px -18px rgba(31,35,80,.35)}
+.manutencao .pm-breve{position:absolute;top:-24px;left:-14px;width:92px;height:92px;--c:#A3262A;--r:-12deg;margin:0}
+.manutencao .treno{display:block;width:min(240px,70%);height:auto;margin:0 auto 14px}
+.manut-tag{display:inline-block;font-family:var(--mao);font-size:1.15rem;color:#A3262A;transform:rotate(-2deg);margin-bottom:4px}
+.manutencao h3{font-family:var(--serifa);font-weight:400;font-size:clamp(1.6rem,4vw,2.1rem);color:var(--tinta);line-height:1.15}
+.manut-texto{max-width:46ch;margin:12px auto 0;color:var(--tinta-2);line-height:1.55}
+.treno-corpo{transform-origin:120px 104px;animation:trenoBalanca 3.2s ease-in-out infinite}
+.treno-chave{transform-origin:150px 100px;animation:trenoChave 1.6s ease-in-out infinite}
+.treno-faisca path{transform-box:fill-box;transform-origin:center;animation:trenoFaisca 2.4s ease-in-out infinite}
+.treno-faisca path+path{animation-delay:1.2s}
+@keyframes trenoBalanca{0%,100%{transform:rotate(0)}50%{transform:rotate(-2deg)}}
+@keyframes trenoChave{0%,100%{transform:rotate(0)}50%{transform:rotate(-18deg)}}
+@keyframes trenoFaisca{0%,100%{opacity:.25;transform:scale(.7)}50%{opacity:1;transform:scale(1.1)}}
+@media (max-width:560px){.manutencao{padding:32px 18px 28px}.manutencao .pm-breve{width:70px;height:70px;top:-20px;left:-6px}}
+@media (prefers-reduced-motion:reduce){.treno-corpo,.treno-chave,.treno-faisca path{animation:none}}
