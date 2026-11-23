@@ -14,10 +14,6 @@ window.NATAL = {
     // Mostra o aviso "programação em atualização" acima da agenda
     programacaoProvisoria: true,
 
-    // Programação em stand-by: esconde a agenda e mostra o aviso "trenó em manutenção".
-    // Mude para false para voltar a exibir os eventos.
-    programacaoEmBreve: true,
-
     // Texto do período no topo. Deixe "" para calcular pela primeira e última data.
     periodoTexto: "a partir de 15 de novembro",
 
@@ -59,6 +55,7 @@ window.NATAL = {
     { id: "desfile",   nome: "Desfile",                cor: "#2F5D45" },
     { id: "esporte",   nome: "Esporte",                cor: "#2C6A86" },
     { id: "solene",    nome: "Cerimônias e homenagens", cor: "#6B4A36" },
+    { id: "teatro",    nome: "Teatro Municipal",       cor: "#7B3F61" },
     { id: "reveillon", nome: "Réveillon",              cor: "#8A6A1C" },
     { id: "feira",     nome: "Feiras e sabores",       cor: "#1C5E2A" },
     { id: "tradicao",  nome: "Tradição",               cor: "#A9572A" }
@@ -97,13 +94,34 @@ window.NATAL = {
     {
       id: "casa-papai-noel",
       nome: "Casa do Papai Noel",
-      endereco: "Centro de Artes, atrás do Carneiro Martins",
-      mapa: "https://www.google.com/maps/search/?api=1&query=Centro+de+Artes+Guarapuava+PR",
+      endereco: "Centro de Artes Iracema Trinco Ribeiro, atrás do Carneiro Martins",
+      mapa: "https://www.google.com/maps/search/?api=1&query=Centro+de+Artes+Iracema+Trinco+Ribeiro+Guarapuava+PR",
+      postal: ""
+    },
+    {
+      id: "teatro-municipal",
+      nome: "Teatro Municipal Marina Karam Primak",
+      endereco: "Guarapuava – PR",
+      mapa: "https://www.google.com/maps/search/?api=1&query=Teatro+Municipal+Marina+Karam+Primak+Guarapuava+PR",
+      postal: ""
+    },
+    {
+      id: "oab-guarapuava",
+      nome: "OAB Guarapuava",
+      endereco: "Guarapuava – PR",
+      mapa: "https://www.google.com/maps/search/?api=1&query=OAB+Guarapuava+PR",
+      postal: ""
+    },
+    {
+      id: "centro-eventos-agraria",
+      nome: "Centro de Eventos Agrária",
+      endereco: "Entre Rios, Guarapuava – PR",
+      mapa: "https://www.google.com/maps/search/?api=1&query=Centro+de+Eventos+Agr%C3%A1ria+Entre+Rios+Guarapuava+PR",
       postal: ""
     },
     {
       id: "praca-ucrania",
-      nome: "Praça Ucrânia",
+      nome: "Praça da Ucrânia",
       endereco: "Guarapuava – PR",
       mapa: "https://www.google.com/maps/search/?api=1&query=Pra%C3%A7a+Ucr%C3%A2nia+Guarapuava+PR",
       postal: ""
@@ -122,7 +140,7 @@ window.NATAL = {
     },
     {
       id: "trajeto-desfile",
-      nome: "Trajeto do desfile",
+      nome: "Trajeto da carreata",
       endereco: "Rota no mapa",
       mapa: "https://www.google.com/maps/d/u/0/viewer?mid=12NOD_B-BhGqBQOb0NeBag1YGkXdenOE&ll=-25.397890700000012%2C-51.49676490000001&z=14",
       rotuloMapa: "Ver o trajeto",
@@ -147,49 +165,51 @@ window.NATAL = {
       descricao: "A partir de 15 de novembro, a decoração de Natal da cidade fica acesa todas as noites."
     },
     {
-      titulo: "Desfile do Caminhão da Coca-Cola",
+      titulo: "Caravana de Natal da Coca-Cola",
       data: "2026-11-24", inicio: "19:00",
       local: "trajeto-desfile", categoria: "desfile",
-      descricao: "Desfile do caminhão pelas ruas da cidade. O trajeto completo está no mapa."
+      descricao: "Carreata dos caminhões pelas ruas da cidade. O trajeto completo está no mapa."
+    },
+
+    // Praça 9 de Dezembro
+    {
+      titulo: "Brinquedos e food trucks",
+      de: "2026-12-01", ate: "2026-12-23", inicio: "14:00", fim: "22:00",
+      local: "praca-nove-de-dezembro", categoria: "criancas",
+      descricao: "Brinquedos para a criançada e food trucks na praça, todos os dias. A previsão é ter chapéu mexicano e aviões."
     },
 
     // Casa do Papai Noel
     {
-      titulo: "Brinquedos na Praça 9 de Dezembro",
-      de: "2026-12-01", ate: "2026-12-23", inicio: "14:00", fim: "22:00",
-      local: "praca-nove-de-dezembro", categoria: "criancas",
-      descricao: "Brinquedos para a criançada na praça. A previsão é ter chapéu mexicano e aviões."
-    },
-    {
       titulo: "Abertura da Casa do Papai Noel",
-      data: "2026-12-01", inicio: "19:00", fim: "23:00",
+      data: "2026-12-04", inicio: "19:00",
       local: "casa-papai-noel", categoria: "criancas",
-      descricao: "Abertura da Casa, com a chegada prevista do Papai Noel. A rua em frente à Casa fica fechada durante o evento."
+      descricao: "Abertura da Casa do Papai Noel, no Centro de Artes Iracema Trinco Ribeiro."
     },
     {
-      titulo: "Atendimento do Papai Noel",
-      de: "2026-12-01", ate: "2026-12-22", inicio: "19:00", fim: "23:00",
+      titulo: "Casa do Papai Noel",
+      de: "2026-12-04", ate: "2026-12-23", inicio: "19:00", fim: "23:00",
       local: "casa-papai-noel", categoria: "criancas",
       descricao: "O Papai Noel recebe as visitas na Casa do Papai Noel, no Centro de Artes, todas as noites."
     },
 
-    // Câmara Municipal (sessões solenes)
+    // Câmara Municipal (sessões solenes, na OAB)
     {
       titulo: "Sessão solene de entrega dos títulos de Cidadão Honorário e Cidadão Benemérito",
       data: "2026-12-02", inicio: "19:00",
-      local: "local-a-confirmar", categoria: "solene",
+      local: "oab-guarapuava", categoria: "solene",
       descricao: "Sessão solene da Câmara Municipal de Guarapuava."
     },
     {
       titulo: "Sessão solene de premiação do evento “Jovens Sementes do Amanhã”",
-      data: "2026-12-03",
-      local: "local-a-confirmar", categoria: "solene",
+      data: "2026-12-03", inicio: "19:00",
+      local: "oab-guarapuava", categoria: "solene",
       descricao: "Sessão solene da Câmara Municipal de Guarapuava."
     },
     {
       titulo: "Sessão solene em homenagem póstuma ao Padre Chagas (ALAC)",
-      data: "2026-12-04",
-      local: "local-a-confirmar", categoria: "solene",
+      data: "2026-12-04", inicio: "19:00",
+      local: "oab-guarapuava", categoria: "solene",
       descricao: "Sessão solene da Câmara Municipal de Guarapuava."
     },
 
@@ -197,7 +217,27 @@ window.NATAL = {
       titulo: "Corrida Circuito ACIG Jovem",
       data: "2026-12-05", inicio: "18:00",
       local: "casa-papai-noel", categoria: "esporte",
-      descricao: "Largada na Casa do Papai Noel, no Centro de Artes."
+      descricao: "Largada em frente à Casa do Papai Noel, no Centro de Artes."
+    },
+    {
+      titulo: "Feira Natalina de Entre Rios (Weihnachtsmarkt)",
+      data: "2026-12-05", inicio: "15:30", fim: "20:00",
+      local: "centro-eventos-agraria", categoria: "feira",
+      descricao: "Presentes, decoração, artesanato e delícias natalinas, com música e cultura para toda a família. Apresentação do Ministério da Cultura e da Fundação Cultural Suábio-Brasileira. Entrada gratuita."
+    },
+
+    // 9 de dezembro, aniversário da cidade
+    {
+      titulo: "Recreação no Parque do Lago",
+      data: "2026-12-09", inicio: "13:30", fim: "17:00",
+      local: "parque-do-lago", categoria: "criancas",
+      descricao: "Atividades de recreação com a Secretaria de Esporte."
+    },
+    {
+      titulo: "Transladação das cinzas do Padre Chagas",
+      data: "2026-12-09", inicio: "16:00",
+      local: "praca-nove-de-dezembro", categoria: "solene",
+      descricao: "Rito solene na Praça 9 de Dezembro, seguido de Santa Missa."
     },
     {
       id: "coral-dos-anjos", destaque: true,
@@ -206,53 +246,121 @@ window.NATAL = {
       local: "parque-do-lago", categoria: "musica",
       descricao: "Apresentação do Coral dos Anjos em comemoração ao aniversário de Guarapuava."
     },
+
     {
       titulo: "Prêmio Lobo Guará",
       data: "2026-12-12",
       local: "local-a-confirmar", categoria: "solene",
       descricao: "Premiação da Secretaria de Inovação."
     },
+
+    // Lagoa das Lágrimas
     {
-      titulo: "Caminhão-palco do SESI e food trucks",
-      de: "2026-12-17", ate: "2026-12-22", inicio: "18:00", fim: "23:00",
-      local: "lagoa-das-lagrimas", categoria: "musica",
-      descricao: "Apresentações culturais no caminhão-palco e food trucks à beira da lagoa. A programação das apresentações será divulgada em breve."
+      titulo: "Recreação na Lagoa das Lágrimas",
+      de: "2026-12-17", ate: "2026-12-22", inicio: "18:00", fim: "22:00",
+      local: "lagoa-das-lagrimas", categoria: "criancas",
+      descricao: "Atividades de recreação à beira da lagoa, todas as noites."
     },
     {
-      titulo: "Futevôlei",
+      titulo: "Carreta do SESI",
+      de: "2026-12-17", ate: "2026-12-22", inicio: "18:00", fim: "22:00",
+      local: "lagoa-das-lagrimas", categoria: "musica",
+      descricao: "A carreta do SESI fica na Lagoa das Lágrimas. A programação será divulgada em breve."
+    },
+    {
+      titulo: "Futevôlei com atletas profissionais",
       data: "2026-12-19",
       local: "praca-ucrania", categoria: "esporte",
-      descricao: "Futevôlei na Praça Ucrânia. Horário e programação a confirmar."
+      descricao: "Futevôlei com atletas profissionais de todo o país, na Praça da Ucrânia. Horário a confirmar."
+    },
+
+    // Teatro Municipal Marina Karam Primak
+    {
+      titulo: "Natal em Harmonia: Feira do Yelulu",
+      data: "2026-11-24", inicio: "10:00", fim: "22:00",
+      local: "teatro-municipal", categoria: "teatro",
+      descricao: "Feira aberta à comunidade."
     },
     {
-      titulo: "Réveillon no Parque do Lago",
-      data: "2026-12-31",
-      local: "parque-do-lago", categoria: "reveillon",
-      descricao: "A virada do ano no Parque do Lago. A programação será divulgada em breve."
+      titulo: "O Quebra-Nozes e os Quatro Reinos",
+      data: "2026-11-28", inicio: "16:00", rotuloHorario: "16h e 20h",
+      local: "teatro-municipal", categoria: "teatro",
+      descricao: "Espetáculo do Grupo SE, em duas sessões."
+    },
+    {
+      titulo: "O Quebra-Nozes e os Quatro Reinos: sessão de acessibilidade",
+      data: "2026-11-29",
+      local: "teatro-municipal", categoria: "teatro",
+      descricao: "Dia de acessibilidade, com ingressos doados a instituições sociais."
+    },
+    {
+      titulo: "Recital do Coral Municipal Maestro Antônio Silvino Turco: Nossos Pais, Volume II",
+      data: "2026-12-16", inicio: "18:30", rotuloHorario: "18h30 e 20h30",
+      local: "teatro-municipal", categoria: "teatro",
+      descricao: "Recital em duas sessões. Entrada gratuita."
+    },
+    {
+      titulo: "Concerto “As Quatro Estações”",
+      data: "2026-12-17", inicio: "20:00",
+      local: "teatro-municipal", categoria: "teatro",
+      descricao: "Entrada gratuita."
+    },
+    {
+      titulo: "Concerto de Natal com Light Simphony",
+      data: "2026-12-18", inicio: "20:00",
+      local: "teatro-municipal", categoria: "teatro",
+      descricao: "Concerto de Natal no Teatro Municipal."
+    },
+    {
+      titulo: "Joy Espetáculo de Natal",
+      data: "2026-12-19", inicio: "16:00", rotuloHorario: "16h e 20h",
+      local: "teatro-municipal", categoria: "teatro",
+      descricao: "Espetáculo de Natal da Igreja Comunidade Vida, em duas sessões."
+    },
+    {
+      titulo: "Joy Espetáculo de Natal",
+      data: "2026-12-20", inicio: "16:00",
+      local: "teatro-municipal", categoria: "teatro",
+      descricao: "Espetáculo de Natal da Igreja Comunidade Vida."
+    },
+    {
+      titulo: "Peça “Lembranças de Natal”",
+      data: "2026-12-21", inicio: "19:30",
+      local: "teatro-municipal", categoria: "teatro",
+      descricao: "Apresentação da Igreja Presbiteriana."
     }
   ],
 
   /* Atividades ainda sem data — aparecem em "Também vem aí", abaixo da agenda.
      Quando a data for confirmada, mova o item para a lista "eventos". */
-  semData: [
-    { titulo: "Traslado das cinzas do Padre Chagas", texto: "Da Praça 9 de Dezembro até a Catedral, com missa. Data e horário a confirmar." },
-    { titulo: "Programação de Natal do Teatro Municipal", texto: "Atrações e datas das apresentações a confirmar." }
-  ],
+  semData: [],
 
   /* Novidades — aparecem em "Novidades", a mais recente primeiro.
      Para dar uma notícia nova, acrescente um item no topo da lista.
      "link" e "rotuloLink" são opcionais (ex.: "#programacao", "#coral"). */
   novidades: [
     {
-      data: "2026-11-09",
-      titulo: "Luzes de Natal acesas a partir do dia 15",
-      texto: "A partir de domingo, 15 de novembro, a decoração de Natal da cidade fica acesa todas as noites.",
+      data: "2026-11-23",
+      titulo: "A Casa do Papai Noel abre no dia 4 de dezembro",
+      texto: "A abertura é às 19h, no Centro de Artes Iracema Trinco Ribeiro. A Casa fica aberta até 23 de dezembro.",
+      link: "#programacao", rotuloLink: "Ver na programação"
+    },
+    {
+      data: "2026-11-23",
+      titulo: "Feira Natalina em Entre Rios",
+      texto: "Dia 5 de dezembro, das 15h30 às 20h, no Centro de Eventos Agrária. Presentes, artesanato, delícias natalinas e música. Entrada gratuita.",
+      link: "#programacao", rotuloLink: "Ver na programação"
+    },
+    {
+      data: "2026-11-23",
+      titulo: "O Natal do Teatro Municipal está na agenda",
+      texto: "O Quebra-Nozes, concertos, recital do Coral Municipal e espetáculos de Natal no Teatro Municipal Marina Karam Primak.",
       link: "#programacao", rotuloLink: "Ver na programação"
     },
     {
       data: "2026-11-09",
-      titulo: "A Casa do Papai Noel abre no dia 1º de dezembro",
-      texto: "Na abertura, às 19h, chega o Papai Noel. Depois, ele atende todas as noites até 22 de dezembro, das 19h às 23h, no Centro de Artes.",
+      titulo: "Luzes de Natal acesas a partir do dia 15",
+      texto: "A partir de domingo, 15 de novembro, a decoração de Natal da cidade fica acesa todas as noites.",
       link: "#programacao", rotuloLink: "Ver na programação"
     },
     {
@@ -262,66 +370,6 @@ window.NATAL = {
       link: "#coral", rotuloLink: "Ver o destaque"
     }
   ],
-
-  /* Enfeites e luzes de 2026 — seção "A cidade já acendeu" (menu "Luzes").
-     Cada item de "lugares" vira um bloco com fotos, etiquetas e informações.
-     Para acrescentar um lugar novo, copie o item da Casa do Papai Noel e troque os dados.
-     "local" é o id do lugar na lista "locais" (usa o endereço, o mapa e as atrações da programação).
-     As fotos ficam em assets/img/decoracao/: "arquivo.webp" (grande) e "arquivo-p.webp" (miniatura).
-     A primeira foto é a principal (de preferência horizontal); a segunda entra menor, por cima.
-     "icone" das informações: "relogio", "agenda", "pino" ou "estrela".
-     Deixe "lugares" vazio para esconder a seção. */
-  decoracao: {
-    sobre: "Enfeites e luzes de 2026",
-    titulo: "A cidade já acendeu",
-    texto: "Desde 15 de novembro, a decoração de Natal fica acesa todas as noites. Aqui estão os enfeites e as luzes deste ano, lugar por lugar.",
-    lugares: [
-      {
-        local: "casa-papai-noel",
-        nome: "Casa do Papai Noel",
-        chamada: "No Centro de Artes, atrás do Carneiro Martins",
-        texto: "Um arco de Feliz Natal entre duas bengalas gigantes recebe quem chega. No gramado, estrelas, árvores e bonecos de luz; no telhado, cascatas de luzinhas. A casa fica acesa todas as noites e, a partir de 1º de dezembro, o Papai Noel recebe as visitas aqui.",
-        enfeites: ["Arco Feliz Natal", "Bengalas gigantes", "Bonecos de luz", "Estrelas", "Cascatas no telhado"],
-        info: [
-          { icone: "estrela", texto: "Acesa todas as noites" },
-          { icone: "agenda",  texto: "Papai Noel de 1º a 22 de dezembro, das 19h às 23h" }
-        ],
-        carimbo: { centro: "ACESA", baixo: "15 NOV" },
-        fotos: [
-          { arquivo: "casa-papai-noel-01", largura: 1200, altura: 675, descricao: "Casa do Papai Noel iluminada à noite, com o arco de Feliz Natal entre duas bengalas gigantes de luz" },
-          { arquivo: "casa-papai-noel-02", largura: 720,  altura: 900, descricao: "Bengala gigante de luz, estrelas e bonecos iluminados no gramado em frente à Casa do Papai Noel" }
-        ]
-      }
-    ]
-  },
-
-  /* Gerador de postal — seção "Mande um postal de Natal" (menu "Postal").
-     Tudo é montado no aparelho de quem usa: nada é enviado nem guardado.
-     "frentes": imagens que a pessoa pode escolher para a frente do postal.
-     "frases": recados prontos (até 140 caracteres).
-     "assinatura": mensagem da Prefeitura que sai no rodapé do postal.
-     Deixe postal: null para esconder a seção. */
-  postal: {
-    texto: "Escolha um lugar da cidade, um selo e escreva um recado para quem você gosta. Se quiser, coloque uma foto sua. O postal sai pronto para mandar no WhatsApp, postar no story ou imprimir.",
-    instagram: "@guarapuava_pref",
-    assinatura: "Que o seu Natal acenda junto com a cidade.",
-    assinaturaLinha2: "A Prefeitura de Guarapuava te deseja um Feliz Natal!",
-    frentes: [
-      { imagem: "assets/img/postal-arvore.webp",       nome: "Praça Nove de Dezembro" },
-      { imagem: "assets/img/postal-parque-lago.webp",  nome: "Parque do Lago" },
-      { imagem: "assets/img/postal-lagoa.webp",        nome: "Lagoa das Lágrimas" },
-      { imagem: "assets/img/postal-ponte-cidade.webp", nome: "Parque do Lago" },
-      { imagem: "assets/img/coral-postal.webp",        nome: "Coral dos Anjos" },
-      { imagem: "assets/img/decoracao/casa-papai-noel-01.webp", nome: "Casa do Papai Noel" }
-    ],
-    selos: ["catedral", "gralha-azul", "araucaria", "pinhao", "casa", "raposa", "beija-flor", "cachoeira", "portal", "postes", "estrutura", "floco"],
-    frases: [
-      "Guarapuava acendeu e eu lembrei de você. Vem ver as luzes comigo?",
-      "Que a sua casa fique cheia de luz, de abraço e de gente querida neste Natal.",
-      "Quando a tarde cai, a cidade acende. E o meu Natal fica mais bonito com você por perto.",
-      "Um abraço quentinho daqui de Guarapuava. Feliz Natal!"
-    ]
-  },
 
   /* Galeria — fotos das luzes do Natal 2025.
      As imagens ficam em assets/img/galeria/: "arquivo.webp" (grande) e "arquivo-p.webp" (miniatura).
@@ -366,7 +414,7 @@ window.NATAL = {
   perguntas: [
     {
       pergunta: "Preciso pagar ou retirar ingresso?",
-      resposta: "Não. As atrações da programação oficial são gratuitas e abertas ao público, a não ser quando o evento disser o contrário."
+      resposta: "As atrações ao ar livre são abertas ao público. No Teatro Municipal, confira cada apresentação: quando a entrada é gratuita, a agenda avisa."
     },
     {
       pergunta: "E se chover?",
