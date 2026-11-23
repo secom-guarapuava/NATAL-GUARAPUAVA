@@ -380,6 +380,58 @@
     });
   })();
 
+  /* ---------- visor (imagem ampliada: galeria e varal) ---------- */
+  var visorAbre = (function () {
+    var visor = $("#visor"), vImg = $("#visorImg"), vLeg = $("#visorLegenda");
+    if (!visor || typeof visor.showModal !== "function") {
+      return function (l, i) { window.open(l[i].src, "_blank", "noopener"); };
+    }
+    var lista = [], atual = 0, origem = null;
+    var precarrega = function (i) { var im = new Image(); im.src = lista[(i + lista.length) % lista.length].src; };
+    var mostra = function (i) {
+      atual = (i + lista.length) % lista.length;
+      var f = lista[atual];
+      vImg.classList.remove("ok");
+      vImg.onload = function () { vImg.classList.add("ok"); };
+      vImg.src = f.src;
+      vImg.alt = f.alt;
+      vImg.width = f.w; vImg.height = f.h;
+      vLeg.innerHTML = esc(f.legenda) + '<span class="visor-num">' + (atual + 1) + " de " + lista.length + "</span>";
+      precarrega(atual + 1); precarrega(atual - 1);
+    };
+    $("#visorFechar").addEventListener("click", function () { visor.close(); });
+    $("#visorAnt").addEventListener("click", function () { mostra(atual - 1); });
+    $("#visorProx").addEventListener("click", function () { mostra(atual + 1); });
+    visor.addEventListener("close", function () {
+      document.documentElement.classList.remove("visor-aberto");
+      if (origem) origem.focus({ preventScroll: true });
+    });
+    visor.addEventListener("click", function (e) { if (e.target === visor) visor.close(); });
+    visor.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { e.preventDefault(); mostra(atual + 1); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); mostra(atual - 1); }
+    });
+    var x0 = null;
+    visor.addEventListener("pointerdown", function (e) { x0 = e.clientX; });
+    visor.addEventListener("pointerup", function (e) {
+      if (x0 === null) return;
+      var dx = e.clientX - x0; x0 = null;
+      if (Math.abs(dx) > 50) mostra(atual + (dx < 0 ? 1 : -1));
+    });
+    return function (l, i, quem, opc) {
+      opc = opc || {};
+      lista = l; origem = quem || null;
+      var postal = !!opc.postal;
+      visor.setAttribute("aria-label", opc.rotulo || "Foto ampliada");
+      visor.classList.toggle("visor-postal", postal);
+      $("#visorAnt").setAttribute("aria-label", postal ? "Postal anterior" : "Foto anterior");
+      $("#visorProx").setAttribute("aria-label", postal ? "Próximo postal" : "Próxima foto");
+      mostra(i);
+      visor.showModal();
+      document.documentElement.classList.add("visor-aberto");
+    };
+  })();
+
   /* ---------- galeria 2025 ---------- */
   (function () {
     var G = D.galeria, sec = $("#galeria"), album = $("#album");
@@ -428,52 +480,112 @@
     }
 
     // visor (foto ampliada)
-    var visor = $("#visor"), vImg = $("#visorImg"), vLeg = $("#visorLegenda"), atual = 0, origem = null;
-    if (!visor || typeof visor.showModal !== "function") {
-      album.addEventListener("click", function (e) {
-        var b = e.target.closest(".foto-bt"); if (!b) return;
-        window.open(base + fotos[+b.getAttribute("data-i")].arquivo + ".webp", "_blank", "noopener");
-      });
-      return;
-    }
-    var precarrega = function (i) { var im = new Image(); im.src = base + fotos[(i + fotos.length) % fotos.length].arquivo + ".webp"; };
-    var mostra = function (i) {
-      atual = (i + fotos.length) % fotos.length;
-      var f = fotos[atual];
-      vImg.classList.remove("ok");
-      vImg.onload = function () { vImg.classList.add("ok"); };
-      vImg.src = base + f.arquivo + ".webp";
-      vImg.alt = f.descricao;
-      vImg.width = f.largura; vImg.height = f.altura;
-      vLeg.innerHTML = esc(f.descricao) + '<span class="visor-num">' + (atual + 1) + " de " + fotos.length + "</span>";
-      precarrega(atual + 1); precarrega(atual - 1);
-    };
+    var itens = fotos.map(function (f) {
+      return { src: base + f.arquivo + ".webp", alt: f.descricao, legenda: f.descricao, w: f.largura, h: f.altura };
+    });
     album.addEventListener("click", function (e) {
       var b = e.target.closest(".foto-bt"); if (!b) return;
-      origem = b;
-      mostra(+b.getAttribute("data-i"));
-      visor.showModal();
-      document.documentElement.classList.add("visor-aberto");
+      visorAbre(itens, +b.getAttribute("data-i"), b);
     });
-    $("#visorFechar").addEventListener("click", function () { visor.close(); });
-    $("#visorAnt").addEventListener("click", function () { mostra(atual - 1); });
-    $("#visorProx").addEventListener("click", function () { mostra(atual + 1); });
-    visor.addEventListener("close", function () {
-      document.documentElement.classList.remove("visor-aberto");
-      if (origem) origem.focus({ preventScroll: true });
+  })();
+
+  /* ---------- varal de postais ---------- */
+  (function () {
+    var V = D.varal, sec = $("#varal"), trilho = $("#varalTrilho"), lista = $("#varalLista"), fio = $("#varalFio");
+    if (!sec || !lista) return;
+    if (!V || !(V.postais || []).length) { sec.hidden = true; return; }
+    sec.hidden = false;
+    if (V.titulo) $("#t-varal").textContent = V.titulo;
+    $("#varalTexto").textContent = V.texto || "";
+    var base = "assets/img/postais/", ps = V.postais;
+    var giros = [-2.4, 1.8, -1.2, 2.2, -1.9, 1.3];
+    var pregador = '<svg class="pregador" viewBox="0 0 18 44" aria-hidden="true" focusable="false">' +
+      '<rect x="3" y="1" width="12" height="42" rx="3" fill="#C99A5B"/><rect x="3" y="1" width="5.6" height="42" rx="2.6" fill="#D9AE70"/>' +
+      '<path d="M9 2v40" stroke="#8A6236" stroke-width="1"/><rect x="1" y="15" width="16" height="7" rx="2" fill="#B8BCC2"/>' +
+      '<path d="M2.5 18.5h13" stroke="#7E848C" stroke-width="1.2"/></svg>';
+    lista.innerHTML = ps.map(function (p, i) {
+      return '<li class="pv" style="--r:' + giros[i % giros.length] + 'deg;--t:' + (5.4 + (i % 3) * 0.8).toFixed(1) + 's;--d:-' + (i * 1.9 % 5).toFixed(1) + 's">' +
+        '<button class="pv-bt" type="button" data-i="' + i + '" aria-label="Ampliar postal: ' + esc(p.descricao) + '">' + pregador +
+        '<img src="' + base + esc(p.arquivo) + '-p.webp" width="720" height="405" alt="" loading="lazy" decoding="async">' +
+        "</button></li>";
+    }).join("");
+
+    var itens = ps.map(function (p) {
+      return { src: base + p.arquivo + ".webp", alt: p.descricao, legenda: p.titulo || p.descricao, w: 1600, h: 900 };
     });
-    visor.addEventListener("click", function (e) { if (e.target === visor) visor.close(); });
-    visor.addEventListener("keydown", function (e) {
-      if (e.key === "ArrowRight") { e.preventDefault(); mostra(atual + 1); }
-      else if (e.key === "ArrowLeft") { e.preventDefault(); mostra(atual - 1); }
+    lista.addEventListener("click", function (e) {
+      var b = e.target.closest(".pv-bt"); if (!b) return;
+      visorAbre(itens, +b.getAttribute("data-i"), b, { rotulo: "Postal ampliado", postal: true });
     });
-    var x0 = null;
-    visor.addEventListener("pointerdown", function (e) { x0 = e.clientX; });
-    visor.addEventListener("pointerup", function (e) {
-      if (x0 === null) return;
-      var dx = e.clientX - x0; x0 = null;
-      if (Math.abs(dx) > 50) mostra(atual + (dx < 0 ? 1 : -1));
-    });
+
+    // o fio: uma curva entre os pregadores de cada fileira, com lâmpadas penduradas
+    var NS = "http://www.w3.org/2000/svg", CORES = 4, PINO = 14;
+    var desenha = function () {
+      var W = lista.scrollWidth, H = lista.scrollHeight;
+      fio.setAttribute("width", W); fio.setAttribute("height", H);
+      fio.setAttribute("viewBox", "0 0 " + W + " " + H);
+      var fileiras = [];
+      Array.prototype.forEach.call(lista.children, function (li) {
+        var x = li.offsetLeft + li.offsetWidth / 2, y = li.offsetTop - PINO;
+        var f = null;
+        for (var k = 0; k < fileiras.length; k++) if (Math.abs(fileiras[k].y - y) < 24) f = fileiras[k];
+        if (!f) { f = { y: y, xs: [] }; fileiras.push(f); }
+        f.xs.push(x); f.ws = li.offsetWidth;
+      });
+      var html = '<defs>';
+      for (var c = 0; c < CORES; c++) html += '<radialGradient id="vh' + c + '"><stop offset="0" class="vh' + c + '"/><stop offset="1" class="vh' + c + '" stop-opacity="0"/></radialGradient>';
+      html += "</defs>";
+      var caminhos = [], n = 0;
+      fileiras.forEach(function (f) {
+        var pts = [[-30, f.y - 26]].concat(f.xs.map(function (x) { return [x, f.y]; }), [[W + 30, f.y - 26]]);
+        var d = "M" + pts[0][0] + " " + pts[0][1];
+        for (var i = 1; i < pts.length; i++) {
+          var a = pts[i - 1], b = pts[i], borda = i === 1 || i === pts.length - 1;
+          var cx = (a[0] + b[0]) / 2, cy = Math.max(a[1], b[1]) + (borda ? Math.min(70, Math.abs(b[0] - a[0]) * 0.16) : Math.min(16, Math.abs(b[0] - a[0]) * 0.035));
+          d += " Q" + cx.toFixed(1) + " " + cy.toFixed(1) + " " + b[0].toFixed(1) + " " + b[1].toFixed(1);
+        }
+        caminhos.push({ d: d, xs: f.xs, meia: f.ws / 2 - 12 });
+      });
+      html += caminhos.map(function (c) { return '<path class="fio" d="' + c.d + '"/>'; }).join("");
+      fio.innerHTML = html;
+      // lâmpadas ao longo de cada fio, longe dos pregadores
+      var g = "";
+      Array.prototype.forEach.call(fio.querySelectorAll("path.fio"), function (p, k) {
+        var L = p.getTotalLength(), passo = 40, xs = caminhos[k].xs, meia = caminhos[k].meia;
+        for (var s = passo / 2; s < L; s += passo) {
+          var pt = p.getPointAtLength(s);
+          if (pt.x < -6 || pt.x > W + 6) continue;
+          var perto = false, sobre = false;
+          for (var j = 0; j < xs.length; j++) {
+            var dx = Math.abs(xs[j] - pt.x);
+            if (dx < 22) perto = true;
+            if (dx < meia) sobre = true;
+          }
+          if (perto) continue;
+          // por cima dos postais a lâmpada aponta para o alto; nos vãos, fica pendurada
+          var giro = (n % 2 ? 14 : -12) + (n % 3) * 4 + (sobre ? 180 : 0), cor = n % CORES;
+          g += '<g class="lamp l' + cor + '" style="--d:-' + ((n * 0.73) % 3.1).toFixed(2) + 's" transform="translate(' + pt.x.toFixed(1) + " " + pt.y.toFixed(1) + ") rotate(" + giro + ')">' +
+            '<circle class="halo" cy="13" r="15" fill="url(#vh' + cor + ')"/>' +
+            '<rect x="-3.2" y="0" width="6.4" height="5.5" rx="1.2" fill="#173523"/>' +
+            '<path class="bulbo" d="M-4.2 5.2 C-6.2 10 -4.8 17.5 0 19.5 C4.8 17.5 6.2 10 4.2 5.2 Z"/></g>';
+          n++;
+        }
+      });
+      fio.insertAdjacentHTML("beforeend", g);
+    };
+    desenha();
+    if ("ResizeObserver" in window) {
+      var larg = 0;
+      new ResizeObserver(function () {
+        var w = lista.clientWidth; if (w === larg) return; larg = w; desenha();
+      }).observe(lista);
+    } else window.addEventListener("resize", desenha);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(desenha);
+
+    // só balança e pisca enquanto está na tela
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (en) { sec.classList.toggle("vivo", en[0].isIntersecting); }, { rootMargin: "120px 0px" }).observe(sec);
+    } else sec.classList.add("vivo");
   })();
 
   /* ---------- ainda sem data ---------- */

@@ -371,6 +371,28 @@ window.NATAL = {
     }
   ],
 
+  /* Varal de postais — ilustrações em aquarela penduradas entre a Programação e os Lugares.
+     As imagens ficam em assets/img/postais/: "arquivo.webp" (grande, para o zoom) e "arquivo-p.webp" (miniatura).
+     "titulo" aparece embaixo do postal ampliado; "descricao" é o texto para leitores de tela. */
+  varal: {
+    titulo: "Postais do Natal",
+    texto: "Guarapuava iluminada, pintada em aquarela. Toque num postal para ver de perto.",
+    postais: [
+      { arquivo: "postal-letreiro-feliz-natal", titulo: "Feliz Natal em luzes",
+        descricao: "Postal em aquarela: letreiro gigante “Feliz Natal” em luzes vermelhas, com uma estrela branca no meio, ao anoitecer." },
+      { arquivo: "postal-arcos-lago", titulo: "Arcos de luz à beira do lago",
+        descricao: "Postal em aquarela: arcos vermelhos iluminados e bolas de Natal gigantes no gramado, à beira de um lago, ao entardecer." },
+      { arquivo: "postal-casa-feliz-natal", titulo: "Casa enfeitada para o Natal",
+        descricao: "Postal em aquarela: casa de telhado pontudo coberta de luzes, com uma bengala doce gigante e um arco “Feliz Natal” na entrada." },
+      { arquivo: "postal-fontes-lago", titulo: "Fontes iluminadas",
+        descricao: "Postal em aquarela: fontes iluminadas no meio de um lago, com as luzes refletidas na água ao anoitecer." },
+      { arquivo: "postal-presentes", titulo: "Presentes de luz",
+        descricao: "Postal em aquarela: caixas de presente gigantes feitas de luzes azuis, vermelhas e brancas, num gramado entre árvores." },
+      { arquivo: "postal-praca-arvores", titulo: "Praça das árvores acesas",
+        descricao: "Postal em aquarela: praça arborizada com árvores iluminadas em vermelho e dourado e postes acesos ao longo do caminho." }
+    ]
+  },
+
   /* Galeria — fotos das luzes do Natal 2025.
      As imagens ficam em assets/img/galeria/: "arquivo.webp" (grande) e "arquivo-p.webp" (miniatura).
      A ordem da lista é a ordem na página. "visiveis" é quantas aparecem antes do botão "Ver mais fotos". */
