@@ -833,6 +833,7 @@ html.visor-aberto{overflow:hidden}
 .nov-carimbo text{font-family:var(--texto);font-weight:700;fill:currentColor}
 .nov-carimbo .pm-dia{font-family:var(--serifa);font-weight:400}
 .nov-data{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:.9rem;font-weight:700;color:var(--tinta-2);letter-spacing:.02em}
+.nov-pub{font-weight:400;font-size:.82rem;opacity:.8}
 .nov-selo{display:inline-block;background:var(--vermelho-natal);color:var(--creme);font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;
   padding:4px 9px 3px;border-radius:999px}
 .nov-item h3{font-family:var(--serifa);font-weight:400;font-size:clamp(1.3rem,2.2vw,1.5rem);line-height:1.15;color:var(--tinta);margin:8px 0 8px;text-wrap:balance}

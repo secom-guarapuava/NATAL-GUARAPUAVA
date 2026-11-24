@@ -730,8 +730,10 @@
     box.innerHTML = lista.map(function (n, i) {
       var p = partes(n.data);
       return '<article class="nov-item' + (i === 0 ? " nov-nova" : "") + '" style="--i:' + i + '">' +
-        carimbo(n.data, "nov-carimbo") +
-        '<p class="nov-data">' + (i === 0 ? '<span class="nov-selo">Mais recente</span>' : "") + ord(p.d) + " de " + MESES[p.m] + "</p>" +
+        // a data aqui é a da publicação: fica discreta e em número, para não ser lida como data de evento
+        carimbo(null, "nov-carimbo", "GUARAPUAVA", "✦", "") +
+        '<p class="nov-data">' + (i === 0 ? '<span class="nov-selo">Mais recente</span>' : "") +
+        '<span class="nov-pub">Publicada em ' + ("0" + p.d).slice(-2) + "/" + ("0" + (p.m + 1)).slice(-2) + "</span></p>" +
         "<h3>" + esc(n.titulo) + "</h3>" +
         (n.texto ? "<p>" + esc(n.texto) + "</p>" : "") +
         (n.link && !(EM_BREVE && n.link === "#programacao") ? '<a class="nov-link" href="' + esc(n.link) + '">' + esc(n.rotuloLink || "Saiba mais") + ' <span aria-hidden="true">→</span></a>' : "") +
