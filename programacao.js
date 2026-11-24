@@ -42,7 +42,7 @@ window.NATAL = {
     texto: "Um dos momentos mais esperados do Natal em Guarapuava: crianças vestidas de anjo, com asas de luz e velas nas mãos, cantando à beira do lago no aniversário da cidade.",
     // horário do momento principal (usado em "Salvar na agenda" desta seção)
     inicio: "20:00", fim: "22:00",
-    rotuloHorario: "Às 20h",
+    rotuloHorario: "A partir das 19h, com apresentação às 20h",
     imagem: "assets/img/coral-postal.webp",
     luzes: "assets/img/coral-luzes.webp"
   },
@@ -175,22 +175,24 @@ window.NATAL = {
     {
       titulo: "Brinquedos e food trucks",
       de: "2026-12-01", ate: "2026-12-23", inicio: "14:00", fim: "22:00",
+      // dias com horário diferente do resto do período
+      excecoes: { "2026-12-01": { inicio: "18:00", fim: "22:00" } },
       local: "praca-nove-de-dezembro", categoria: "criancas",
-      descricao: "Brinquedos para a criançada e food trucks na praça, todos os dias. A previsão é ter chapéu mexicano e aviões."
+      descricao: "Brinquedos para crianças de até 12 anos e food trucks na praça. No primeiro dia, 1º de dezembro, das 18h às 22h; nos demais, das 14h às 22h. A previsão é ter chapéu mexicano e aviões."
     },
 
     // Casa do Papai Noel
     {
       titulo: "Abertura da Casa do Papai Noel",
-      data: "2026-12-04", inicio: "19:00",
+      data: "2026-12-04", inicio: "18:00",
       local: "casa-papai-noel", categoria: "criancas",
       descricao: "Abertura da Casa do Papai Noel, no Centro de Artes Iracema Trinco Ribeiro."
     },
     {
       titulo: "Casa do Papai Noel",
-      de: "2026-12-04", ate: "2026-12-23", inicio: "19:00", fim: "23:00",
+      de: "2026-12-05", ate: "2026-12-23", inicio: "18:00", fim: "22:00",
       local: "casa-papai-noel", categoria: "criancas",
-      descricao: "O Papai Noel recebe as visitas na Casa do Papai Noel, no Centro de Artes, todas as noites."
+      descricao: "O Papai Noel recebe as visitas na Casa do Papai Noel, no Centro de Artes, todos os dias."
     },
 
     // Câmara Municipal (sessões solenes, na OAB)
@@ -223,7 +225,7 @@ window.NATAL = {
       titulo: "Feira Natalina de Entre Rios (Weihnachtsmarkt)",
       data: "2026-12-05", inicio: "15:30", fim: "20:00",
       local: "centro-eventos-agraria", categoria: "feira",
-      descricao: "Presentes, decoração, artesanato e delícias natalinas, com música e cultura para toda a família. Apresentação do Ministério da Cultura e da Fundação Cultural Suábio-Brasileira. Entrada gratuita."
+      descricao: "Apresentações culturais, artesanato e praça de alimentação, num clima de mercado de Natal. Acessível em Libras. Apresentação do Ministério da Cultura e da Fundação Cultural Suábio-Brasileira. Entrada gratuita."
     },
 
     // 9 de dezembro, aniversário da cidade
@@ -242,9 +244,9 @@ window.NATAL = {
     {
       id: "coral-dos-anjos", destaque: true,
       titulo: "Coral dos Anjos",
-      data: "2026-12-09", inicio: "20:00",
+      data: "2026-12-09", inicio: "19:00", rotuloHorario: "A partir das 19h · apresentação às 20h",
       local: "parque-do-lago", categoria: "musica",
-      descricao: "Apresentação do Coral dos Anjos em comemoração ao aniversário de Guarapuava."
+      descricao: "Apresentação do Coral dos Anjos em comemoração ao aniversário de Guarapuava. O coral começa a cantar às 20h."
     },
 
     {
@@ -262,10 +264,10 @@ window.NATAL = {
       descricao: "Atividades de recreação à beira da lagoa, todas as noites."
     },
     {
-      titulo: "Carreta do SESI",
+      titulo: "Carreta do SESI: apresentações culturais",
       de: "2026-12-17", ate: "2026-12-22", inicio: "18:00", fim: "22:00",
       local: "lagoa-das-lagrimas", categoria: "musica",
-      descricao: "A carreta do SESI fica na Lagoa das Lágrimas. A programação será divulgada em breve."
+      descricao: "Apresentações culturais na Carreta do SESI, com food trucks, todas as noites na Lagoa das Lágrimas."
     },
     {
       titulo: "Futevôlei com atletas profissionais",
@@ -340,15 +342,21 @@ window.NATAL = {
      "link" e "rotuloLink" são opcionais (ex.: "#programacao", "#coral"). */
   novidades: [
     {
-      data: "2026-11-23",
-      titulo: "A Casa do Papai Noel abre no dia 4 de dezembro",
-      texto: "A abertura é às 19h, no Centro de Artes Iracema Trinco Ribeiro. A Casa fica aberta até 23 de dezembro.",
+      data: "2026-11-24",
+      titulo: "Casa do Papai Noel: horários confirmados",
+      texto: "A abertura é no dia 4 de dezembro, às 18h, no Centro de Artes Iracema Trinco Ribeiro. De 5 a 23 de dezembro, o Papai Noel recebe as visitas todos os dias, das 18h às 22h.",
+      link: "#programacao", rotuloLink: "Ver na programação"
+    },
+    {
+      data: "2026-11-24",
+      titulo: "Brinquedos na Praça 9 de Dezembro",
+      texto: "De 1º a 23 de dezembro, brinquedos para crianças de até 12 anos e food trucks. No primeiro dia, das 18h às 22h; nos demais, das 14h às 22h.",
       link: "#programacao", rotuloLink: "Ver na programação"
     },
     {
       data: "2026-11-23",
       titulo: "Feira Natalina em Entre Rios",
-      texto: "Dia 5 de dezembro, das 15h30 às 20h, no Centro de Eventos Agrária. Presentes, artesanato, delícias natalinas e música. Entrada gratuita.",
+      texto: "Dia 5 de dezembro, das 15h30 às 20h, no Centro de Eventos Agrária. Apresentações culturais, artesanato e praça de alimentação, com acessibilidade em Libras. Entrada gratuita.",
       link: "#programacao", rotuloLink: "Ver na programação"
     },
     {

@@ -69,7 +69,11 @@
   (D.eventos || []).forEach(function (ev, i) {
     var datas = ev.datas || (ev.data ? [ev.data] : []);
     if (ev.de && ev.ate) { datas = []; for (var dd = ev.de; dd <= ev.ate; dd = somaDias(dd, 1)) datas.push(dd); }
-    datas.forEach(function (dt) { ocorrencias.push({ ev: ev, data: dt, id: i + "-" + dt }); });
+    datas.forEach(function (dt) {
+      // um dia com horário próprio (ev.excecoes) vira uma cópia do evento com esse horário
+      var e = ev.excecoes && ev.excecoes[dt] ? Object.assign({}, ev, ev.excecoes[dt], { base: ev }) : ev;
+      ocorrencias.push({ ev: e, data: dt, id: i + "-" + dt, n: i });
+    });
   });
   ocorrencias.sort(function (a, b) {
     return a.data < b.data ? -1 : a.data > b.data ? 1 : (a.ev.inicio || "") < (b.ev.inicio || "") ? -1 : 1;
@@ -127,7 +131,7 @@
 
   /* ---------- links úteis ---------- */
   function linkAgenda(o) {
-    var ev = o.ev, l = locais[ev.local] || {};
+    var ev = o.evDia || o.ev, l = locais[ev.local] || {};
     var d = o.data.replace(/-/g, "");
     var datas;
     if (!ev.inicio) { datas = d + "/" + somaDias(o.data, 1).replace(/-/g, ""); }
@@ -147,7 +151,7 @@
   }
   function urlSite() { return location.href.split("#")[0]; }
   function linkWhats(o) {
-    var ev = o.ev, l = locais[ev.local] || {}, p = partes(o.data);
+    var ev = o.evDia || o.ev, l = locais[ev.local] || {}, p = partes(o.data);
     var txt = ev.titulo + ", " + DIAS[diaSemana(o.data)] + " " + ord(p.d) + " de " + MESES[p.m] +
       (ev.inicio ? ", " + horario(ev) : "") + (l.nome ? ". Local: " + l.nome : "") +
       ". Programação completa do Natal em Guarapuava: " + urlSite() + "#programacao";
@@ -208,7 +212,10 @@
       var vistos = {};
       lista = lista.filter(function (o) {
         if (!(o.ev.de && o.ev.ate)) return true;
-        var k = D.eventos.indexOf(o.ev); if (vistos[k]) return false; vistos[k] = 1; return true;
+        if (vistos[o.n]) return false; vistos[o.n] = 1; return true;
+      }).map(function (o) {
+        // no cartão único do período vale o horário geral; a agenda usa o horário do dia
+        return o.ev.base ? { ev: o.ev.base, evDia: o.ev, data: o.data, id: o.id, n: o.n } : o;
       });
     }
     var fl = $("#filtroLocal");
@@ -311,7 +318,8 @@
       '<li><svg aria-hidden="true"><use href="#i-agenda"/></svg>' + esc(sem.charAt(0).toUpperCase() + sem.slice(1, sem.indexOf("-") > 0 ? sem.indexOf("-") : sem.length)) + ", " + ord(p.d) + " de " + MESES[p.m] + "</li>" +
       '<li><svg aria-hidden="true"><use href="#i-relogio"/></svg>' + esc(dq.rotuloHorario || horario(ev)) + "</li>" +
       '<li><svg aria-hidden="true"><use href="#i-pino"/></svg>' + esc(l.nome || "") + "</li>" +
-      (ev.inicio && ev.fim && ev.inicio !== dq.inicio ? '<li class="sub">Programação no local ' + esc(horario(ev).replace(/^(\d)/, "das $1")) + "</li>" : "");
+      (dq.sub ? '<li class="sub">' + esc(dq.sub) + "</li>" :
+        ev.inicio && ev.fim && ev.inicio !== dq.inicio ? '<li class="sub">Programação no local ' + esc(horario(ev).replace(/^(\d)/, "das $1")) + "</li>" : "");
     $("#coralAcoes").innerHTML =
       '<a class="bt bt-ouro" href="' + esc(linkAgenda(o)) + '" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-agenda"/></svg>Salvar na agenda</a>' +
       '<button class="bt bt-tinta" type="button" id="coralDia">Ver a programação do dia</button>';
