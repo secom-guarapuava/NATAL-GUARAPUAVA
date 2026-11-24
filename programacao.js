@@ -14,6 +14,10 @@ window.NATAL = {
     // Mostra o aviso "programação em atualização" acima da agenda
     programacaoProvisoria: true,
 
+    // Programação em stand-by: esconde a agenda e mostra o aviso "trenó em manutenção".
+    // Mude para false para voltar a exibir os eventos.
+    programacaoEmBreve: false,
+
     // Texto do período no topo. Deixe "" para calcular pela primeira e última data.
     periodoTexto: "a partir de 15 de novembro",
 
@@ -398,6 +402,73 @@ window.NATAL = {
         descricao: "Postal em aquarela: caixas de presente gigantes feitas de luzes azuis, vermelhas e brancas, num gramado entre árvores." },
       { arquivo: "postal-praca-arvores", titulo: "Praça das árvores acesas",
         descricao: "Postal em aquarela: praça arborizada com árvores iluminadas em vermelho e dourado e postes acesos ao longo do caminho." }
+    ]
+  },
+
+  /* Enfeites e luzes de 2026 — seção "A cidade já acendeu" (menu "Luzes").
+     Cada item de "lugares" vira um bloco com fotos, etiquetas e informações.
+     Para acrescentar um lugar novo, copie o item da Casa do Papai Noel e troque os dados.
+     "local" é o id do lugar na lista "locais" (usa o endereço, o mapa e as atrações da programação).
+     As fotos ficam em assets/img/decoracao/: "arquivo.webp" (grande) e "arquivo-p.webp" (miniatura).
+     A primeira foto é a principal (de preferência horizontal); a segunda entra menor, por cima.
+     "icone" das informações: "relogio", "agenda", "pino" ou "estrela".
+     Deixe "lugares" vazio para esconder a seção. */
+  decoracao: {
+    sobre: "Enfeites e luzes de 2026",
+    titulo: "A cidade já acendeu",
+    texto: "Desde 15 de novembro, a decoração de Natal fica acesa todas as noites. Aqui estão os enfeites e as luzes deste ano, lugar por lugar.",
+    lugares: [
+      {
+        local: "casa-papai-noel",
+        nome: "Casa do Papai Noel",
+        chamada: "No Centro de Artes, atrás do Carneiro Martins",
+        texto: "Um arco de Feliz Natal entre duas bengalas gigantes recebe quem chega. No gramado, estrelas, árvores e bonecos de luz; no telhado, cascatas de luzinhas. A casa fica acesa todas as noites e, a partir de 4 de dezembro, o Papai Noel recebe as visitas aqui.",
+        enfeites: ["Arco Feliz Natal", "Bengalas gigantes", "Bonecos de luz", "Estrelas", "Cascatas no telhado"],
+        info: [
+          { icone: "estrela", texto: "Acesa todas as noites" },
+          { icone: "agenda",  texto: "Abertura em 4 de dezembro, às 18h" },
+          { icone: "relogio", texto: "Papai Noel de 5 a 23 de dezembro, das 18h às 22h" }
+        ],
+        carimbo: { centro: "ACESA", baixo: "15 NOV" },
+        fotos: [
+          { arquivo: "casa-papai-noel-01", largura: 1200, altura: 675, descricao: "Casa do Papai Noel iluminada à noite, com o arco de Feliz Natal entre duas bengalas gigantes de luz" },
+          { arquivo: "casa-papai-noel-02", largura: 720,  altura: 900, descricao: "Bengala gigante de luz, estrelas e bonecos iluminados no gramado em frente à Casa do Papai Noel" }
+        ]
+      }
+    ]
+  },
+
+  /* Gerador de postal — seção "Mande um postal de Natal" (menu "Postal").
+     Tudo é montado no aparelho de quem usa: nada é enviado nem guardado.
+     "frentes": imagens que a pessoa pode escolher para a frente do postal ("miniatura" é opcional: imagem leve para a lista de escolha).
+     "frases": recados prontos (até 140 caracteres).
+     "assinatura": mensagem da Prefeitura que sai no rodapé do postal.
+     Deixe postal: null para esconder a seção. */
+  postal: {
+    texto: "Escolha um lugar da cidade, um selo e escreva um recado para quem você gosta. Se quiser, coloque uma foto sua. O postal sai pronto para mandar no WhatsApp, postar no story ou imprimir.",
+    instagram: "@guarapuava_pref",
+    assinatura: "Que o seu Natal acenda junto com a cidade.",
+    assinaturaLinha2: "A Prefeitura de Guarapuava te deseja um Feliz Natal!",
+    frentes: [
+      { imagem: "assets/img/postal-arvore.webp",       nome: "Praça Nove de Dezembro" },
+      { imagem: "assets/img/postal-parque-lago.webp",  nome: "Parque do Lago" },
+      { imagem: "assets/img/postal-lagoa.webp",        nome: "Lagoa das Lágrimas" },
+      { imagem: "assets/img/postal-ponte-cidade.webp", nome: "Parque do Lago" },
+      { imagem: "assets/img/coral-postal.webp",        nome: "Coral dos Anjos" },
+      { imagem: "assets/img/decoracao/casa-papai-noel-01.webp", nome: "Casa do Papai Noel" },
+      { imagem: "assets/img/postais/postal-letreiro-feliz-natal.webp", miniatura: "assets/img/postais/postal-letreiro-feliz-natal-p.webp", nome: "Feliz Natal em luzes" },
+      { imagem: "assets/img/postais/postal-arcos-lago.webp",           miniatura: "assets/img/postais/postal-arcos-lago-p.webp",           nome: "Arcos de luz" },
+      { imagem: "assets/img/postais/postal-casa-feliz-natal.webp",     miniatura: "assets/img/postais/postal-casa-feliz-natal-p.webp",     nome: "Casa enfeitada" },
+      { imagem: "assets/img/postais/postal-fontes-lago.webp",          miniatura: "assets/img/postais/postal-fontes-lago-p.webp",          nome: "Fontes iluminadas" },
+      { imagem: "assets/img/postais/postal-presentes.webp",            miniatura: "assets/img/postais/postal-presentes-p.webp",            nome: "Presentes de luz" },
+      { imagem: "assets/img/postais/postal-praca-arvores.webp",        miniatura: "assets/img/postais/postal-praca-arvores-p.webp",        nome: "Árvores acesas" }
+    ],
+    selos: ["catedral", "gralha-azul", "araucaria", "pinhao", "casa", "raposa", "beija-flor", "cachoeira", "portal", "postes", "estrutura", "floco"],
+    frases: [
+      "Guarapuava acendeu e eu lembrei de você. Vem ver as luzes comigo?",
+      "Que a sua casa fique cheia de luz, de abraço e de gente querida neste Natal.",
+      "Quando a tarde cai, a cidade acende. E o meu Natal fica mais bonito com você por perto.",
+      "Um abraço quentinho daqui de Guarapuava. Feliz Natal!"
     ]
   },
 

@@ -557,7 +557,7 @@
 
   $("gerFrentes").innerHTML = frentes.map(function (f, i) {
     return '<button type="button" class="ger-frente" aria-pressed="' + (i === E.frente) + '" data-i="' + i + '">' +
-      '<img src="' + esc(f.imagem) + '" alt="" loading="lazy"><span>' + esc(f.nome) + "</span></button>";
+      '<img src="' + esc(f.miniatura || f.imagem) + '" alt="" loading="lazy"><span>' + esc(f.nome) + "</span></button>";
   }).join("");
   $("gerSelos").innerHTML = selos.map(function (s, i) {
     return '<button type="button" class="ger-selo m' + (i % 3) + '" aria-pressed="' + (i === E.selo) + '" data-i="' + i + '" aria-label="Selo ' + esc(s.replace(/-/g, " ")) + '">' +

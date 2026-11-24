@@ -138,6 +138,9 @@
       <path d="M32 9 l7 14.2 15.6 2.3 -11.3 11 2.7 15.6 -14 -7.4 -14 7.4 2.7 -15.6 -11.3 -11 15.6 -2.3z" fill="#E2B24A"/>
       <path d="M32 9 l7 14.2 15.6 2.3 -11.3 11 2.7 15.6 -14 -7.4 z" fill="#D49E35"/>
     </symbol>
+    <symbol id="i-baixar" viewBox="0 0 24 24"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l1.6-2.4h6.8L17 8h3v11H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="13.5" r="3.4" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-cadeado" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
     <symbol id="i-estrela" viewBox="0 0 24 24"><path d="M12 1.5c.6 5.6 4.9 9.9 10.5 10.5-5.6.6-9.9 4.9-10.5 10.5C11.4 16.9 7.1 12.6 1.5 12 7.1 11.4 11.4 7.1 12 1.5z"/></symbol>
   </defs>
 </svg>
@@ -153,6 +156,8 @@
       <a href="#coral" id="menuCoral">Coral</a>
       <a href="#programacao">Programação</a>
       <a href="#lugares">Lugares</a>
+      <a href="#luzes" id="menuLuzes">Luzes</a>
+      <a href="#postal" id="menuPostal">Postal</a>
       <a href="#galeria">Galeria</a>
       <a href="#sobre">Sobre</a>
     </nav>
@@ -316,6 +321,87 @@
     <svg class="borda borda-baixo" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true"><use href="#borda-forma"/></svg>
   </section>
 
+  <!-- ================= ENFEITES E LUZES 2026 ================= -->
+  <section class="decoracao" id="luzes" aria-labelledby="t-deco" hidden>
+    <div class="env">
+      <header class="cabec claro cabec-deco">
+        <p class="deco-sobre" id="decoSobre">Enfeites e luzes de 2026</p>
+        <h2 id="t-deco">A cidade já acendeu</h2>
+        <p id="decoTexto"></p>
+      </header>
+      <div class="deco-lista" id="decoLista"></div>
+    </div>
+    <svg class="borda borda-baixo" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true"><use href="#borda-forma"/></svg>
+  </section>
+
+  <!-- ================= GERADOR DE POSTAL ================= -->
+  <section class="gerador papel" id="postal" aria-labelledby="t-postal" hidden>
+    <div class="env">
+      <header class="cabec cabec-postal">
+        <p class="nov-sobre">Agora é a sua vez</p>
+        <h2 id="t-postal">Mande um postal de Natal</h2>
+        <p id="postalTexto"></p>
+      </header>
+
+      <div class="ger-grade">
+        <div class="ger-previa">
+          <div class="ger-formatos" id="gerFormatos" role="radiogroup" aria-label="Formato do postal">
+            <button type="button" role="radio" data-formato="story" aria-checked="true">Story <small>para o celular</small></button>
+            <button type="button" role="radio" data-formato="postal" aria-checked="false">Postal <small>15 × 10 cm</small></button>
+          </div>
+          <div class="ger-tela"><canvas id="gerCanvas" width="1080" height="1920" role="img" aria-label="Prévia do seu postal"></canvas></div>
+          <div class="ger-acoes">
+            <button class="bt bt-vermelho" type="button" id="gerEnviar" hidden><svg aria-hidden="true"><use href="#i-enviar"/></svg>Enviar postal</button>
+            <button class="bt bt-verde" type="button" id="gerBaixar"><svg aria-hidden="true"><use href="#i-baixar"/></svg>Baixar imagem</button>
+          </div>
+          <p class="ger-erro" id="gerErro" role="alert" hidden></p>
+          <p class="ger-privado"><svg aria-hidden="true"><use href="#i-cadeado"/></svg>Seu postal é montado no seu aparelho. A foto e a mensagem não são enviadas nem guardadas pela Prefeitura.</p>
+        </div>
+
+        <form class="ger-form" id="gerForm" novalidate>
+          <fieldset class="ger-passo">
+            <legend><span>1</span>Escolha a frente</legend>
+            <div class="ger-frentes" id="gerFrentes"></div>
+          </fieldset>
+
+          <fieldset class="ger-passo">
+            <legend><span>2</span>Escolha o selo</legend>
+            <div class="ger-selos" id="gerSelos"></div>
+          </fieldset>
+
+          <fieldset class="ger-passo">
+            <legend><span>3</span>Escreva o recado</legend>
+            <label class="ger-campo"><span>Para</span><input type="text" id="gerPara" maxlength="28" autocomplete="off" placeholder="Ex.: Vó Lurdes"></label>
+            <p class="ger-rot">Comece por uma frase pronta ou escreva a sua:</p>
+            <div class="ger-frases" id="gerFrases"></div>
+            <label class="ger-campo"><span>Mensagem <small id="gerConta">0/140</small></span><textarea id="gerMsg" maxlength="140" rows="3"></textarea></label>
+            <label class="ger-campo"><span>De</span><input type="text" id="gerDe" maxlength="28" autocomplete="off" placeholder="Seu nome"></label>
+          </fieldset>
+
+          <fieldset class="ger-passo">
+            <legend><span>4</span>Uma foto sua <small>(opcional)</small></legend>
+            <p class="ger-rot">Ela entra no canto do postal, como foto 3x4 presa com fita.</p>
+            <p class="ger-aviso-foto"><svg aria-hidden="true"><use href="#i-cadeado"/></svg><span><b>Sua foto não sai do seu aparelho.</b> Ela não é enviada para a internet nem fica salva em lugar nenhum: serve só para montar o postal aqui na tela e some quando você fecha ou recarrega a página.</span></p>
+            <label class="bt bt-tinta ger-arquivo"><svg aria-hidden="true"><use href="#i-camera"/></svg><span id="gerFotoRot">Escolher foto</span><input type="file" id="gerFoto" accept="image/*"></label>
+            <div class="ger-foto-ajuste" id="gerAjuste" hidden>
+              <div class="ger-recorte" id="gerRecorte" title="Arraste para ajustar"><canvas id="gerRecorteCanvas" width="240" height="320" aria-label="Arraste para enquadrar a foto"></canvas></div>
+              <div class="ger-foto-controles">
+                <label class="ger-campo"><span>Zoom</span><input type="range" id="gerZoom" min="1" max="3" step="0.01" value="1"></label>
+                <p class="ger-rot">Efeito</p>
+                <div class="ger-efeitos" id="gerEfeitos" role="radiogroup" aria-label="Efeito da foto">
+                  <button type="button" role="radio" data-efeito="aquarela" aria-checked="true">Aquarela</button>
+                  <button type="button" role="radio" data-efeito="luzes" aria-checked="false">Luzinhas</button>
+                  <button type="button" role="radio" data-efeito="original" aria-checked="false">Sem efeito</button>
+                </div>
+                <button type="button" class="ger-tirar" id="gerTirar">Remover foto</button>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <!-- ================= GALERIA 2025 ================= -->
   <section class="galeria papel" id="galeria" aria-labelledby="t-galeria" hidden>
     <div class="env">
@@ -386,8 +472,8 @@
       <p class="rodape-links" id="rodapeLinks"></p>
     </div>
     <div class="remetente">
-      <p class="remetente-rot">Remetente</p>
-      <img src="assets/img/logo-prefeitura.webp" alt="Prefeitura de Guarapuava, Governo Municipal" width="1400" height="295" loading="lazy">
+      <p class="remetente-rot">Realização</p>
+      <img src="assets/img/logo-prefeitura-branca.webp" alt="Prefeitura de Guarapuava, Governo Municipal" width="1200" height="244" loading="lazy">
     </div>
     <div class="apoio" id="apoio" hidden>
       <p>Apoio</p>
@@ -406,5 +492,6 @@
 <script src="programacao.js"></script>
 <script src="assets/js/site.js"></script>
 <script src="assets/js/magia.js"></script>
+<script src="assets/js/postal.js"></script>
 </body>
 </html>
